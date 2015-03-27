@@ -25,7 +25,7 @@ public interface DalStorageFactory {
   public void setConfiguration(Properties conf)
       throws StorageInitializtionException;
 
-  public StorageConnector getConnector();
+  dfdpublic StorageConnector getConnector();
 
   public EntityDataAccess getDataAccess(Class type);
 }
