@@ -1,8 +1,22 @@
 Hop Metadata API
 ===
-Interface to persistent relational store for Hops metadata
 
+This project contains the interfaces for Hops metadata. 
 
+How to build
+===
+
+```
+mvn clean install
+```
+
+deploys the jar file as an artifact to the kompics maven repository.
+
+```
 ./deploy.sh
+```
 
-Deploys the jar file as an artifact to the kompics maven repository.
+
+# License
+
+Hop-Metadata-dal is released under an [Apache 2.0 license](LICENSE.txt).
