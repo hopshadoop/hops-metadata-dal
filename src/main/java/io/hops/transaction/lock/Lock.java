@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 public abstract class Lock implements Comparable<Lock> {
-  private static boolean setPartitionKeyEnabled = false;
 
   /*
    * The Order of entries in Type defines the order
@@ -118,13 +117,5 @@ public abstract class Lock implements Comparable<Lock> {
       return null;
     }
     return EntityManager.find(finder, param);
-  }
-
-  static void enableSetPartitionKey(boolean enable) {
-    setPartitionKeyEnabled = enable;
-  }
-  
-  static boolean isSetPartitionKeyEnabled() {
-    return setPartitionKeyEnabled;
   }
 }
