@@ -104,11 +104,16 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
             "In Memory Processing Finished. Time " + inMemoryProcessingTime +
                 " ms");
 
-        TransactionsStats.getInstance().collectStats(opType, ignoredException);
+        TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
+            .collectStats(opType,
+            ignoredException);
 
         EntityManager.commit(locksAcquirer.getLocks());
         committed = true;
         commitTime = (System.currentTimeMillis() - oldTime);
+        if(stat != null){
+          stat.setTimes(acquireLockTime, inMemoryProcessingTime, commitTime);
+        }
         log.debug("TX committed. Time " + commitTime + " ms");
         totalTime = (System.currentTimeMillis() - txStartTime);
         log.debug("TX Finished. TX Stats: Try Count: " + tryCount +
