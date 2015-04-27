@@ -31,10 +31,10 @@ public class EntityContextStat {
   static final String NEW_LINE = "\n";
 
   static class StatsAggregator {
-    private HitMissCounter hitMissCounter = new HitMissCounter();
-    private int newRows = 0;
-    private int modifiedRows = 0;
-    private int deletedRows = 0;
+    HitMissCounter hitMissCounter = new HitMissCounter();
+    int newRows = 0;
+    int modifiedRows = 0;
+    int deletedRows = 0;
 
     private EnumMap<FinderType.Annotation, HitMissCounter> annotated =
         new EnumMap<FinderType.Annotation, HitMissCounter>(
