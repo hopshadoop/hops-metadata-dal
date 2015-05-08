@@ -42,6 +42,8 @@ public class TablesDef {
     public static final String UNDER_CONSTRUCTION = "under_construction";
     public static final String SUBTREE_LOCKED = "subtree_locked";
     public static final String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
+    public static final String ISDELETED ="isdeleted";
+    public static final String STATUS = "status";
   }
 
   public static interface BlockChecksumTableDef {
@@ -69,6 +71,7 @@ public class TablesDef {
     public static final String DSQUOTA = "dsquota";
     public static final String NSCOUNT = "nscount";
     public static final String DISKSPACE = "diskspace";
+    public static final String STATUS = "status";
   }
 
   public static interface ExcessReplicaTableDef {
@@ -94,6 +97,7 @@ public class TablesDef {
     public static final String TIME_STAMP = "time_stamp";
     public static final String PRIMARY_NODE_INDEX = "primary_node_index";
     public static final String BLOCK_RECOVERY_ID = "block_recovery_id";
+	public static final String STATUS="status";
   }
 
   public static interface EncodingStatusTableDef {

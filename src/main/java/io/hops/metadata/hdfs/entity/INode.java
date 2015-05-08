@@ -39,6 +39,10 @@ public class INode implements Comparable<INode> {
   private String symlink;
   private boolean subtreeLocked;
   private long subtreeLockOwner;
+  //START ROOT_LEVEL_SNAPSHOT
+  private int isdeleted;
+  private int status;
+ //END ROOT_LEVEL_SNAPSHOT
 
   public INode() {
   }
@@ -47,7 +51,7 @@ public class INode implements Comparable<INode> {
       long modificationTime, long accessTime, byte[] permission,
       boolean underConstruction, String clientName, String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
-      boolean subtreeLocked, long subtreeLockOwner) {
+      boolean subtreeLocked, long subtreeLockOwner,int isDeleted,int status) {
 
     this.id = id;
     this.name = name;
@@ -65,7 +69,9 @@ public class INode implements Comparable<INode> {
     this.symlink = symlink;
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
-  }
+    this.isdeleted=isDeleted;
+    this.status= status;
+   }
 
   public int getId() {
     return id;
@@ -194,6 +200,20 @@ public class INode implements Comparable<INode> {
   public long getSubtreeLockOwner() {
     return subtreeLockOwner;
   }
+public void setStatus(int status){
+this.status = status;
+}  
+
+public void setIsDeleted(int isDeleted){
+this.isdeleted=isDeleted;
+}  
+    public int getStatus(){
+        return status;
+    }
+    
+    public int getIsDeleted(){
+        return isdeleted;
+    }
 
   public void setSubtreeLockOwner(long subtreeLockOwner) {
     this.subtreeLockOwner = subtreeLockOwner;
@@ -215,8 +235,11 @@ public class INode implements Comparable<INode> {
     if (that == null || !(that instanceof INode)) {
       return false;
     }
+ //Since snapshotting is introduced, when a file deleted and then a new file created with the same name in the same directory
+        //The difference between them is isDeleted and id.
     if (name.equals(((INode) that).name) && this.id == ((INode) that).id &&
-        this.parentId == ((INode) that).parentId) {
+        this.parentId == ((INode) that).parentId && 
+this.isdeleted == ((INode) that).isdeleted) {
       return true;
     }
     return false;

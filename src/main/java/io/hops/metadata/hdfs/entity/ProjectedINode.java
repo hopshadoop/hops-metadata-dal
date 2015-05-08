@@ -26,10 +26,12 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
   private boolean underConstruction;
   private boolean subtreeLocked;
   private long subtreeLockOwner;
+    private int status;
+    private int isdeleted;
 
   public ProjectedINode(int id, int parentId, String name, byte[] permission,
       long header, boolean symlink, boolean dirWithQuota,
-      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner) {
+      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner,int status,int isdeleted) {
     this.id = id;
     this.parentId = parentId;
     this.name = name;
@@ -40,6 +42,8 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     this.underConstruction = underConstruction;
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
+      this.status=status;
+      this.isdeleted=isdeleted;
   }
 
   public int getId() {
@@ -126,7 +130,17 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     this.subtreeLockOwner = subtreeLockOwner;
   }
 
-  @Override
+    public int getStatus(){ return status;}
+
+    public void setStatus(int status){ this.status=status;}
+
+    public int getIsdeleted(){ return isdeleted;}
+
+    public void setIsdeleted(int isdeleted){ this.isdeleted=isdeleted;}
+
+
+
+    @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

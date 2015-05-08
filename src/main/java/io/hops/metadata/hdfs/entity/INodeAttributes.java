@@ -42,14 +42,16 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
   private Long nsCount;
   private Long dsQuota; /// disk space quota
   private Long diskspace;
+  private Integer status;
 
   public INodeAttributes(Integer inodeId, Long nsQuota, Long nsCount,
-      Long dsQuota, Long diskspace) {
+      Long dsQuota, Long diskspace,Integer status) {
     this.inodeId = inodeId;
     this.nsQuota = nsQuota;
     this.nsCount = nsCount;
     this.dsQuota = dsQuota;
     this.diskspace = diskspace;
+    this.status = status;
   }
 
   public Integer getInodeId() {
@@ -72,6 +74,13 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
     return diskspace;
   }
 
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
   public void setInodeId(Integer inodeId) {
     this.inodeId = inodeId;
   }
@@ -104,6 +113,7 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
         ", nsCount=" + nsCount +
         ", dsQuota=" + dsQuota +
         ", diskspace=" + diskspace +
+        ", status=" + status +
         '}';
   }
 }

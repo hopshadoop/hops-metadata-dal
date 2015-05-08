@@ -28,6 +28,10 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
   T indexScanfindInodeById(int inodeId) throws StorageException;
 
   List<T> indexScanFindInodesByParentId(int parentId) throws StorageException;
+  
+  List<T> indexScanFindInodesByParentIdIncludeDeletes(int parentId) throws StorageException;
+
+    List<ProjectedINode>  findInodesByParentIdForSubTreeOpsWithReadLockIncludeDeletes(int parentId) throws StorageException;
 
   List<ProjectedINode> findInodesForSubtreeOperationsWithReadLock(int parentId)
       throws StorageException;

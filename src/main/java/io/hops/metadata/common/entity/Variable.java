@@ -46,6 +46,8 @@ public abstract class Variable {
     YarnLeParams,
     MisReplicatedFilesIndex,
     ClusterInSafeMode,
+    MaxNNID,
+    RollBackStatus,
     //Generic Variables
     GenericInteger,
     GenericLong,
@@ -141,6 +143,10 @@ public abstract class Variable {
         return new LongVariable(varType);
       case ClusterInSafeMode:
         return new IntVariable(varType);
+      case RollBackStatus:
+        return new StringVariable(varType);
+      case MaxNNID:
+        return new LongVariable(varType);
     }
     return null;
   }
