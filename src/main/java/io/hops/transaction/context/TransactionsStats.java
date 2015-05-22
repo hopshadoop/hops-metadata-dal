@@ -103,17 +103,46 @@ public class TransactionsStats {
     }
   }
 
+
+  public static class ResolvingCacheStat {
+    public static enum Op{
+      GET,
+      SET
+    }
+    private Op operation;
+    private long elapsed;
+    private int roundTrips;
+
+    public ResolvingCacheStat(Op operation, long elapsed, int roundTrips){
+      this.operation = operation;
+      this.elapsed = elapsed;
+      this.roundTrips = roundTrips;
+    }
+
+    static String getHeader(){
+      return "Operation, Elapsed, RoundTrips";
+    }
+    @Override
+    public String toString() {
+      return operation.toString() +"," + elapsed + "," + roundTrips;
+    }
+  }
+
   private boolean enabled;
   private int WRITER_ROUND;
   private BufferedWriter statsLogWriter;
   private BufferedWriter csvFileWriter;
+  private BufferedWriter memcacheCSVFileWriter;
   private List<TransactionStat> transactionStats;
   private File statsDir;
   private Thread writerThread;
+  private List<ResolvingCacheStat> resolvingCacheStats;
+  private boolean detailedStats;
 
   private TransactionsStats() {
     this.enabled = false;
     this.transactionStats = new LinkedList<TransactionStat>();
+    this.resolvingCacheStats = new LinkedList<ResolvingCacheStat>();
   }
 
   public static TransactionsStats getInstance() {
@@ -125,7 +154,7 @@ public class TransactionsStats {
 
 
   public void setConfiguration(boolean enableOrDisable, String statsDir, int
-      writerRound)
+      writerRound, boolean detailed)
       throws IOException {
     if (enableOrDisable) {
       this.enabled = true;
@@ -154,6 +183,7 @@ public class TransactionsStats {
         }
       });
       this.writerThread.start();
+      this.detailedStats = detailed;
     } else {
       this.enabled = false;
       BaseEntityContext.disableStats();
@@ -177,12 +207,29 @@ public class TransactionsStats {
     return null;
   }
 
+  public void pushResolvingCacheStats(ResolvingCacheStat stat){
+    if(enabled){
+      synchronized (resolvingCacheStats){
+        resolvingCacheStats.add(stat);
+      }
+    }
+  }
+
   private void dump() throws IOException {
     if (enabled) {
       synchronized (transactionStats) {
-        dumpOrdered();
-        dumpCSVLike();
-        clear();
+        if(!transactionStats.isEmpty()) {
+          dumpDetailed();
+          dumpCSVLike();
+          clear();
+        }
+      }
+      synchronized (resolvingCacheStats){
+        if(!resolvingCacheStats.isEmpty()) {
+          dumpResolvingCacheStats();
+          memcacheCSVFileWriter.flush();
+          resolvingCacheStats.clear();
+        }
       }
     }
   }
@@ -191,21 +238,48 @@ public class TransactionsStats {
     if(enabled) {
       enabled = false;
       writerThread.interrupt();
-      statsLogWriter.close();
-      csvFileWriter.close();
+      if(statsLogWriter != null) {
+        statsLogWriter.close();
+      }
+      if(csvFileWriter != null) {
+        csvFileWriter.close();
+      }
+      if(memcacheCSVFileWriter != null){
+        memcacheCSVFileWriter.close();
+      }
     }
   }
 
+  public boolean isEnabled(){
+    return enabled;
+  }
+
   private void clear() throws IOException {
-    statsLogWriter.flush();
-    csvFileWriter.flush();
+    if(statsLogWriter != null){
+      statsLogWriter.flush();
+    }
+    if(csvFileWriter != null) {
+      csvFileWriter.flush();
+    }
     transactionStats.clear();
   }
 
+  private void dumpResolvingCacheStats() throws IOException{
+    boolean fileExists = getResolvingCacheCSVFile().exists();
+    BufferedWriter writer = getResolvingCSVFileWriter();
+    if(!fileExists) {
+      writer.write(ResolvingCacheStat.getHeader());
+      writer.newLine();
+    }
+    for(ResolvingCacheStat stat : resolvingCacheStats){
+      writer.write(stat.toString());
+      writer.newLine();
+    }
+  }
 
   private void dumpCSVLike() throws IOException{
     boolean fileExists = getCSVFile().exists();
-      BufferedWriter writer = getCSVFileWriter();
+    BufferedWriter writer = getCSVFileWriter();
     if(!fileExists) {
       writer.write(TransactionStat.getHeader());
       writer.newLine();
@@ -216,19 +290,17 @@ public class TransactionsStats {
     }
   }
 
-  private void dumpOrdered() throws IOException {
-    for (TransactionStat stat : transactionStats) {
-      dumpOrdered(stat);
+  private void dumpDetailed() throws IOException {
+    if(detailedStats) {
+      BufferedWriter writer = getStatsLogWriter();
+      for (TransactionStat stat : transactionStats) {
+        writer.write("Transaction: " + stat.name.toString());
+        writer.newLine();
+        dump(writer, stat);
+        writer.newLine();
+        writer.newLine();
+      }
     }
-  }
-
-  private void dumpOrdered(TransactionStat transactionStat) throws IOException {
-    BufferedWriter writer = getStatsLogWriter();
-    writer.write("Transaction: " + transactionStat.name.toString());
-    writer.newLine();
-    dump(writer, transactionStat);
-    writer.newLine();
-    writer.newLine();
   }
 
   private EntityContextStat.StatsAggregator dump(BufferedWriter writer,
@@ -269,6 +341,14 @@ public class TransactionsStats {
     return this.statsLogWriter;
   }
 
+  private BufferedWriter getResolvingCSVFileWriter() throws IOException {
+    if (memcacheCSVFileWriter == null) {
+      this.memcacheCSVFileWriter = new BufferedWriter(
+          new FileWriter(getResolvingCacheCSVFile(), true));
+    }
+    return this.memcacheCSVFileWriter;
+  }
+
   private File getStatsFile() {
     return new File(statsDir, "hops-stats.log");
   }
@@ -277,4 +357,7 @@ public class TransactionsStats {
     return new File(statsDir, "hops-stats.csv");
   }
 
+  private File getResolvingCacheCSVFile() {
+    return new File(statsDir, "hops-resolving-cache-stats.csv");
+  }
 }
