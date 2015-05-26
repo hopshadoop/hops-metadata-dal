@@ -39,6 +39,8 @@ public class INode implements Comparable<INode> {
   private String symlink;
   private boolean subtreeLocked;
   private long subtreeLockOwner;
+  private boolean metaEnabled;
+  private int size;
 
   public INode() {
   }
@@ -47,7 +49,8 @@ public class INode implements Comparable<INode> {
       long modificationTime, long accessTime, byte[] permission,
       boolean underConstruction, String clientName, String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
-      boolean subtreeLocked, long subtreeLockOwner) {
+      boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
+      int size) {
 
     this.id = id;
     this.name = name;
@@ -65,6 +68,8 @@ public class INode implements Comparable<INode> {
     this.symlink = symlink;
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
+    this.metaEnabled = metaEnabled;
+    this.size = size;
   }
 
   public int getId() {
@@ -197,6 +202,22 @@ public class INode implements Comparable<INode> {
 
   public void setSubtreeLockOwner(long subtreeLockOwner) {
     this.subtreeLockOwner = subtreeLockOwner;
+  }
+
+  public boolean isMetaEnabled() {
+    return metaEnabled;
+  }
+
+  public void setMetaEnabled(boolean metaEnabled) {
+    this.metaEnabled = metaEnabled;
+  }
+
+  public int getSize() {
+    return size;
+  }
+
+  public void setSize(int size) {
+    this.size = size;
   }
 
   @Override

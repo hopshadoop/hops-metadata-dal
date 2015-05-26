@@ -23,7 +23,8 @@ public interface FinderType<T> {
     Batched,
     BatchedPrunedIndexScan,
     FullTableScan,
-    FullTable;
+    FullTable,
+    CacheOnly;
 
     public String getShort() {
       switch (this) {
@@ -41,6 +42,8 @@ public interface FinderType<T> {
           return "FTS";
         case FullTable:
           return "FT";
+        case CacheOnly:
+          return "CO";
         default:
           throw new IllegalStateException();
       }
