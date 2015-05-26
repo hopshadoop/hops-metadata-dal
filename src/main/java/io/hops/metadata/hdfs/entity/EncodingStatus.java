@@ -32,6 +32,9 @@ public class EncodingStatus {
     NOT_ENCODED,
     /** The encoding was requested */
     ENCODING_REQUESTED,
+    /** Encoding was requested and the file need to be rewritten to ensure
+     * placement constraints */
+    COPY_ENCODING_REQUESTED,
     /** The encoding is active */
     ENCODING_ACTIVE,
     /** The encoding was canceled */
@@ -220,6 +223,20 @@ public class EncodingStatus {
     this.lostBlocks = lostBlocks;
     this.lostParityBlocks = lostParityBlocks;
     this.revoked = revoked;
+  }
+
+  public EncodingStatus(EncodingStatus other) {
+    this.inodeId = other.inodeId;
+    this.parityInodeId = other.parityInodeId;
+    this.status = other.status;
+    this.parityStatus = other.parityStatus;
+    this.encodingPolicy = other.encodingPolicy;
+    this.statusModificationTime = other.statusModificationTime;
+    this.parityStatusModificationTime = other.parityStatusModificationTime;
+    this.parityFileName = other.parityFileName;
+    this.lostBlocks = other.lostBlocks;
+    this.lostParityBlocks = other.lostParityBlocks;
+    this.revoked = other.revoked;
   }
 
   /**
