@@ -16,8 +16,11 @@
 package io.hops.transaction.handler;
 
 import io.hops.exception.StorageException;
+import io.hops.exception.TransactionContextException;
 import io.hops.exception.TransientStorageException;
+import io.hops.exception.TupleAlreadyExistedException;
 import io.hops.log.NDCWrapper;
+import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.transaction.EntityManager;
 import io.hops.transaction.TransactionInfo;
 import io.hops.transaction.context.TransactionsStats;
@@ -25,14 +28,17 @@ import io.hops.transaction.lock.TransactionLockAcquirer;
 import io.hops.transaction.lock.TransactionLocks;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 public abstract class TransactionalRequestHandler extends RequestHandler {
+
+  private Collection<MetadataLogEntry> previousLogEntries =
+      Collections.emptyList();
 
   public TransactionalRequestHandler(OperationType opType) {
     super(opType);
   }
-
-  protected abstract void preTransactionSetup() throws IOException;
 
   @Override
   protected Object execute(Object info) throws IOException {
@@ -81,6 +87,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         acquireLock(locksAcquirer.getLocks());
 
         locksAcquirer.acquire();
+
+        log.debug("Update logical time phase started");
+        updatedLogicalTime();
         
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -141,6 +150,30 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           log.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
           throw e;
         }
+      } catch (TupleAlreadyExistedException e) {
+        rollback = true;
+        if (tryCount <= RETRY_COUNT) {
+          previousLogEntries = EntityManager.findList(
+              MetadataLogEntry.Finder.ALL_CACHED);
+          if (previousLogEntries.isEmpty()) {
+            log.error("Transaction failed", e);
+            throw e;
+          } else {
+            log.error("Tx Failed. total tx time " +
+                (System.currentTimeMillis() - txStartTime) +
+                " msec. TotalRetryCount(" + RETRY_COUNT +
+                ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
+                ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " +
+                acquireLockTime +
+                "ms, In Memory Processing: " + inMemoryProcessingTime +
+                "ms, Commit Time: " + commitTime +
+                "ms, Total Time: " + totalTime + "ms", e);
+            resetWaitTime(); // Not an overloading error
+          }
+        } else {
+          log.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          throw e;
+        }
       } catch (IOException e) {
         rollback = true;
         if (committed) {
@@ -175,6 +208,16 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     }
     throw new RuntimeException("TransactionalRequestHandler did not execute");
   }
+
+  private void updatedLogicalTime()
+      throws TransactionContextException, StorageException {
+    if (!previousLogEntries.isEmpty()) {
+      EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING,
+          previousLogEntries);
+    }
+  }
+
+  protected abstract void preTransactionSetup() throws IOException;
   
   public abstract void acquireLock(TransactionLocks locks) throws IOException;
   

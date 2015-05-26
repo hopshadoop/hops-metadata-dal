@@ -42,6 +42,8 @@ public class TablesDef {
     public static final String UNDER_CONSTRUCTION = "under_construction";
     public static final String SUBTREE_LOCKED = "subtree_locked";
     public static final String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
+    public static final String META_ENABLED = "meta_enabled";
+    public static final String SIZE = "size";
   }
 
   public static interface BlockChecksumTableDef {
@@ -218,5 +220,29 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String VARIABLE_VALUE = "value";
     public static final Integer MAX_VARIABLE_SIZE = 500;
+  }
+
+  public static interface MetadataLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_metadata_log";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String INODE_ID = "inode_id";
+    public static final String LOGICAL_TIME = "logical_time";
+    public static final String OPERATION = "operation";
+  }
+
+  public static interface AccessTimeLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_access_log";
+    public static final String INODE_ID = "inode_id";
+    public static final String USER_ID = "user_id";
+    public static final String ACCESS_TIME = "access_time";
+  }
+
+  public static interface SizeLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_size_log";
+    public static final String INODE_ID = "inode_id";
+    public static final String SIZE = "size";
   }
 }
