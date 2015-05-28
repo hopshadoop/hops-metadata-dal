@@ -25,6 +25,7 @@ public class Resource {
   public static final int RMNODE = 2;
   public static final int SCHEDULERAPPLICATIONATTEMPT = 3;
   public static final int CLUSTER = 4;
+  public static final int FSSCHEDULERNODE = 4;
   /**
    * Resource types, useful when an entity has more than one resources.
    */

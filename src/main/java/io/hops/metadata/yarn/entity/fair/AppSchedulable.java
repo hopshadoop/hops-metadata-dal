@@ -13,22 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.fair;
+package io.hops.metadata.yarn.entity.fair;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
-import java.util.Collection;
+public class AppSchedulable {
 
-public interface FSSchedulerNodeDataAccess<T> extends EntityDataAccess {
+  private final String schedulerAppId;
+  private final long starttime;
+  private final String queuename;
 
-  T findById(String id) throws StorageException;
+  public AppSchedulable(String schedulerAppId, long starttime,
+          String queuename) {
+    this.schedulerAppId = schedulerAppId;
+    this.starttime = starttime;
+    this.queuename = queuename;
+  }
 
-  void addAll(Collection<T> modified) throws StorageException;
+  public String getSchedulerAppId() {
+    return schedulerAppId;
+  }
 
-  void removeAll(Collection<T> removed) throws StorageException;
-  
-  List<T> getAll() throws StorageException;
+  public long getStarttime() {
+    return starttime;
+  }
 
-  void createFSSchedulerNode(T node) throws StorageException;
+  public String getQueuename() {
+    return queuename;
+  }
 }

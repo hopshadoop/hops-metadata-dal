@@ -17,18 +17,14 @@ package io.hops.metadata.yarn.dal.fair;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
-public interface FSSchedulerNodeDataAccess<T> extends EntityDataAccess {
+public interface RunnableAppsDataAccess<T> extends EntityDataAccess {
 
-  T findById(String id) throws StorageException;
+  List<T> findById(String id) throws StorageException;
 
-  void addAll(Collection<T> modified) throws StorageException;
+  void add(T modified) throws StorageException;
 
   void removeAll(Collection<T> removed) throws StorageException;
-  
-  List<T> getAll() throws StorageException;
-
-  void createFSSchedulerNode(T node) throws StorageException;
 }

@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.fair;
+package io.hops.metadata.yarn.dal.capacity;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
-public interface FSSchedulerNodeDataAccess<T> extends EntityDataAccess {
+public interface CSQueueDataAccess<T extends Object> extends EntityDataAccess {
 
-  T findById(String id) throws StorageException;
+  public T findById(String string) throws StorageException;
 
-  void addAll(Collection<T> modified) throws StorageException;
+  List<T> getAll() throws StorageException, IOException;
 
-  void removeAll(Collection<T> removed) throws StorageException;
-  
-  List<T> getAll() throws StorageException;
+  public void addAll(Collection<T> clctn) throws StorageException;
 
-  void createFSSchedulerNode(T node) throws StorageException;
+  public void removeAll(Collection<T> clctn) throws StorageException;
+
+  public void createCSQueue(T t) throws StorageException;
 }
