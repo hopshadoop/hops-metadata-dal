@@ -245,4 +245,23 @@ public class TablesDef {
     public static final String INODE_ID = "inode_id";
     public static final String SIZE = "size";
   }
+
+  public static interface EncodingJobsTableDef {
+
+    public static final String TABLE_NAME = "hdfs_encoding_jobs";
+    public static final String JT_IDENTIFIER = "jt_identifier";
+    public static final String JOB_ID = "job_id";
+    public static final String PATH = "path";
+    public static final String JOB_DIR = "job_dir";
+  }
+
+  public static interface RepairJobsTableDef {
+
+    public static final String TABLE_NAME = "hdfs_repair_jobs";
+    public static final String JT_IDENTIFIER = "jt_identifier";
+    public static final String JOB_ID = "job_id";
+    public static final String PATH = "path";
+    public static final String IN_DIR = "in_dir";
+    public static final String OUT_DIR = "out_dir";
+  }
 }
