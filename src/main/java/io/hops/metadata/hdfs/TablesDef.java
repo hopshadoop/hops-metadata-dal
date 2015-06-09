@@ -264,4 +264,15 @@ public class TablesDef {
     public static final String IN_DIR = "in_dir";
     public static final String OUT_DIR = "out_dir";
   }
+
+  public static interface OnGoingSubTreeOpsDef {
+
+    public static final String TABLE_NAME = "hdfs_on_going_sub_tree_ops";
+    public static final String PART_KEY = "part_key";
+    public static final String PATH = "path";
+    public static final String NAME_NODE_ID = "namenode_id";
+    public static final String OP_NAME = "op_name";
+    public static final int PART_KEY_VAL = 0;
+    public static final int LIMIT = 1000;
+  } 
 }
