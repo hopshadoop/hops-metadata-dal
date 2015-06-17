@@ -17,13 +17,20 @@ package io.hops.metadata.yarn.dal.capacity;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-
+import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
-public interface FiCaSchedulerAppLastScheduledContainerDataAccess<T>
-    extends EntityDataAccess {
-  T findById(int id) throws StorageException;
+public interface CSLeafQueueUserInfoDataAccess<T extends Object> extends
+        EntityDataAccess {
 
-  void prepare(Collection<T> modified, Collection<T> removed)
-      throws StorageException;
+  public T findById(String string) throws StorageException;
+
+  List<T> findAll() throws StorageException, IOException;
+
+  public void addAll(Collection<T> clctn) throws StorageException;
+
+  public void removeAll(Collection<T> clctn) throws StorageException;
+
+  public void createCSLeafQueueUserInfo(T t) throws StorageException;
 }

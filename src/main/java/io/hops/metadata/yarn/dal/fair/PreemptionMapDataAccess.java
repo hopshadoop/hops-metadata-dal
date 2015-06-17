@@ -17,18 +17,19 @@ package io.hops.metadata.yarn.dal.fair;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import io.hops.metadata.yarn.entity.fair.PreemptionMap;
 
-public interface FSSchedulerNodeDataAccess<T> extends EntityDataAccess {
+public interface PreemptionMapDataAccess<T> extends EntityDataAccess {
 
-  T findById(String id) throws StorageException;
+  List<T> findById(String id) throws StorageException;
 
   void addAll(Collection<T> modified) throws StorageException;
 
   void removeAll(Collection<T> removed) throws StorageException;
-  
-  List<T> getAll() throws StorageException;
 
-  void createFSSchedulerNode(T node) throws StorageException;
+  Map<String, List<PreemptionMap>> getAll() throws IOException;
 }
