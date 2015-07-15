@@ -30,10 +30,7 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   List<T> findReplicasByINodeIds(int[] inodeIds) throws StorageException;
   
   List<T> findReplicasByStorageId(int storageId) throws StorageException;
-  
-  List<T> findReplicasByPKS(long[] blockIds, int[] inodesIds, int[] sids)
-      throws StorageException;
-  
+
   int countAllReplicasForStorageId(int sid) throws StorageException;
   
   void prepare(Collection<T> removed, Collection<T> newed,
