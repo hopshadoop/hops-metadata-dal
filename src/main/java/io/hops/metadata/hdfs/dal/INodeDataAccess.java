@@ -29,7 +29,7 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   List<T> indexScanFindInodesByParentId(int parentId) throws StorageException;
 
-  List<ProjectedINode> findInodesForSubtreeOperationsWithReadLock(int parentId)
+  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLock(int parentId)
       throws StorageException;
 
   T pkLookUpFindInodeByNameAndParentId(String name, int parentId)
