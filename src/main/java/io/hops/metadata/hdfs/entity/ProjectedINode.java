@@ -26,10 +26,12 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
   private boolean underConstruction;
   private boolean subtreeLocked;
   private long subtreeLockOwner;
+  private long fileSize;
 
   public ProjectedINode(int id, int parentId, String name, byte[] permission,
       long header, boolean symlink, boolean dirWithQuota,
-      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner) {
+      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner,
+      long fileSize) {
     this.id = id;
     this.parentId = parentId;
     this.name = name;
@@ -40,6 +42,7 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     this.underConstruction = underConstruction;
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
+    this.fileSize = fileSize;
   }
 
   public int getId() {
@@ -124,6 +127,10 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
 
   public void setSubtreeLockOwner(long subtreeLockOwner) {
     this.subtreeLockOwner = subtreeLockOwner;
+  }
+
+  public long getFileSize() {
+    return fileSize;
   }
 
   @Override
