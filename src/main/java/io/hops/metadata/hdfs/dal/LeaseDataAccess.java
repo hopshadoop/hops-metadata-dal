@@ -28,7 +28,7 @@ public interface LeaseDataAccess<T> extends EntityDataAccess {
 
   Collection<T> findAll() throws StorageException;
 
-  T findByPKey(String holder) throws StorageException;
+  T findByPKey(String holder, int holderId) throws StorageException;
 
   T findByHolderId(int holderId) throws StorageException;
 

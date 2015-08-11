@@ -24,6 +24,8 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     DELETE_STO,
     CONTENT_SUMMARY,
     QUOTA_STO,
+    SET_PERMISSION_STO,
+    SET_OWNER_STO,
     META_ENABLE,
     NA;
   }
