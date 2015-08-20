@@ -28,7 +28,7 @@ public interface LeasePathDataAccess<T> extends EntityDataAccess {
 
   Collection<T> findAll() throws StorageException;
 
-  T findByPKey(String path) throws StorageException;
+  T findByPath(String path) throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
