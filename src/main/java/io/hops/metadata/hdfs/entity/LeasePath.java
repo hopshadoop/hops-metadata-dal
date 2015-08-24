@@ -36,9 +36,9 @@ public class LeasePath implements Comparable<LeasePath> {
         case ByHolderId:
           return Annotation.PrunedIndexScan;
         case ByPath:
-          return Annotation.PrimaryKey;
+          return Annotation.FullTableScan;
         case ByPrefix:
-          return Annotation.PrunedIndexScan;
+          return Annotation.FullTableScan;
         default:
           throw new IllegalStateException();
       }

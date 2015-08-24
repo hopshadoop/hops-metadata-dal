@@ -120,22 +120,16 @@ public class TablesDef {
   }
 
   public static interface LeaseTableDef {
-
     public static final String TABLE_NAME = "hdfs_leases";
     public static final String HOLDER = "holder";
     public static final String LAST_UPDATE = "last_update";
     public static final String HOLDER_ID = "holder_id";
-    public static final String PART_KEY = "part_key";
-    public static final int PART_KEY_VAL = 0;
   }
 
   public static interface LeasePathTableDef {
-
     public static final String TABLE_NAME = "hdfs_lease_paths";
-    public static final String PART_KEY = "part_key";
     public static final String HOLDER_ID = "holder_id";
     public static final String PATH = "path";
-    public static final int PART_KEY_VAL = 0;
   }
 
   public static interface InvalidatedBlockTableDef {
@@ -268,11 +262,9 @@ public class TablesDef {
   public static interface OnGoingSubTreeOpsDef {
 
     public static final String TABLE_NAME = "hdfs_on_going_sub_tree_ops";
-    public static final String PART_KEY = "part_key";
     public static final String PATH = "path";
     public static final String NAME_NODE_ID = "namenode_id";
     public static final String OP_NAME = "op_name";
-    public static final int PART_KEY_VAL = 0;
-    public static final int LIMIT = 1000;
+    public static final int LIMIT = 5;
   } 
 }
