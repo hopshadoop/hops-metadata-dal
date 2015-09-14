@@ -51,4 +51,6 @@ public interface StorageConnector<T> {
 
   public void setPartitionKey(Class className, Object key)
       throws StorageException;
+  
+  public void dropAndRecreateDB() throws StorageException;
 }
