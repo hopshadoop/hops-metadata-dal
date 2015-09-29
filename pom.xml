@@ -11,6 +11,14 @@
   <name>hops-metadata-dal</name>
   <url>http://maven.apache.org</url>
   <build>
+      <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0</version>
+            </extension>
+        </extensions>
+        
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -63,4 +71,14 @@
       <type>jar</type>
     </dependency>
   </dependencies>
+
+    <distributionManagement>
+     <repository>
+            <id>sics-release-repository</id>
+            <name>SICS Repository</name>
+            <url>scpexe://kompics.i.sics.se/home/maven/repository</url>
+        </repository>
+        <downloadUrl>http://kompics.sics.se/maven/repository</downloadUrl>
+  </distributionManagement>
+  
 </project>
