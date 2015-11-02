@@ -20,7 +20,9 @@ import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.yarn.entity.RMContainer;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public interface RMContainerDataAccess<T> extends EntityDataAccess {
 
@@ -30,6 +32,8 @@ public interface RMContainerDataAccess<T> extends EntityDataAccess {
   void addAll(Collection<T> toAdd) throws StorageException;
 
   void removeAll(Collection<T> toRemove) throws StorageException;
+  
+  void remove(T toRemove) throws StorageException;
 
   void add(T rmcontainer) throws StorageException;
 }

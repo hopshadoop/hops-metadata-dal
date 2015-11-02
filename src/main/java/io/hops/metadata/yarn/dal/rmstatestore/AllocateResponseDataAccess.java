@@ -20,12 +20,12 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 public interface AllocateResponseDataAccess<T> extends EntityDataAccess {
-  void addAll(Collection<T> entry) throws StorageException;
+  void update(Collection<T> entry) throws StorageException;
 
   void removeAll(Collection<T> entry) throws StorageException;
   
-  List<T> getAll() throws StorageException;
+  Map<String, T> getAll() throws StorageException;
 }

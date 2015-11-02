@@ -17,7 +17,7 @@ package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.FiCaSchedulerAppLiveContainers;
+import io.hops.metadata.yarn.entity.FiCaSchedulerAppContainer;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Map;
 public interface FiCaSchedulerAppLiveContainersDataAccess<T>
     extends EntityDataAccess {
 
-  Map<String, List<FiCaSchedulerAppLiveContainers>> getAll()
+  Map<String, List<FiCaSchedulerAppContainer>> getAll()
       throws StorageException;
 
 

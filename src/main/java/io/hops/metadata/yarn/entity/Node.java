@@ -22,14 +22,16 @@ public class Node {
   private final String location;
   private final int level;
   private final String parent;
+  private final int pendingEventId;
 
   public Node(String id, String name, String location, int level,
-      String parent) {
+          String parent, int pendingId) {
     this.id = id;
     this.name = name;
     this.location = location;
     this.level = level;
     this.parent = parent;
+    this.pendingEventId = pendingId;
   }
 
   public String getId() {
@@ -38,6 +40,10 @@ public class Node {
 
   public String getName() {
     return name;
+  }
+
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   public String getLocation() {

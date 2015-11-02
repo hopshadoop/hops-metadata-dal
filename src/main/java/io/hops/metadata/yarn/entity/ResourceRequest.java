@@ -15,7 +15,7 @@
  */
 package io.hops.metadata.yarn.entity;
 
-public class ResourceRequest {
+public class ResourceRequest implements Comparable<ResourceRequest> {
   private final String id;
   private final int priority;
   private final String name;
@@ -43,5 +43,32 @@ public class ResourceRequest {
 
   public byte[] getResourcerequeststate() {
     return resourcerequeststate;
+  }
+
+  @Override
+  public int hashCode() {
+
+    return id.hashCode() + 100 * priority + 200 * name.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof ResourceRequest)) {
+      return false;
+    }
+    ResourceRequest other = (ResourceRequest) obj;
+    return (id.equals(other.id) && priority == other.priority && name.equals(
+            other.name));
+  }
+
+  @Override
+  public int compareTo(ResourceRequest other) {
+    if (id.compareTo(other.id) != 0) {
+      return id.compareTo(other.id);
+    } else if (priority != other.priority) {
+      return priority - other.priority;
+    } else {
+      return name.compareTo(other.name);
+    }
   }
 }

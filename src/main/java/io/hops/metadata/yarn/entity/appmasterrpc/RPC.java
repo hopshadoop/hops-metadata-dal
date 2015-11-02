@@ -15,26 +15,26 @@
  */
 package io.hops.metadata.yarn.entity.appmasterrpc;
 
-public class RPC {
+public class RPC implements Comparable<RPC>{
 
-  private final int id;
+  private final Integer rpcId;
   private final Type type;
   private final byte[] rpc;
   private final String userId;
 
-  public RPC(int id) {
-    this(id, null, null, null);
+  public RPC(int rpcId) {
+    this(rpcId, null, null, null);
   }
 
-  public RPC(int id, Type type, byte[] rpc, String userId) {
-    this.id = id;
+  public RPC(int rpcId, Type type, byte[] rpc, String userId) {
+    this.rpcId = rpcId;
     this.type = type;
     this.rpc = rpc;
     this.userId = userId;
   }
 
-  public int getId() {
-    return id;
+  public int getRPCId() {
+    return rpcId;
   }
 
   public Type getType() {
@@ -49,6 +49,7 @@ public class RPC {
     return userId;
   }
 
+  
   public enum Type {
 
     RegisterApplicationMaster,
@@ -63,8 +64,12 @@ public class RPC {
 
   @Override
   public String toString() {
-    return "HopRPC{" + "id=" + id + ", type=" + type + ", userId=" + userId +
+    return "HopRPC{rpcId=" + rpcId + ", type=" + type + ", userId=" + userId +
         '}';
   }
 
+  @Override
+  public int compareTo(RPC other){
+    return this.rpcId.compareTo(other.rpcId);
+  }
 }
