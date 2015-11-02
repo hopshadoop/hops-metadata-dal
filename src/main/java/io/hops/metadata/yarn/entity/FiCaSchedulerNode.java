@@ -23,12 +23,18 @@ public class FiCaSchedulerNode {
   private String rmnodeId;
   private String nodeName;
   private int numOfContainers;
-
+  private String reservedContainerId;
+    
+  public FiCaSchedulerNode(String rmnodeId){
+    this(rmnodeId, null, 0, null);
+  }
+  
   public FiCaSchedulerNode(String rmnodeId, String nodeName,
-      int numOfContainers) {
+      int numOfContainers, String reservedContainerId) {
     this.rmnodeId = rmnodeId;
     this.nodeName = nodeName;
     this.numOfContainers = numOfContainers;
+    this.reservedContainerId = reservedContainerId;
   }
 
   public String getRmnodeId() {
@@ -41,5 +47,9 @@ public class FiCaSchedulerNode {
 
   public int getNumOfContainers() {
     return numOfContainers;
+  }
+    
+  public String getReservedContainerId() {
+    return reservedContainerId;
   }
 }

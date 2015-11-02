@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.capacity;
+package io.hops.metadata.yarn.entity;
 
-public class FiCaSchedulerAppReservedContainers {
+public class FiCaSchedulerAppLastScheduledContainer {
+
   private final String schedulerapp_id;
   private final int priority_id;
-  private final String nodeid;
-  private final String rmcontainer_id;
+  private final long time;
 
-  public FiCaSchedulerAppReservedContainers(String schedulerapp_id,
-      int priority_id, String nodeid, String rmcontainer_id) {
+  public FiCaSchedulerAppLastScheduledContainer(String schedulerapp_id,
+          int priority_id, long time) {
     this.schedulerapp_id = schedulerapp_id;
     this.priority_id = priority_id;
-    this.nodeid = nodeid;
-    this.rmcontainer_id = rmcontainer_id;
+    this.time = time;
   }
 
   public String getSchedulerapp_id() {
@@ -37,11 +36,7 @@ public class FiCaSchedulerAppReservedContainers {
     return priority_id;
   }
 
-  public String getNodeid() {
-    return nodeid;
-  }
-
-  public String getRmcontainer_id() {
-    return rmcontainer_id;
+  public long getTime() {
+    return time;
   }
 }

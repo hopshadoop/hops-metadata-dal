@@ -13,35 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.capacity;
+package io.hops.metadata.yarn.entity.fair;
 
-public class FiCaSchedulerAppReservedContainers {
+public class RunnableApps {
+
+  private final String queuename;
   private final String schedulerapp_id;
-  private final int priority_id;
-  private final String nodeid;
-  private final String rmcontainer_id;
+  private final boolean isrunnable;
 
-  public FiCaSchedulerAppReservedContainers(String schedulerapp_id,
-      int priority_id, String nodeid, String rmcontainer_id) {
+  public RunnableApps(String queuename, String schedulerapp_id,
+          boolean isrunnable) {
+    this.queuename = queuename;
     this.schedulerapp_id = schedulerapp_id;
-    this.priority_id = priority_id;
-    this.nodeid = nodeid;
-    this.rmcontainer_id = rmcontainer_id;
+    this.isrunnable = isrunnable;
+  }
+
+  public String getQueuename() {
+    return queuename;
   }
 
   public String getSchedulerapp_id() {
     return schedulerapp_id;
   }
 
-  public int getPriority_id() {
-    return priority_id;
-  }
-
-  public String getNodeid() {
-    return nodeid;
-  }
-
-  public String getRmcontainer_id() {
-    return rmcontainer_id;
+  public boolean isIsrunnable() {
+    return isrunnable;
   }
 }

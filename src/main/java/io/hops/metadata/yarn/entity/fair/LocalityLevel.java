@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.fair;
+package io.hops.metadata.yarn.entity.fair;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
-import java.util.Collection;
+public class LocalityLevel {
 
-public interface FSSchedulerNodeDataAccess<T> extends EntityDataAccess {
+  private final String schedulerappId;
+  private final int priorityId;
+  private final String nodeType;
 
-  T findById(String id) throws StorageException;
+  public LocalityLevel(String schedulerappId, int priorityId, String nodeType) {
+    this.schedulerappId = schedulerappId;
+    this.priorityId = priorityId;
+    this.nodeType = nodeType;
+  }
 
-  void addAll(Collection<T> modified) throws StorageException;
+  public String getSchedulerappId() {
+    return schedulerappId;
+  }
 
-  void removeAll(Collection<T> removed) throws StorageException;
-  
-  List<T> getAll() throws StorageException;
+  public int getPriorityId() {
+    return priorityId;
+  }
 
-  void createFSSchedulerNode(T node) throws StorageException;
+  public String getNodeType() {
+    return nodeType;
+  }
 }
