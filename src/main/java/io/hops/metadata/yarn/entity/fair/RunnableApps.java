@@ -13,24 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.entity.fair;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.FiCaSchedulerAppContainer;
+public class RunnableApps {
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+  private final String queuename;
+  private final String schedulerapp_id;
+  private final boolean isrunnable;
 
-public interface FiCaSchedulerAppLiveContainersDataAccess<T>
-    extends EntityDataAccess {
+  public RunnableApps(String queuename, String schedulerapp_id,
+          boolean isrunnable) {
+    this.queuename = queuename;
+    this.schedulerapp_id = schedulerapp_id;
+    this.isrunnable = isrunnable;
+  }
 
-  Map<String, List<FiCaSchedulerAppContainer>> getAll()
-      throws StorageException;
+  public String getQueuename() {
+    return queuename;
+  }
 
+  public String getSchedulerapp_id() {
+    return schedulerapp_id;
+  }
 
-  void addAll(Collection<T> toAdd) throws StorageException;
-
-  void removeAll(Collection<T> toRemove) throws StorageException;
+  public boolean isIsrunnable() {
+    return isrunnable;
+  }
 }

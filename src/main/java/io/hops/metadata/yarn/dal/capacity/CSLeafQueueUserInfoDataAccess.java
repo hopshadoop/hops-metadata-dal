@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.dal.capacity;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.RMContainer;
-
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
 
-public interface RMContainerDataAccess<T> extends EntityDataAccess {
+public interface CSLeafQueueUserInfoDataAccess<T extends Object> extends
+        EntityDataAccess {
 
+  public T findById(String string) throws StorageException;
 
-  Map<String, RMContainer> getAll() throws StorageException;
+  Map<String, T> findAll() throws StorageException, IOException;
 
-  void addAll(Collection<T> toAdd) throws StorageException;
+  public void addAll(Collection<T> clctn) throws StorageException;
 
-  void removeAll(Collection<T> toRemove) throws StorageException;
-  
-  void remove(T toRemove) throws StorageException;
+  public void removeAll(Collection<T> clctn) throws StorageException;
 
-  void add(T rmcontainer) throws StorageException;
+  public void createCSLeafQueueUserInfo(T t) throws StorageException;
 }

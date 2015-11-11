@@ -15,17 +15,23 @@
  */
 package io.hops.metadata.yarn.entity;
 
-public class UpdatedContainerInfo {
+public class UpdatedContainerInfo implements Comparable<UpdatedContainerInfo> {
 
   private final String rmnodeid;
   private final String containerId;
-  private final int updatedContainerInfoId;
+  private final Integer updatedContainerInfoId;
+  private final int pendingEventId;
 
   public UpdatedContainerInfo(String rmnodeid, String containerId,
-      int updatedContainerInfoId) {
+          int updatedContainerInfoId, int pendingId) {
     this.rmnodeid = rmnodeid;
     this.containerId = containerId;
     this.updatedContainerInfoId = updatedContainerInfoId;
+    this.pendingEventId = pendingId;
+  }
+
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   public String getRmnodeid() {
@@ -36,7 +42,7 @@ public class UpdatedContainerInfo {
     return containerId;
   }
 
-  public int getUpdatedContainerInfoId() {
+  public Integer getUpdatedContainerInfoId() {
     return updatedContainerInfoId;
   }
 
@@ -50,31 +56,34 @@ public class UpdatedContainerInfo {
 
   @Override
   public int hashCode() {
-    int hash = 3;
-    return hash;
+    return updatedContainerInfoId.hashCode() + containerId.hashCode();
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof UpdatedContainerInfo)) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final UpdatedContainerInfo other = (UpdatedContainerInfo) obj;
-    if ((this.rmnodeid == null) ? (other.rmnodeid != null) :
-        !this.rmnodeid.equals(other.rmnodeid)) {
-      return false;
-    }
-    if ((this.containerId == null) ? (other.containerId != null) :
-        !this.containerId.equals(other.containerId)) {
-      return false;
-    }
-    if (this.updatedContainerInfoId != other.updatedContainerInfoId) {
-      return false;
-    }
-    return true;
+
+    return updatedContainerInfoId
+        .equals(((UpdatedContainerInfo) o).getUpdatedContainerInfoId()) && 
+            containerId.equals(((UpdatedContainerInfo) o).getContainerId());
   }
-  
+
+  @Override
+  public int compareTo(UpdatedContainerInfo other) {
+    if (this.equals(other)) {
+      return 0;
+    }
+    if(updatedContainerInfoId.compareTo(other.getUpdatedContainerInfoId())!=0){
+      return updatedContainerInfoId.compareTo(other.getUpdatedContainerInfoId());
+    }else{
+      return containerId.compareTo(other.getContainerId());
+    }
+
+  }
+
 }

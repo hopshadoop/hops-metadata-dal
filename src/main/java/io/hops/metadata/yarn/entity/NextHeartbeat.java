@@ -19,14 +19,16 @@ public class NextHeartbeat {
 
   private final String rmnodeid;
   private final boolean nextheartbeat;
+  private final int pendingEventId;
 
   /**
    * @param rmnodeid
    * @param nextheartbeat
    */
-  public NextHeartbeat(String rmnodeid, boolean nextheartbeat) {
+  public NextHeartbeat(String rmnodeid, boolean nextheartbeat, int pendingId) {
     this.rmnodeid = rmnodeid;
     this.nextheartbeat = nextheartbeat;
+    this.pendingEventId = pendingId;
   }
 
   /**
@@ -34,6 +36,10 @@ public class NextHeartbeat {
    */
   public String getRmnodeid() {
     return rmnodeid;
+  }
+
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   /**

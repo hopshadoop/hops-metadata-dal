@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.entity.fair;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.FiCaSchedulerAppContainer;
+public class PreemptionMap {
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+  private final String schedulerappId;
+  private final String rmcontainerId;
+  private final long value;
 
-public interface FiCaSchedulerAppLiveContainersDataAccess<T>
-    extends EntityDataAccess {
+  public PreemptionMap(String schedulerappId, String rmcontainerId, long value) {
+    this.schedulerappId = schedulerappId;
+    this.rmcontainerId = rmcontainerId;
+    this.value = value;
+  }
 
-  Map<String, List<FiCaSchedulerAppContainer>> getAll()
-      throws StorageException;
+  public String getSchedulerappId() {
+    return schedulerappId;
+  }
 
+  public String getRmcontainerId() {
+    return rmcontainerId;
+  }
 
-  void addAll(Collection<T> toAdd) throws StorageException;
-
-  void removeAll(Collection<T> toRemove) throws StorageException;
+  public long getValue() {
+    return value;
+  }
 }
