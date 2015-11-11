@@ -18,18 +18,25 @@ package io.hops.metadata.yarn.entity;
 /**
  * Pojo for RMNode.finishedApplications list.
  */
-public class FinishedApplications {
+public class FinishedApplications implements Comparable<FinishedApplications>{
 
   private final String rmnodeid;
   private final String applicationId;
+  private final int pendingEventId;
 
-  public FinishedApplications(String rmnodeid, String applicationId) {
+  public FinishedApplications(String rmnodeid, String applicationId,
+          int pendingId) {
     this.rmnodeid = rmnodeid;
     this.applicationId = applicationId;
+    this.pendingEventId = pendingId;
   }
 
   public String getRMNodeID() {
     return rmnodeid;
+  }
+
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   public String getApplicationId() {
@@ -39,7 +46,28 @@ public class FinishedApplications {
   @Override
   public String toString() {
     return "HopFinishedApplications{" + "rmnodeid=" + rmnodeid +
-        ", applicationId=" + applicationId + '}';
+        ", applicationId=" + applicationId + ", pendingevetid=" + pendingEventId + '}';
   }
 
+  public int compareTo(FinishedApplications f) {
+    if (this.rmnodeid.compareTo(f.rmnodeid) != 0) {
+      return this.rmnodeid.compareTo(f.rmnodeid);
+    }
+    return this.applicationId.compareTo(f.applicationId);
+  }
+
+  @Override
+  public int hashCode() {
+    return rmnodeid.hashCode() + 100 * applicationId.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof FinishedApplications)) {
+      return false;
+    }
+    FinishedApplications other = (FinishedApplications) obj;
+    return (applicationId.equals(other.applicationId) && rmnodeid.equals(
+            other.applicationId));
+  }
 }

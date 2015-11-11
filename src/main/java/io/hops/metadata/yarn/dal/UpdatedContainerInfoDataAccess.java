@@ -27,6 +27,8 @@ public interface UpdatedContainerInfoDataAccess<T> extends EntityDataAccess {
 
   Map<Integer, List<T>> findByRMNode(String rmnodeid) throws StorageException;
 
+  List<T> findByRMNodeList(String rmnodeid) throws StorageException;
+  
   Map<String, Map<Integer, List<UpdatedContainerInfo>>> getAll()
       throws StorageException;
 

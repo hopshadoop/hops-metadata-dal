@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.dal.fair;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.RMContainer;
-
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
+import io.hops.metadata.yarn.entity.fair.PreemptionMap;
 
-public interface RMContainerDataAccess<T> extends EntityDataAccess {
+public interface PreemptionMapDataAccess<T> extends EntityDataAccess {
 
+  List<T> findById(String id) throws StorageException;
 
-  Map<String, RMContainer> getAll() throws StorageException;
+  void addAll(Collection<T> modified) throws StorageException;
 
-  void addAll(Collection<T> toAdd) throws StorageException;
+  void removeAll(Collection<T> removed) throws StorageException;
 
-  void removeAll(Collection<T> toRemove) throws StorageException;
-  
-  void remove(T toRemove) throws StorageException;
-
-  void add(T rmcontainer) throws StorageException;
+  Map<String, List<PreemptionMap>> getAll() throws IOException;
 }

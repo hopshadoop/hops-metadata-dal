@@ -17,7 +17,7 @@ package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.FiCaSchedulerAppNewlyAllocatedContainers;
+import io.hops.metadata.yarn.entity.FiCaSchedulerAppContainer;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -28,7 +28,7 @@ public interface FiCaSchedulerAppNewlyAllocatedContainersDataAccess<T>
     extends EntityDataAccess {
   List<T> findById(String ficaId) throws StorageException;
 
-  Map<String, List<FiCaSchedulerAppNewlyAllocatedContainers>> getAll()
+  Map<String, List<FiCaSchedulerAppContainer>> getAll()
       throws IOException;
 
   void addAll(Collection<T> toAdd) throws StorageException;

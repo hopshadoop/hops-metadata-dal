@@ -15,19 +15,39 @@
  */
 package io.hops.metadata.yarn.entity.rmstatestore;
 
-public class AllocateResponse {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class AllocateResponse implements Comparable<AllocateResponse>{
 
   private final String applicationattemptid;
+  private final Integer responseId;
   private final byte[] allocateResponse;
-
+  private final List<String> allocatedContainers;
+  private final Map<String, byte[]> completedContainerStatus;
+  
   public AllocateResponse(String applicationattemptid,
-      byte[] allocateResponse) {
+      byte[] allocateResponse, List<String> allocatedContainers,
+      int responseId, Map<String, byte[]> completedContainersStatus) {
     this.applicationattemptid = applicationattemptid;
     this.allocateResponse = allocateResponse;
+    this.responseId = responseId;
+    if(allocatedContainers!=null){
+      this.allocatedContainers = allocatedContainers;
+    }else{
+      this.allocatedContainers = new ArrayList<String>();
+    }
+    this.completedContainerStatus = completedContainersStatus;
   }
 
-  public AllocateResponse(String applicationattemptid) {
-    this(applicationattemptid, null);
+  public AllocateResponse(String applicationattemptid,  byte[] allocateResponse,
+          int responseId) {
+    this(applicationattemptid, allocateResponse, null, responseId, null);
+  }
+    
+  public AllocateResponse(String applicationattemptid, int responseId) {
+    this(applicationattemptid, null, null, responseId, null);
   }
   
   public String getApplicationattemptid() {
@@ -37,5 +57,41 @@ public class AllocateResponse {
   public byte[] getAllocateResponse() {
     return allocateResponse;
   }
+
+  public List<String> getAllocatedContainers() {
+    return allocatedContainers;
+  }
+
+  public Map<String, byte[]> getCompletedContainersStatus(){
+    return completedContainerStatus;
+  }
   
+  public int getResponseId() {
+    return responseId;
+  }
+  
+  public int compareTo(AllocateResponse a){
+    if(applicationattemptid.compareTo(a.applicationattemptid)!=0){
+      return applicationattemptid.compareTo(a.applicationattemptid);
+    }
+    if(responseId.compareTo(a.responseId)!=0){
+      return responseId.compareTo(a.responseId);
+    }
+    return 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return applicationattemptid.hashCode() + 100 * responseId.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof AllocateResponse)) {
+      return false;
+    }
+    AllocateResponse other = (AllocateResponse) obj;
+    return (applicationattemptid.equals(other.applicationattemptid)
+            && responseId.equals(other.responseId));
+  }
 }

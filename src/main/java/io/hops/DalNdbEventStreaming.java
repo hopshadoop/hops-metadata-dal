@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity;
+package io.hops;
 
-public class FiCaSchedulerAppLiveContainers {
-  private final String schedulerapp_id;
-  private final String rmcontainer_id;
+/**
+ *
+ * @author sri
+ */
 
-  public FiCaSchedulerAppLiveContainers(String schedulerapp_id,
-      String rmcontainer_id) {
-    this.schedulerapp_id = schedulerapp_id;
-    this.rmcontainer_id = rmcontainer_id;
-  }
+public interface DalNdbEventStreaming {
 
-  public String getSchedulerapp_id() {
-    return schedulerapp_id;
-  }
+    public void startHopsNdbEvetAPISession();
 
-  public String getRmcontainer_id() {
-    return rmcontainer_id;
-  }
+    public void closeHopsNdbEventAPISession();
+
+    public boolean isNativeCodeLoaded();
+
 }

@@ -19,7 +19,7 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 public interface FiCaSchedulerNodeDataAccess<T> extends EntityDataAccess {
 
@@ -29,5 +29,5 @@ public interface FiCaSchedulerNodeDataAccess<T> extends EntityDataAccess {
   
   void removeAll(Collection<T> toRemove) throws StorageException;
 
-  List<T> getAll() throws StorageException;
+  Map<String, T> getAll() throws StorageException;
 }
