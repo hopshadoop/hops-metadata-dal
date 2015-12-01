@@ -544,4 +544,31 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String SEQUENCE_NUMBER = "sequence_number";
   }
+  
+  public static interface YarnContainersLogsTableDef {
+
+    public static final String TABLE_NAME = "yarn_containers_logs";
+    public static final String CONTAINERID = "container_id";
+    public static final String STATE = "exit_status";
+    public static final String START = "start";
+    public static final String STOP = "stop";   
+    //State values
+    //public static final String STATE_RUNNING = "RUNNING";
+    //public static final String STATE_COMPLETED = "COMPLETE";
+  }
+  
+  public static interface YarnProjectsQuotaTableDef {
+      public static final String TABLE_NAME = "yarn_projects_quota";
+      public static final String PROJECTID = "projectid";   
+      public static final String REMAINING_QUOTA = "remaining_quota";   
+      public static final String TOTAL_USED_QUOTA = "total_used_quota";
+  }
+  
+  public static interface YarnProjectsDailyCostTableDef {
+      public static final String TABLE_NAME = "yarn_projects_daily_cost";
+      public static final String PROJECTNAME = "projectname";   
+      public static final String USER = "user";   
+      public static final String DAY = "day";   
+      public static final String CREDITS_USED = "credits_used";
+  }  
 }
