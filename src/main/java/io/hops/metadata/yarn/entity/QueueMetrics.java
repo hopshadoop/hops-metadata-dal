@@ -16,7 +16,6 @@
 package io.hops.metadata.yarn.entity;
 
 public class QueueMetrics {
-  private final int id;
   private final int appssubmitted;
   private final int appsrunning;
   private final int appspending;
@@ -41,15 +40,14 @@ public class QueueMetrics {
   private final int parentid;
   private final String queuename;
 
-  public QueueMetrics(int id, int appssubmitted, int appsrunning,
+  public QueueMetrics(String queuename, int appssubmitted, int appsrunning,
       int appspending, int appscompleted, int appskilled, int appsfailed,
       int allocatedmb, int allocatedvcores, int allocatedcontainers,
       long aggregatecontainersallocated, long aggregatecontainersreleased,
       int availablemb, int availablevcores, int pendingmb, int pendingvcores,
       int pendingContainers, int reservedmb, int reservedvcores,
       int reservedcontainers, int activeusers, int activeapplications,
-      int parentid, String queuename) {
-    this.id = id;
+      int parentid) {
     this.appssubmitted = appssubmitted;
     this.appsrunning = appsrunning;
     this.appspending = appspending;
@@ -73,10 +71,6 @@ public class QueueMetrics {
     this.activeapplications = activeapplications;
     this.parentid = parentid;
     this.queuename = queuename;
-  }
-
-  public int getId() {
-    return id;
   }
 
   public int getAppssubmitted() {

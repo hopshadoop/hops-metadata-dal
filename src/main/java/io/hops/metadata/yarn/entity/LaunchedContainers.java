@@ -18,7 +18,7 @@ package io.hops.metadata.yarn.entity;
 /**
  * Pojo representing launchedContainers Map in FiCaSchedulerNode.
  */
-public class LaunchedContainers {
+public class LaunchedContainers implements Comparable<LaunchedContainers>{
 
   private final String schedulerNodeID;
   private final String containerIdID;
@@ -41,5 +41,27 @@ public class LaunchedContainers {
 
   public String getRmContainerID() {
     return rmContainerID;
+  }
+  
+  public int compareTo(LaunchedContainers l){
+    if(this.schedulerNodeID.compareTo(l.schedulerNodeID)!=0){
+      return this.schedulerNodeID.compareTo(l.schedulerNodeID);
+    }
+    return this.containerIdID.compareTo(l.containerIdID);
+  }
+
+  @Override
+  public int hashCode() {
+    return schedulerNodeID.hashCode() + 100 * containerIdID.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof LaunchedContainers)) {
+      return false;
+    }
+    LaunchedContainers other = (LaunchedContainers) obj;
+    return (schedulerNodeID.equals(other.schedulerNodeID) && containerIdID.
+            equals(other.containerIdID));
   }
 }

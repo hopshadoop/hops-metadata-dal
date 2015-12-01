@@ -20,6 +20,7 @@ import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.yarn.entity.RMNode;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public interface RMNodeDataAccess<T> extends EntityDataAccess {
 
   Map<String, RMNode> getAll() throws StorageException;
 
-  void addAll(Collection<T> toAdd) throws StorageException;
+  void addAll(List<T> toAdd) throws StorageException;
 
   void removeAll(Collection<T> toRemove) throws StorageException;
 

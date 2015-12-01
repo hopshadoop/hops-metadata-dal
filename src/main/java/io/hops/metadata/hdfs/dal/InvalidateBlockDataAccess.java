@@ -20,12 +20,16 @@ import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface InvalidateBlockDataAccess<T> extends EntityDataAccess {
 
   int countAll() throws StorageException;
 
   List<T> findInvalidatedBlockByStorageId(int storageId)
+      throws StorageException;
+  
+  Map<Long,Long> findInvalidatedBlockByStorageIdUsingMySQLServer(int storageId)
       throws StorageException;
 
   List<T> findInvalidatedBlocksByBlockId(long bid, int inodeId)
