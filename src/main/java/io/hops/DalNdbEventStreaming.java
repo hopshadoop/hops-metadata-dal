@@ -22,7 +22,7 @@ package io.hops;
 
 public interface DalNdbEventStreaming {
 
-    public void startHopsNdbEvetAPISession();
+    public void startHopsNdbEvetAPISession(boolean isLeader);
 
     public void closeHopsNdbEventAPISession();
 
