@@ -31,6 +31,8 @@ public class TablesDef {
     public static final String CONTAINERIDCOUNTER = "containeridcounter";
     public static final String PENDING = "pending";
     public static final String STOPED = "stoped";
+    public static final String USER_NAME = "username";
+    public static final String PROJECT_NAME = "projectname";
   }
 
   public static interface ContainerIdToCleanTableDef {
