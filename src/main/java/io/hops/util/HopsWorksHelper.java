@@ -9,7 +9,12 @@ package io.hops.util;
 public class HopsWorksHelper {
 
   public static String getUserName(String totalName){
-    return totalName.split("__")[1];
+    String[] components = totalName.split("__");
+    if(components.length>=2){
+      return components[1];
+    }else{
+      return totalName;
+    }
   }
   
   public static String getProjectName(String totalName){
