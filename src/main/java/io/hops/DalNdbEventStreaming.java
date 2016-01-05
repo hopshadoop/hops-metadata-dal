@@ -21,6 +21,8 @@ package io.hops;
  */
 public interface DalNdbEventStreaming {
 
+  public void init(String SchedulerConfPath, String ResourceTrackerConfPath);
+  
   public void startHopsNdbEvetAPISession(boolean isLeader);
 
   public void closeHopsNdbEventAPISession();

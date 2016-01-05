@@ -15,6 +15,8 @@
  */
 package io.hops.metadata.yarn.entity;
 
+import io.hops.util.HopsWorksHelper;
+
 public class AppSchedulingInfo {
   private final String schedulerappId;
   private final String appId;
@@ -72,5 +74,13 @@ public class AppSchedulingInfo {
 
   public boolean isStoped() {
     return stoped;
+  }
+  
+  public String getUserName(){
+    return HopsWorksHelper.getUserName(user);
+  }
+  
+  public String getProjectName(){
+    return HopsWorksHelper.getProjectName(user);
   }
 }
