@@ -19,13 +19,12 @@ package io.hops;
  *
  * @author sri
  */
-
 public interface DalNdbEventStreaming {
 
-    public void startHopsNdbEvetAPISession();
+  public void startHopsNdbEvetAPISession(boolean isLeader);
 
-    public void closeHopsNdbEventAPISession();
+  public void closeHopsNdbEventAPISession();
 
-    public boolean isNativeCodeLoaded();
+  public boolean isNativeCodeLoaded();
 
 }
