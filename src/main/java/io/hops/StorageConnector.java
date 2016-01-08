@@ -38,7 +38,7 @@ public interface StorageConnector<T> {
   
   public boolean formatStorage(Class<? extends EntityDataAccess>... das)
       throws StorageException;
-  
+    
   public boolean isTransactionActive() throws StorageException;
 
   public void stopStorage() throws StorageException;
@@ -53,4 +53,6 @@ public interface StorageConnector<T> {
       throws StorageException;
   
   public void dropAndRecreateDB() throws StorageException;
+  
+  public void flush() throws StorageException;
 }
