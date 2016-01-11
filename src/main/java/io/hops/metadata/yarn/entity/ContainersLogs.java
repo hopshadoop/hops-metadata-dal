@@ -18,16 +18,16 @@ package io.hops.metadata.yarn.entity;
 public class ContainersLogs implements Comparable<ContainersLogs> {
 
   private final String containerid;
-  private final int start;
-  private int stop;
+  private final long start;
+  private long stop;
   private int exitstatus;
 
   public static final int DEFAULT_STOP_TIMESTAMP = 0;
   public static final int UNKNOWN_CONTAINER_EXIT = -200;
   public static final int CONTAINER_RUNNING_STATE = -201;
 
-  public ContainersLogs(String containerid, int start,
-          int stop, int exitstatus) {
+  public ContainersLogs(String containerid, long start,
+          long stop, int exitstatus) {
     this.containerid = containerid;
     this.start = start;
     this.stop = stop;
@@ -38,11 +38,11 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
     return containerid;
   }
 
-  public int getStart() {
+  public long getStart() {
     return start;
   }
 
-  public int getStop() {
+  public long getStop() {
     return stop;
   }
 
