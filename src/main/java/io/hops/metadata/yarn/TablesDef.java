@@ -63,6 +63,19 @@ public class TablesDef {
     public static final String CONTAINERID_ID = "containerid_id";
     public static final String CONTAINERSTATE = "containerstate";
   }
+  
+  /**
+   * Table for storing container duration information
+   * Used for Quotas
+   */
+  public static interface ContainersLogsTableDef {
+
+    public static final String TABLE_NAME = "yarn_containers_logs";
+    public static final String CONTAINERID = "container_id";
+    public static final String START = "start";
+    public static final String STOP = "stop";
+    public static final String EXITSTATUS = "exit_status";
+  }
 
   public static interface FiCaSchedulerAppLiveContainersTableDef {
     public static final String TABLE_NAME = "yarn_schedulerapp_livecontainers";
