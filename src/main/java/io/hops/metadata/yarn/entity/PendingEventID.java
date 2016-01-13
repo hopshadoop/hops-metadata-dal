@@ -34,7 +34,7 @@ public class PendingEventID implements Comparable<PendingEventID> {
 
   @Override
   public boolean equals(Object o) {
-    if (o != null && getClass() != o.getClass()) {
+    if (o != null && getClass() == o.getClass()) {
       PendingEventID other = (PendingEventID) o;
       if (eventId.equals(other.eventId) && nodeId.equals(other.nodeId)) {
         return true;

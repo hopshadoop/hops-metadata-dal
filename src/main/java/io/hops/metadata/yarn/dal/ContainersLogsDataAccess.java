@@ -20,4 +20,6 @@ public interface ContainersLogsDataAccess<T> extends EntityDataAccess {
           StorageException;
 
   void addAll(Collection<T> ContainersLogs) throws StorageException;
+  
+  void removeAll(Collection<T> ContainersLogs) throws StorageException;
 }

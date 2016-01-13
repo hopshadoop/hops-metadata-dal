@@ -559,4 +559,19 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String SEQUENCE_NUMBER = "sequence_number";
   }
+   
+  public static interface YarnProjectsQuotaTableDef {
+      public static final String TABLE_NAME = "yarn_projects_quota";
+      public static final String PROJECTID = "projectname";   
+      public static final String REMAINING_QUOTA = "quota_remaining";   
+      public static final String TOTAL_USED_QUOTA = "total";
+  }
+  
+  public static interface YarnProjectsDailyCostTableDef {
+      public static final String TABLE_NAME = "yarn_projects_daily_cost";
+      public static final String PROJECTNAME = "projectname";   
+      public static final String USER = "user";   
+      public static final String DAY = "day";   
+      public static final String CREDITS_USED = "credits_used";
+  }  
 }
