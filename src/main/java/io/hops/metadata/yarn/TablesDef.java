@@ -574,4 +574,10 @@ public class TablesDef {
       public static final String DAY = "day";   
       public static final String CREDITS_USED = "credits_used";
   }  
+  
+  public static interface ContainersCheckPointsTableDef {
+    public static final String TABLE_NAME = "yarn_containers_checkpoint";
+    public static final String CONTAINERID = "container_id";
+    public static final String CHECKPOINT = "checkpoint";
+  }
 }
