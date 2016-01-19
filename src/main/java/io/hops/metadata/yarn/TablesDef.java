@@ -63,6 +63,19 @@ public class TablesDef {
     public static final String CONTAINERID_ID = "containerid_id";
     public static final String CONTAINERSTATE = "containerstate";
   }
+  
+  /**
+   * Table for storing container duration information
+   * Used for Quotas
+   */
+  public static interface ContainersLogsTableDef {
+
+    public static final String TABLE_NAME = "yarn_containers_logs";
+    public static final String CONTAINERID = "container_id";
+    public static final String START = "start";
+    public static final String STOP = "stop";
+    public static final String EXITSTATUS = "exit_status";
+  }
 
   public static interface FiCaSchedulerAppLiveContainersTableDef {
     public static final String TABLE_NAME = "yarn_schedulerapp_livecontainers";
@@ -545,5 +558,26 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_sequence_number";
     public static final String ID = "id";
     public static final String SEQUENCE_NUMBER = "sequence_number";
+  }
+   
+  public static interface YarnProjectsQuotaTableDef {
+      public static final String TABLE_NAME = "yarn_projects_quota";
+      public static final String PROJECTID = "projectname";   
+      public static final String REMAINING_QUOTA = "quota_remaining";   
+      public static final String TOTAL_USED_QUOTA = "total";
+  }
+  
+  public static interface YarnProjectsDailyCostTableDef {
+      public static final String TABLE_NAME = "yarn_projects_daily_cost";
+      public static final String PROJECTNAME = "projectname";   
+      public static final String USER = "user";   
+      public static final String DAY = "day";   
+      public static final String CREDITS_USED = "credits_used";
+  }  
+  
+  public static interface ContainersCheckPointsTableDef {
+    public static final String TABLE_NAME = "yarn_containers_checkpoint";
+    public static final String CONTAINERID = "container_id";
+    public static final String CHECKPOINT = "checkpoint";
   }
 }
