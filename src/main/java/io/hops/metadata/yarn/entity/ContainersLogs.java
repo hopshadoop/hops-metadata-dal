@@ -17,25 +17,25 @@ package io.hops.metadata.yarn.entity;
 
 public class ContainersLogs implements Comparable<ContainersLogs> {
 
-  private final String containerid;
+  private final String containerId;
   private final long start;
   private long stop;
-  private int exitstatus;
+  private int exitStatus;
 
   public static final int DEFAULT_STOP_TIMESTAMP = 0;
   public static final int UNKNOWN_CONTAINER_EXIT = -200;
   public static final int CONTAINER_RUNNING_STATE = -201;
 
-  public ContainersLogs(String containerid, long start,
-          long stop, int exitstatus) {
-    this.containerid = containerid;
+  public ContainersLogs(String containerId, long start,
+          long stop, int exitStatus) {
+    this.containerId = containerId;
     this.start = start;
     this.stop = stop;
-    this.exitstatus = exitstatus;
+    this.exitStatus = exitStatus;
   }
 
   public String getContainerid() {
-    return containerid;
+    return containerId;
   }
 
   public long getStart() {
@@ -51,17 +51,17 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
   }
 
   public int getExitstatus() {
-    return exitstatus;
+    return exitStatus;
   }
 
   public void setExitstatus(int exitstatus) {
-    this.exitstatus = exitstatus;
+    this.exitStatus = exitstatus;
   }
 
   @Override
   public String toString() {
-    return "HopContainersLogs{" + "containerid=" + containerid
-            + ", start=" + start + ", stop=" + stop + ", state" + exitstatus
+    return "HopContainersLogs{" + "containerid=" + containerId
+            + ", start=" + start + ", stop=" + stop + ", state" + exitStatus
             + '}';
   }
 
@@ -70,7 +70,7 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
     if (this.equals(other)) {
       return 0;
     }
-    return containerid.compareTo(other.getContainerid());
+    return containerId.compareTo(other.getContainerid());
 
   }
 }
