@@ -652,4 +652,10 @@ public class TablesDef {
     public static final String CONTAINERID = "container_id";
     public static final String CHECKPOINT = "checkpoint";
   }
+  
+  public static interface CSLeafQueuesPendingAppsTableDef {
+    public static final String TABLE_NAME = "yarn_cs_leaf_queue_pending_apps";
+    public static final String APPATTEMPTID = "app_attempt_id";
+    public static final String PATH = "path";
+  }
 }
