@@ -232,6 +232,13 @@ public class TablesDef {
     public static final String NAME = "name";
     public static final String RESOURCEREQUESTSTATE = "resourcerequeststate";
   }
+  
+  public static interface ResourceRequestOfContainerIdTableDef {
+    public static final String TABLE_NAME = "yarn_containerresourcerequest";
+    public static final String CONTAINER_ID= "containerid";
+    public static final String NAME = "name";
+    public static final String RESOURCEREQUESTSTATE = "resourcerequeststate";
+  }
 
   public static interface ResourceTableDef {
 
