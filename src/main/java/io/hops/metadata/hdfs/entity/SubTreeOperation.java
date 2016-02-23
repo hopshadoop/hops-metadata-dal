@@ -41,7 +41,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     public Annotation getAnnotated() {
       switch (this) {
         case ByPathPrefix:
-          return Annotation.PrimaryKey;
+          return Annotation.IndexScan;
         default:
           throw new IllegalStateException();
       }

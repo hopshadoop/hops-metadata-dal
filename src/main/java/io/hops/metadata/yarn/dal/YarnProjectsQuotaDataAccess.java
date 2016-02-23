@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops;
+package io.hops.metadata.yarn.dal;
+
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.yarn.entity.YarnProjectsQuota;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
- * @author sri
+ * @author rizvi
  */
-public interface DalNdbEventStreaming {
+public interface YarnProjectsQuotaDataAccess<T> extends EntityDataAccess {
 
-  public void init(String SchedulerConfPath, String ResourceTrackerConfPath,
-          String connectionString, String databaseName);
-  
-  public void startHopsNdbEvetAPISession(boolean isLeader);
+  T findEntry(String projectId) throws StorageException;
 
-  public void closeHopsNdbEventAPISession();
+  Map<String, YarnProjectsQuota> getAll() throws StorageException;
 
-  public boolean isNativeCodeLoaded();
+  void addAll(Collection<T> YarnProjectsQuota) throws StorageException;
 
 }

@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops;
+package io.hops.metadata.yarn.dal.rmstatestore;
+
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
+import java.util.Map;
 
 /**
  *
- * @author sri
+ * @author gautier
  */
-public interface DalNdbEventStreaming {
+public interface HeartBeatRPCDataAccess<T> extends EntityDataAccess {
 
-  public void init(String SchedulerConfPath, String ResourceTrackerConfPath,
-          String connectionString, String databaseName);
-  
-  public void startHopsNdbEvetAPISession(boolean isLeader);
+  void add(T toAdd) throws StorageException;
 
-  public void closeHopsNdbEventAPISession();
-
-  public boolean isNativeCodeLoaded();
-
+  Map<Integer, T> getAll() throws StorageException;
 }

@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops;
 
-/**
- *
- * @author sri
- */
-public interface DalNdbEventStreaming {
+package io.hops.metadata.yarn.entity;
 
-  public void init(String SchedulerConfPath, String ResourceTrackerConfPath,
-          String connectionString, String databaseName);
-  
-  public void startHopsNdbEvetAPISession(boolean isLeader);
+public class ContainerCheckPoint {
+  private final String containerId;
+  private final long checkPoint;
 
-  public void closeHopsNdbEventAPISession();
+  public ContainerCheckPoint(String containerId, long checkPoint) {
+    this.containerId = containerId;
+    this.checkPoint = checkPoint;
+  }
 
-  public boolean isNativeCodeLoaded();
+  public String getContainerId() {
+    return containerId;
+  }
 
+  public long getCheckPoint() {
+    return checkPoint;
+  }
+ 
 }
