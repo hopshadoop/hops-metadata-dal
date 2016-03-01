@@ -20,13 +20,24 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
   private final int priority;
   private final String name;
   private final byte[] resourcerequeststate;
-
+  private final String containerId;
+ 
   public ResourceRequest(String id, int priority, String name,
-      byte[] resourcerequeststate) {
+          byte[] resourcerequeststate) {
     this.id = id;
     this.priority = priority;
     this.name = name;
     this.resourcerequeststate = resourcerequeststate;
+    this.containerId = null;
+  }
+  
+  public ResourceRequest(String containerId, String name,
+          byte[] resourcerequeststate) {
+    this.id = null;
+    this.priority = 0;
+    this.name = name;
+    this.resourcerequeststate = resourcerequeststate;
+    this.containerId = containerId;
   }
 
   public String getId() {
@@ -44,11 +55,21 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
   public byte[] getResourcerequeststate() {
     return resourcerequeststate;
   }
+  
+  public String getContainerId() {
+        return containerId;
+  }
 
   @Override
   public int hashCode() {
-
-    return id.hashCode() + 100 * priority + 200 * name.hashCode();
+    int hashValue = 100 * priority + 200 * name.hashCode();
+    if (containerId != null) {
+      hashValue += 300 * containerId.hashCode();
+    }
+    if (id != null) {
+      hashValue += id.hashCode();
+    }
+    return hashValue;
   }
 
   @Override
@@ -57,18 +78,50 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
       return false;
     }
     ResourceRequest other = (ResourceRequest) obj;
-    return (id.equals(other.id) && priority == other.priority && name.equals(
-            other.name));
+    boolean isEqual = priority == other.priority
+            && name.equals(other.name);
+    if (id != null) {
+      isEqual = isEqual && id.equals(other.id);
+    } else if (other.id != null) {
+      return false;
+    }
+    if (containerId != null) {
+      isEqual = isEqual && containerId.equals(other.getContainerId());
+    } else if (other.containerId != null) {
+      return false;
+    }
+    return isEqual;
   }
 
   @Override
   public int compareTo(ResourceRequest other) {
-    if (id.compareTo(other.id) != 0) {
-      return id.compareTo(other.id);
-    } else if (priority != other.priority) {
-      return priority - other.priority;
-    } else {
-      return name.compareTo(other.name);
+      if (other == null) return 1;
+      
+      if(id==null && !(other.id==null)){
+        return 1;
+      }
+      if(!(id==null) && other.id==null){
+        return -1; 
+      }
+      if (!(id==null || other.id == null) && id.compareTo(other.id) != 0) {
+        return id.compareTo(other.id);
+      }
+      if (priority != other.priority) {
+        return priority - other.priority;
+      }
+      if(containerId==null && !(other.containerId==null)){
+        return 1;
+      }
+      if(!(containerId==null) && other.containerId==null){
+        return -1; 
+      }
+      
+     if(!(containerId==null || other.containerId ==null) 
+            && containerId.compareTo(other.containerId)!=0){
+        return containerId.compareTo(other.containerId);
     }
-  }
+    
+    return name.compareTo(other.name);
+    
+  } 
 }
