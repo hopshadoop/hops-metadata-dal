@@ -23,21 +23,21 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
   private final String containerId;
  
   public ResourceRequest(String id, int priority, String name,
-      byte[] resourcerequeststate) {
+          byte[] resourcerequeststate) {
     this.id = id;
     this.priority = priority;
     this.name = name;
-    this.resourcerequeststate = resourcerequeststate; 
-    this.containerId=null;
+    this.resourcerequeststate = resourcerequeststate;
+    this.containerId = null;
   }
   
-  public ResourceRequest( String containerId, String name,
-      byte[] resourcerequeststate) {
+  public ResourceRequest(String containerId, String name,
+          byte[] resourcerequeststate) {
     this.id = null;
     this.priority = 0;
     this.name = name;
     this.resourcerequeststate = resourcerequeststate;
-    this.containerId=containerId;
+    this.containerId = containerId;
   }
 
   public String getId() {
@@ -62,14 +62,14 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
 
   @Override
   public int hashCode() {
-      int hashValue=100 * priority + 200 * name.hashCode();
-      if(!(containerId == null)){
-          hashValue+=300*containerId.hashCode();
-      }
-      if(!(id == null)){
-          hashValue+=id.hashCode();
-      }
-      return hashValue;
+    int hashValue = 100 * priority + 200 * name.hashCode();
+    if (containerId != null) {
+      hashValue += 300 * containerId.hashCode();
+    }
+    if (id != null) {
+      hashValue += id.hashCode();
+    }
+    return hashValue;
   }
 
   @Override
@@ -78,17 +78,17 @@ public class ResourceRequest implements Comparable<ResourceRequest> {
       return false;
     }
     ResourceRequest other = (ResourceRequest) obj;
-    boolean isEqual= priority == other.priority
-                && name.equals(other.name);  
-    if(!(id ==  null)){
-        isEqual=isEqual && id.equals(other.id);
-    } else if (other.id!=null ) {
-        return false;
+    boolean isEqual = priority == other.priority
+            && name.equals(other.name);
+    if (id != null) {
+      isEqual = isEqual && id.equals(other.id);
+    } else if (other.id != null) {
+      return false;
     }
-    if(!(containerId ==null)){
-        isEqual = isEqual && containerId.equals(other.getContainerId());
-    }else if(other.containerId !=null){
-        return false;
+    if (containerId != null) {
+      isEqual = isEqual && containerId.equals(other.getContainerId());
+    } else if (other.containerId != null) {
+      return false;
     }
     return isEqual;
   }

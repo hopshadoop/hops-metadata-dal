@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author misdess
  */
-public interface ResourceRequestOfContainerDataAccess<T> extends EntityDataAccess {
+public interface ContainerResourceRequestDataAccess<T> extends EntityDataAccess {
 
   Map<String, List<ResourceRequest>> getAll() throws StorageException;
 
