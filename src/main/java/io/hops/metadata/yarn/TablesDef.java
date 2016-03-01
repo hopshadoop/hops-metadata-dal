@@ -488,6 +488,12 @@ public class TablesDef {
     public static final String NUM_CONTAINERS = "num_containers";
   }
 
+  public interface CSPreemptedContainersTableDef {
+    public static final String TABLE_NAME = "yarn_cspreemptedcontainers";
+    public static final String RMCONTAINER_ID = "rmcontainer_id";
+    public static final String PREEMPTION_TIME = "preemption_time";
+  }
+
   /*
     Fair
    */
