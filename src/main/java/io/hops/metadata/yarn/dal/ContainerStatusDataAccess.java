@@ -39,4 +39,5 @@ public interface ContainerStatusDataAccess<T> extends EntityDataAccess {
 
   void addAll(Collection<T> containerStatus) throws StorageException;
 
+  void removeAll(Collection<T> containerStatus) throws StorageException;
 }
