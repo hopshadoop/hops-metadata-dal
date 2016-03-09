@@ -464,30 +464,6 @@ public class TablesDef {
     public static final String COUNTER = "counter";
   }
 
-  public interface CSLeafQueueUserInfoTableDef {
-
-    public static final String TABLE_NAME = "yarn_csleafqueueuserinfo";
-    public static final String USER_NAME = "username";
-    public static final String CONSUMED_RESOURCE_MEMORY = "consumed_memory";
-    public static final String CONSUMED_RESOURCE_VCORES = "consumed_vcores";
-    public static final String PENDING_APPLICATIONS = "pending_applications";
-    public static final String ACTIVE_APPLICATIONS = "active_applications";
-
-  }
-
-  public interface CSQueueTableDef {
-
-    public static final String TABLE_NAME = "yarn_csqueue";
-    public static final String PATH = "path";
-    public static final String NAME = "name";
-    public static final String USED_CAPACITY = "used_capacity";
-    public static final String USED_RESOURCE_MEMORY = "used_resource_memory";
-    public static final String USED_RESOURCE_VCORES = "used_resource_vcores";
-    public static final String ABSOLUTE_USED_CAPACITY = "absolute_used_capacity";
-    public static final String IS_PARENT = "is_parent";
-    public static final String NUM_CONTAINERS = "num_containers";
-  }
-
   /*
     Fair
    */

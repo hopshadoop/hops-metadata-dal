@@ -14,7 +14,7 @@ public class LeafQueuePendingApp {
     this.appAttemptId = appAttemptId;
     this.queuePath = queuePath;
   }
-  
+
   public LeafQueuePendingApp(String appAttemptId) {
     this.appAttemptId = appAttemptId;
     this.queuePath = null;
