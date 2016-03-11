@@ -364,6 +364,78 @@ public class TablesDef {
     public static final String USERID = "userid";
   }
 
+  public static interface HeartBeatRPCTableDef {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_rpc";
+    public static final String RPCID = "rpcid";
+    public static final String NODEID = "nodeid";
+    public static final String RESPONSEID = "responseid";
+    public static final String NODE_HEALTH_STATUS = "node_health_status";
+    public static final String LAST_CONTAINER_TOKEN_KEY
+            = "last_container_token_key";
+    public static final String LAST_NM_KEY = "last_nm_key";
+  }
+
+  public static interface HeartBeatContainerStatusesTableDef {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_container_statuses";
+    public static final String RPCID = "rpcid";
+    public static final String CONTAINERID = "containerid";
+    public static final String STATUS = "status";
+  }
+
+  public static interface HeartBeatKeepAliveApplications {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_keepalive_app";
+    public static final String RPCID = "rpcid";
+    public static final String APPID = "appid";
+  }
+
+  public static interface AllocateRPC {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc";
+    public static final String RPCID = "rpcid";
+    public static final String PROGRESS = "progress";
+    public static final String RESPONSEID = "responseid";
+  }
+
+  public static interface AllocateRPCAsk {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_ask";
+    public static final String RPCID = "rpcid";
+    public static final String REQUESTID = "requestid";
+    public static final String REQUEST = "request";
+  }
+
+  public static interface AllocateRPCBlackListAdd {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_blacklist_add";
+    public static final String RPCID = "rpcid";
+    public static final String RESOURCE = "resource";
+  }
+
+  public static interface AllocateRPCBlackListRemove {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_blacklist_remove";
+    public static final String RPCID = "rpcid";
+    public static final String RESOURCE = "resource";
+  }
+
+  public static interface AllocateRPCRelease {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_release";
+    public static final String RPCID = "rpcid";
+    public static final String CONTAINERID = "containerid";
+  }
+
+  public static interface AllocateRPCResourceIncrease {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_resource_increase";
+    public static final String RPCID = "rpcid";
+    public static final String REQUESTID = "containerid";
+    public static final String REQUEST = "request";
+  }
+
   /*
     Capacity
    */
@@ -421,6 +493,12 @@ public class TablesDef {
     public static final String ABSOLUTE_USED_CAPACITY = "absolute_used_capacity";
     public static final String IS_PARENT = "is_parent";
     public static final String NUM_CONTAINERS = "num_containers";
+  }
+
+  public interface CSPreemptedContainersTableDef {
+    public static final String TABLE_NAME = "yarn_cspreemptedcontainers";
+    public static final String RMCONTAINER_ID = "rmcontainer_id";
+    public static final String PREEMPTION_TIME = "preemption_time";
   }
 
   /*
@@ -586,5 +664,11 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_containers_checkpoint";
     public static final String CONTAINERID = "container_id";
     public static final String CHECKPOINT = "checkpoint";
+  }
+  
+  public static interface CSLeafQueuesPendingAppsTableDef {
+    public static final String TABLE_NAME = "yarn_cs_leaf_queue_pending_apps";
+    public static final String APPATTEMPTID = "app_attempt_id";
+    public static final String PATH = "path";
   }
 }
