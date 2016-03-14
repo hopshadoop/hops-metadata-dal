@@ -52,6 +52,7 @@ public class TablesDef {
     public static final String EXIT_STATUS = "exitstatus";
     public static final String PENDING_EVENT_ID = "pendingeventid";
     public static final String RMNODEID = "rmnodeid";
+    public static final String TYPE = "type";
     //State values
     public static final String STATE_RUNNING = "RUNNING";
     public static final String STATE_COMPLETED = "COMPLETE";
@@ -75,19 +76,6 @@ public class TablesDef {
     public static final String START = "start";
     public static final String STOP = "stop";
     public static final String EXITSTATUS = "exit_status";
-  }
-
-  public static interface FiCaSchedulerAppLiveContainersTableDef {
-    public static final String TABLE_NAME = "yarn_schedulerapp_livecontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
-  }
-
-  public static interface FiCaSchedulerAppNewlyAllocatedContainersTableDef {
-    public static final String TABLE_NAME =
-        "yarn_schedulerapp_newlyallocatedcontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
   }
 
   public static interface FiCaSchedulerNodeTableDef {
@@ -462,30 +450,6 @@ public class TablesDef {
     public static final String SCHEDULERAPP_ID = "schedulerapp_id";
     public static final String PRIORITY_ID = "priority_id";
     public static final String COUNTER = "counter";
-  }
-
-  public interface CSLeafQueueUserInfoTableDef {
-
-    public static final String TABLE_NAME = "yarn_csleafqueueuserinfo";
-    public static final String USER_NAME = "username";
-    public static final String CONSUMED_RESOURCE_MEMORY = "consumed_memory";
-    public static final String CONSUMED_RESOURCE_VCORES = "consumed_vcores";
-    public static final String PENDING_APPLICATIONS = "pending_applications";
-    public static final String ACTIVE_APPLICATIONS = "active_applications";
-
-  }
-
-  public interface CSQueueTableDef {
-
-    public static final String TABLE_NAME = "yarn_csqueue";
-    public static final String PATH = "path";
-    public static final String NAME = "name";
-    public static final String USED_CAPACITY = "used_capacity";
-    public static final String USED_RESOURCE_MEMORY = "used_resource_memory";
-    public static final String USED_RESOURCE_VCORES = "used_resource_vcores";
-    public static final String ABSOLUTE_USED_CAPACITY = "absolute_used_capacity";
-    public static final String IS_PARENT = "is_parent";
-    public static final String NUM_CONTAINERS = "num_containers";
   }
 
   /*

@@ -14,7 +14,6 @@ public class FiCaSchedulerNodeInfos {
   Resource totalResource;
   Resource availableResource;
   Resource usedResource;
-  RMContainer reservedContainer;
   List<LaunchedContainers> launchedContainers
           = new ArrayList<LaunchedContainers>();
 
@@ -48,14 +47,6 @@ public class FiCaSchedulerNodeInfos {
 
   public void setUsedResource(Resource usedResource) {
     this.usedResource = usedResource;
-  }
-
-  public RMContainer getReservedContainer() {
-    return reservedContainer;
-  }
-
-  public void setReservedContainer(RMContainer reservedContainer) {
-    this.reservedContainer = reservedContainer;
   }
   
   public void addLaunchedContainer(LaunchedContainers container){

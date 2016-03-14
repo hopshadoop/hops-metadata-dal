@@ -33,7 +33,5 @@ public interface RMContainerDataAccess<T> extends EntityDataAccess {
 
   void removeAll(Collection<T> toRemove) throws StorageException;
   
-  void remove(T toRemove) throws StorageException;
-
   void add(T rmcontainer) throws StorageException;
 }
