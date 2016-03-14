@@ -75,6 +75,8 @@ public class TablesDef {
     public static final String START = "start";
     public static final String STOP = "stop";
     public static final String EXITSTATUS = "exit_status";
+    public static final String PRICE = "price";
+    
   }
 
   public static interface FiCaSchedulerAppLiveContainersTableDef {
@@ -651,5 +653,19 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_containers_checkpoint";
     public static final String CONTAINERID = "container_id";
     public static final String CHECKPOINT = "checkpoint";
+    public static final String PRICE = "price";
+  }
+  
+  public static interface YarnRunningPriceTableDef {
+    public static final String TABLE_NAME = "yarn_running_price";
+    public static final String ID = "id";
+    public static final String TIME = "time";
+    public static final String PRICE = "price";
+  }
+  
+  public static interface YarnHistoryPriceTableDef {
+    public static final String TABLE_NAME = "yarn_history_price";    
+    public static final String TIME = "time";
+    public static final String PRICE = "price";
   }
 }
