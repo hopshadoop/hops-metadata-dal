@@ -52,6 +52,7 @@ public class TablesDef {
     public static final String EXIT_STATUS = "exitstatus";
     public static final String PENDING_EVENT_ID = "pendingeventid";
     public static final String RMNODEID = "rmnodeid";
+    public static final String TYPE = "type";
     //State values
     public static final String STATE_RUNNING = "RUNNING";
     public static final String STATE_COMPLETED = "COMPLETE";
@@ -75,19 +76,6 @@ public class TablesDef {
     public static final String START = "start";
     public static final String STOP = "stop";
     public static final String EXITSTATUS = "exit_status";
-  }
-
-  public static interface FiCaSchedulerAppLiveContainersTableDef {
-    public static final String TABLE_NAME = "yarn_schedulerapp_livecontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
-  }
-
-  public static interface FiCaSchedulerAppNewlyAllocatedContainersTableDef {
-    public static final String TABLE_NAME =
-        "yarn_schedulerapp_newlyallocatedcontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
   }
 
   public static interface FiCaSchedulerNodeTableDef {
