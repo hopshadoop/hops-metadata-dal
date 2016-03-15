@@ -21,19 +21,29 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
   private final long start;
   private long stop;
   private int exitStatus;
+  private float price;
 
   public static final int DEFAULT_STOP_TIMESTAMP = 0;
   public static final int UNKNOWN_CONTAINER_EXIT = -200;
   public static final int CONTAINER_RUNNING_STATE = -201;
 
   public ContainersLogs(String containerId, long start,
-          long stop, int exitStatus) {
+          long stop, int exitStatus,float price) {
     this.containerId = containerId;
     this.start = start;
     this.stop = stop;
     this.exitStatus = exitStatus;
+    this.price = price;
   }
 
+  public void setPrice(float price) {
+    this.price = price;
+  }
+
+  public float getPrice() {
+    return price;
+  }
+  
   public String getContainerid() {
     return containerId;
   }
@@ -57,6 +67,8 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
   public void setExitstatus(int exitstatus) {
     this.exitStatus = exitstatus;
   }
+  
+  
 
   @Override
   public String toString() {

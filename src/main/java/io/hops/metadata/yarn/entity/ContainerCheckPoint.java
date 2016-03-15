@@ -19,10 +19,12 @@ package io.hops.metadata.yarn.entity;
 public class ContainerCheckPoint {
   private final String containerId;
   private final long checkPoint;
+  private final float price;
 
-  public ContainerCheckPoint(String containerId, long checkPoint) {
+  public ContainerCheckPoint(String containerId, long checkPoint, float price) {
     this.containerId = containerId;
     this.checkPoint = checkPoint;
+    this.price = price;
   }
 
   public String getContainerId() {
@@ -32,5 +34,10 @@ public class ContainerCheckPoint {
   public long getCheckPoint() {
     return checkPoint;
   }
+  
+  public float getPrice() {
+    return price;
+  }
+  
  
 }
