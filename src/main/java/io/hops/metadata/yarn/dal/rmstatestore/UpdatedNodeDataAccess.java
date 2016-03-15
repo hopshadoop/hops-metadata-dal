@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface UpdatedNodeDataAccess<T> extends EntityDataAccess {
-  void addAll(Collection<List<T>> toAdd) throws StorageException;
+  void addAll(Collection<T> toAdd) throws StorageException;
+  
+  void removeAll(Collection<T> toRemove) throws StorageException;
   
   Map<String,List<T>> getAll() throws StorageException;
 }
