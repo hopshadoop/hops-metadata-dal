@@ -68,8 +68,6 @@ public class ContainersLogs implements Comparable<ContainersLogs> {
     this.exitStatus = exitstatus;
   }
   
-  
-
   @Override
   public String toString() {
     return "HopContainersLogs{" + "containerid=" + containerId

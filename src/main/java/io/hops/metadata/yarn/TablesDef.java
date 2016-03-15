@@ -77,7 +77,6 @@ public class TablesDef {
     public static final String STOP = "stop";
     public static final String EXITSTATUS = "exit_status";
     public static final String PRICE = "price";
-    
   }
 
   public static interface FiCaSchedulerNodeTableDef {

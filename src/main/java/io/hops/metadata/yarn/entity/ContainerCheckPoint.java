@@ -38,6 +38,4 @@ public class ContainerCheckPoint {
   public float getPrice() {
     return price;
   }
-  
- 
 }
