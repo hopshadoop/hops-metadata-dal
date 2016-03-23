@@ -33,7 +33,8 @@ public interface ContainerStatusDataAccess<T> extends EntityDataAccess {
    * @return
    * @throws io.hops.exception.StorageException
    */
-  T findEntry(String containerId, String rmNodeId) throws StorageException;
+  T findEntry(String containerId, String rmNodeId, String type)
+          throws StorageException;
 
   Map<String, ContainerStatus> getAll() throws StorageException;
 
