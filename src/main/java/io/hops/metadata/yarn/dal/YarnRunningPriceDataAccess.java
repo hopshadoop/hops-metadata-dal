@@ -17,18 +17,14 @@ package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
+import io.hops.metadata.yarn.entity.YarnRunningPrice;
 import java.util.Map;
 
-/**
- *
- * @author gautier
- */
-public interface ContainersCheckPointsDataAccess<T> extends EntityDataAccess {
+public interface YarnRunningPriceDataAccess<T> extends EntityDataAccess {
 
-  public Map<String, T> getAll() throws StorageException;
+  Map<YarnRunningPrice.PriceType, T> getAll() throws
+          StorageException;
 
-  public void addAll(List<T> YarnProjectsDailyCost) throws StorageException;
+  void add(T YarnRunningPrice) throws StorageException;
 
-  public void removeAll(List<T> YarnProjectsDailyCost) throws StorageException;
 }
