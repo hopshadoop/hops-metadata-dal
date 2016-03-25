@@ -24,12 +24,12 @@ public class YarnProjectsDailyCost {
   private String projectName;
   private String projectUser;
   private long day;
-  private int creditsUsed;
+  private float creditsUsed;
 
   public YarnProjectsDailyCost(String projectName,
           String projectUser,
           long day,
-          int creditsUsed) {
+          float creditsUsed) {
     this.projectName = projectName;
     this.projectUser = projectUser;
     this.day = day;
@@ -67,7 +67,7 @@ public class YarnProjectsDailyCost {
   /**
    * @return the creditsUsed
    */
-  public int getCreditsUsed() {
+  public float getCreditsUsed() {
     return creditsUsed;
   }
 
@@ -95,7 +95,7 @@ public class YarnProjectsDailyCost {
   /**
    * @param creditsUsed the creditsUsed to set
    */
-  public void setCreditsUsed(int creditsUsed) {
+  public void setCreditsUsed(float creditsUsed) {
     this.creditsUsed = creditsUsed;
   }
 
