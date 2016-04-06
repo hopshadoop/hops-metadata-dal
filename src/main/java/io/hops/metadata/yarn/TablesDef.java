@@ -111,6 +111,14 @@ public class TablesDef {
     public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
+  public static interface JustFinishedContainersTableDef {
+
+    public static final String TABLE_NAME = "yarn_just_finished_containers";
+    public static final String CONTAINERID = "containerid";
+    public static final String APPATTEMPTID = "appattemptid";
+    public static final String CONTAINER = "container";
+  }
+
   public static interface LaunchedContainersTableDef {
 
     public static final String TABLE_NAME = "yarn_launchedcontainers";
