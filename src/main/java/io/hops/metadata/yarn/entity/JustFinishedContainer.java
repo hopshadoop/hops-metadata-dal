@@ -13,22 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.entity;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import java.util.List;
-import java.util.Map;
 
-/**
- *
- * @author gautier
- */
-public interface ContainersCheckPointsDataAccess<T> extends EntityDataAccess {
+public class JustFinishedContainer {
+  private final String containerId;
+  private final String appAttemptId;
+  private final byte[] container;
 
-  public Map<String, T> getAll() throws StorageException;
+  public JustFinishedContainer(String containerId, String appAttemptId,
+          byte[] container) {
+    this.containerId = containerId;
+    this.appAttemptId = appAttemptId;
+    this.container = container;
+  }
 
-  public void addAll(List<T> YarnProjectsDailyCost) throws StorageException;
+  public String getContainerId() {
+    return containerId;
+  }
 
-  public void removeAll(List<T> YarnProjectsDailyCost) throws StorageException;
+  public String getAppAttemptId() {
+    return appAttemptId;
+  }
+
+  public byte[] getContainer() {
+    return container;
+  }
+  
+  
 }

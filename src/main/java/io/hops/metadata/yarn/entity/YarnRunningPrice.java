@@ -13,29 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.hops.metadata.yarn.entity;
 
-public class ContainerCheckPoint {
-  private final String containerId;
-  private final long checkPoint;
+public class YarnRunningPrice {
+
+  private final PriceType type;
+  private final long time;
   private final float price;
 
-  public ContainerCheckPoint(String containerId, long checkPoint, float price) {
-    this.containerId = containerId;
-    this.checkPoint = checkPoint;
+  public enum PriceType{
+    VARIABLE;
+  }
+  public YarnRunningPrice(PriceType type, long time, float price) {
+    this.type = type;
+    this.time = time;
     this.price = price;
   }
 
-  public String getContainerId() {
-    return containerId;
+  public PriceType getId() {
+    return type;
   }
 
-  public long getCheckPoint() {
-    return checkPoint;
+  public long getTime() {
+    return time;
   }
-  
+
   public float getPrice() {
     return price;
   }
+  
+  @Override
+  public String toString() {
+    return "YarnProjectsQuota{" + "type=" + type + ", time=" + time + ", price="
+            + price + " }";
+  }
+
 }
