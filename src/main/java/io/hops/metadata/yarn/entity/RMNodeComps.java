@@ -27,7 +27,6 @@ public class RMNodeComps {
   private final Node hopNode;
   private final NodeHBResponse hopNodeHBResponse;
   private final Resource hopResource;
-  private final List<JustLaunchedContainers> hopJustLaunchedContainers;
   //hopUpdatedContainerInfo are grouped by updatedContainerInfoId
   private final List<UpdatedContainerInfo> hopUpdatedContainerInfo;
   private final List<ContainerId> hopContainerIdsToClean;
@@ -40,7 +39,6 @@ public class RMNodeComps {
           Node hopNode,
           NodeHBResponse hopNodeHBResponse, Resource hopResource,
           PendingEvent hopPendingEvent,
-          List<JustLaunchedContainers> hopJustLaunchedContainers,
           List<UpdatedContainerInfo> hopUpdatedContainerInfo,
           List<ContainerId> hopContainerIdsToClean,
           List<FinishedApplications> hopFinishedApplications,
@@ -51,7 +49,6 @@ public class RMNodeComps {
     this.hopNodeHBResponse = hopNodeHBResponse;
     this.hopResource = hopResource;
     this.hopPendingEvent = hopPendingEvent;
-    this.hopJustLaunchedContainers = hopJustLaunchedContainers;
     this.hopUpdatedContainerInfo = hopUpdatedContainerInfo;
     this.hopContainerIdsToClean = hopContainerIdsToClean;
     this.hopFinishedApplications = hopFinishedApplications;
@@ -78,10 +75,6 @@ public class RMNodeComps {
 
   public Resource getHopResource() {
     return hopResource;
-  }
-
-  public List<JustLaunchedContainers> getHopJustLaunchedContainers() {
-    return hopJustLaunchedContainers;
   }
 
   public List<UpdatedContainerInfo> getHopUpdatedContainerInfo() {
