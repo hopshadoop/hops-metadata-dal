@@ -28,7 +28,6 @@ public class RMNode implements Comparable<RMNode> {
   private final String currentState;
   private final String nodemanagerVersion;
   private final int overcommittimeout;
-  private final int uciId;
   private final int pendingEventId;
 
   public RMNode(String nodeId) {
@@ -43,7 +42,6 @@ public class RMNode implements Comparable<RMNode> {
     this.currentState = null;
     this.nodemanagerVersion = null;
     this.overcommittimeout = -1;
-    this.uciId = -1;
     this.pendingEventId = 0;
   }
 
@@ -51,7 +49,7 @@ public class RMNode implements Comparable<RMNode> {
           String nodeAddress, String httpAddress, String healthReport,
           long lastHealthReportTime, String currentState,
           String nodemanagerVersion,
-          int overcommittimeout, int uciId, int pendingId) {
+          int overcommittimeout, int pendingId) {
     this.nodeId = nodeId;
     this.hostName = hostName;
     this.commandPort = commandPort;
@@ -63,7 +61,6 @@ public class RMNode implements Comparable<RMNode> {
     this.currentState = currentState;
     this.nodemanagerVersion = nodemanagerVersion;
     this.overcommittimeout = overcommittimeout;
-    this.uciId = uciId;
     this.pendingEventId = pendingId;
   }
 
@@ -109,10 +106,6 @@ public class RMNode implements Comparable<RMNode> {
 
   public String getCurrentState() {
     return currentState;
-  }
-
-  public int getUciId() {
-    return uciId;
   }
 
   public int getPendingEventId() {
