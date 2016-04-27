@@ -36,7 +36,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   }
 
   public INode(int id, String name, int parentId, boolean dirWithQuota,
-      long modificationTime, long accessTime, byte[] userID, byte[]
+      long modificationTime, long accessTime, int userID, int
       groupID, short permission, boolean underConstruction, String clientName,
       String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
