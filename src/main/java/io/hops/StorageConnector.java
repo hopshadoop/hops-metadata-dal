@@ -36,7 +36,7 @@ public interface StorageConnector<T> {
   
   public boolean formatYarnStorageNonTransactional() throws StorageException;
   
-  public boolean formatAllStorage() throws StorageException;
+  public boolean formatStorage() throws StorageException;
   
   public boolean formatYarnStorage() throws StorageException;
   
