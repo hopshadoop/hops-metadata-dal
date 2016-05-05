@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface UserGroupDataAccess<U,G> extends EntityDataAccess{
   void addUserToGroup(U user, G group) throws StorageException;
-  void addUserToGroup(byte[] userId, byte[] groupId) throws StorageException;
+  void addUserToGroup(int userId, int groupId) throws StorageException;
   List<G> getGroupsForUser(U user) throws StorageException;
-  List<G> getGroupsForUser(byte[] userId) throws StorageException;
+  List<G> getGroupsForUser(int userId) throws StorageException;
 }

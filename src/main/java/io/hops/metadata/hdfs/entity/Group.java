@@ -16,15 +16,15 @@
 package io.hops.metadata.hdfs.entity;
 
 public final class Group {
-  private final byte[] id;
+  private final int id;
   private final String name;
 
-  public Group(byte[] id, String name) {
+  public Group(int id, String name) {
     this.id = id;
     this.name = name;
   }
 
-  public byte[] getId() {
+  public int getId() {
     return id;
   }
 

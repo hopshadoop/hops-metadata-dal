@@ -20,7 +20,8 @@ public class ProjectedINode extends INodeBase implements
   private boolean symlink;
 
   public ProjectedINode(int id, int parentId, String name, short permission,
-      byte[] userID, byte[] groupID, long header, boolean symlink, boolean dirWithQuota, boolean
+      int userID, int groupID, long header, boolean symlink, boolean
+      dirWithQuota, boolean
       underConstruction, boolean subtreeLocked, long subtreeLockOwner, long fileSize) {
     super(id, parentId, name, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner, fileSize);

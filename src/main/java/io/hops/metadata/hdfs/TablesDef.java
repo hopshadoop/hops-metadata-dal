@@ -51,13 +51,13 @@ public class TablesDef {
   public static interface UsersTableDef {
     public static final String TABLE_NAME = "hdfs_users";
     public static final String ID = "id";
-    public static final String Name = "name";
+    public static final String NAME = "name";
   }
 
   public static interface GroupsTableDef {
     public static final String TABLE_NAME = "hdfs_groups";
     public static final String ID = "id";
-    public static final String Name = "name";
+    public static final String NAME = "name";
   }
 
   public static interface UsersGroupsTableDef {
