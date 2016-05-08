@@ -20,7 +20,9 @@ import io.hops.metadata.common.FinderType;
 public class MetadataLogEntry {
   private int datasetId;
   private int inodeId;
-  private int logicalTime;
+  private int inodeParentId;
+  private String inodeName;
+  private long timestamp;
   private Operation operation;
 
   public enum Operation {
@@ -50,15 +52,20 @@ public class MetadataLogEntry {
     }
   }
 
-  public MetadataLogEntry(int datasetId, int inodeId, Operation operation) {
-    this(datasetId, inodeId, 0, operation);
+  public MetadataLogEntry(int datasetId, int inodeId, int inodeParentId,
+      String inodeName, Operation
+      operation) {
+    this(datasetId, inodeId, inodeParentId, inodeName, 0, operation);
+    updateTimestamp();
   }
 
-  public MetadataLogEntry(int datasetId, int inodeId, int logicalTime,
-      Operation operation) {
+  public MetadataLogEntry(int datasetId, int inodeId, int inodeParentId,
+      String inodeName, long timestamp, Operation operation) {
     this.datasetId = datasetId;
     this.inodeId = inodeId;
-    this.logicalTime = logicalTime;
+    this.inodeParentId = inodeParentId;
+    this.inodeName = inodeName;
+    this.timestamp = timestamp;
     this.operation = operation;
   }
 
@@ -78,16 +85,13 @@ public class MetadataLogEntry {
     this.inodeId = inodeId;
   }
 
-  public int getLogicalTime() {
-    return logicalTime;
+  public long getTimestamp() {
+    return timestamp;
   }
 
-  public void setLogicalTime(int logicalTime) {
-    this.logicalTime = logicalTime;
-  }
-
-  public void incrementLogicalTime() {
-    this.logicalTime++;
+  public long updateTimestamp() {
+    this.timestamp = System.currentTimeMillis();
+    return timestamp;
   }
 
   public Operation getOperation() {
@@ -101,5 +105,21 @@ public class MetadataLogEntry {
   public void setOperation(
       Operation operation) {
     this.operation = operation;
+  }
+
+  public int getInodeParentId() {
+    return inodeParentId;
+  }
+
+  public void setInodeParentId(int inodeParentId) {
+    this.inodeParentId = inodeParentId;
+  }
+
+  public String getInodeName() {
+    return inodeName;
+  }
+
+  public void setInodeName(String inodeName) {
+    this.inodeName = inodeName;
   }
 }
