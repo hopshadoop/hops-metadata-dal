@@ -20,6 +20,11 @@ public class Container implements Comparable<Container>{
   private final String containerId;
   private final byte[] containerstate;
 
+  public Container(String containerId) {
+    this.containerId = containerId;
+    this.containerstate = null;
+  }
+  
   public Container(String containerId, byte[] containerstate) {
     this.containerId = containerId;
     this.containerstate = containerstate;

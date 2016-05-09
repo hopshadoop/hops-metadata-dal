@@ -88,8 +88,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
         locksAcquirer.acquire();
 
-        log.debug("Update logical time phase started");
-        updatedLogicalTime();
+        log.debug("Update timestamp phase started");
+        updatedTimestamp();
         
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -214,7 +214,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     throw new RuntimeException("TransactionalRequestHandler did not execute");
   }
 
-  private void updatedLogicalTime()
+  private void updatedTimestamp()
       throws TransactionContextException, StorageException {
     if (!previousLogEntries.isEmpty()) {
       EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING,

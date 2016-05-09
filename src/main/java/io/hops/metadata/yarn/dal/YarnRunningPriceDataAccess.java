@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity;
+package io.hops.metadata.yarn.dal;
 
-public class FiCaSchedulerAppContainer {
-  private final String schedulerapp_id;
-  private final String rmcontainer_id;
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.yarn.entity.YarnRunningPrice;
+import java.util.Map;
 
-  public FiCaSchedulerAppContainer(String schedulerapp_id,
-      String rmcontainer_id) {
-    this.schedulerapp_id = schedulerapp_id;
-    this.rmcontainer_id = rmcontainer_id;
-  }
+public interface YarnRunningPriceDataAccess<T> extends EntityDataAccess {
 
-  public String getSchedulerapp_id() {
-    return schedulerapp_id;
-  }
+  Map<YarnRunningPrice.PriceType, T> getAll() throws
+          StorageException;
 
-  public String getRmcontainer_id() {
-    return rmcontainer_id;
-  }
+  void add(T YarnRunningPrice) throws StorageException;
+
 }

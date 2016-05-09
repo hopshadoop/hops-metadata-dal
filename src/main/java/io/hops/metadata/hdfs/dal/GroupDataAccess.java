@@ -21,7 +21,7 @@ import io.hops.metadata.common.EntityDataAccess;
 import java.util.Collection;
 
 public interface GroupDataAccess<T> extends EntityDataAccess{
-  T getGroup(byte[] id) throws StorageException;
-  void addGroup(T group) throws StorageException;
-  Collection<T> getGroups(Collection<byte[]> ids) throws StorageException;
+  T getGroup(int groupId) throws StorageException;
+  T getGroup(String groupName) throws StorageException;
+  T addGroup(String groupName) throws StorageException;
 }

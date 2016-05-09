@@ -20,8 +20,8 @@ public class INodeBase {
   protected int id;
   protected int parentId;
   protected String name;
-  protected byte[] userID;
-  protected byte[] groupID;
+  protected int userID;
+  protected int groupID;
   protected String userName;
   protected String groupName;
   protected short permission;
@@ -35,8 +35,8 @@ public class INodeBase {
   public INodeBase(){
   }
 
-  public INodeBase(int id, int parentId, String name, byte[] userID,
-      byte[] groupID, short permission, long header, boolean dirWithQuota,
+  public INodeBase(int id, int parentId, String name, int userID,
+      int groupID, short permission, long header, boolean dirWithQuota,
       boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner, long fileSize) {
     this.id = id;
     this.parentId = parentId;
@@ -76,19 +76,19 @@ public class INodeBase {
     this.name = name;
   }
 
-  public byte[] getUserID() {
+  public int getUserID() {
     return userID;
   }
 
-  public void setUserID(byte[] userID) {
+  public void setUserID(int userID) {
     this.userID = userID;
   }
 
-  public byte[] getGroupID() {
+  public int getGroupID() {
     return groupID;
   }
 
-  public void setGroupID(byte[] groupID) {
+  public void setGroupID(int groupID) {
     this.groupID = groupID;
   }
 

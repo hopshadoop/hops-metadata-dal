@@ -17,22 +17,13 @@ package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.FiCaSchedulerAppContainer;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
+import io.hops.metadata.yarn.entity.YarnHistoryPrice;
 import java.util.Map;
 
-public interface FiCaSchedulerAppNewlyAllocatedContainersDataAccess<T>
-    extends EntityDataAccess {
-  List<T> findById(String ficaId) throws StorageException;
+public interface YarnHistoryPriceDataAccess<T> extends EntityDataAccess {
 
-  Map<String, List<FiCaSchedulerAppContainer>> getAll()
-      throws IOException;
+  Map<Long, YarnHistoryPrice> getAll() throws StorageException;
 
-  void addAll(Collection<T> toAdd) throws StorageException;
-
-  void removeAll(Collection<T> toRemove) throws StorageException;
-
+  void add(T YarnHistoryPrice) throws StorageException;
+  
 }

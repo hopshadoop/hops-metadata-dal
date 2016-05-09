@@ -51,13 +51,13 @@ public class TablesDef {
   public static interface UsersTableDef {
     public static final String TABLE_NAME = "hdfs_users";
     public static final String ID = "id";
-    public static final String Name = "name";
+    public static final String NAME = "name";
   }
 
   public static interface GroupsTableDef {
     public static final String TABLE_NAME = "hdfs_groups";
     public static final String ID = "id";
-    public static final String Name = "name";
+    public static final String NAME = "name";
   }
 
   public static interface UsersGroupsTableDef {
@@ -241,7 +241,9 @@ public class TablesDef {
     public static final String TABLE_NAME = "hdfs_metadata_log";
     public static final String DATASET_ID = "dataset_id";
     public static final String INODE_ID = "inode_id";
-    public static final String LOGICAL_TIME = "logical_time";
+    public static final String TIMESTAMP = "timestamp";
+    public static final String INODE_PID = "inode_pid";
+    public static final String INODE_NAME = "inode_name";
     public static final String OPERATION = "operation";
   }
 

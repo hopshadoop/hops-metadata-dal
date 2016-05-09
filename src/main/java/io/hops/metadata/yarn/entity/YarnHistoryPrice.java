@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal;
+package io.hops.metadata.yarn.entity;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.yarn.entity.Container;
+public class YarnHistoryPrice {
 
-import java.util.Collection;
-import java.util.Map;
+  private final long time;
+  private final float price;
 
-public interface ContainerDataAccess<T> extends EntityDataAccess {
-
-  Map<String, Container> getAll() throws StorageException;
-
-  void addAll(Collection<T> toAdd) throws StorageException;
+  public YarnHistoryPrice( long time, float price) {    
+    this.time = time;
+    this.price = price;
+  }
   
-  void removeAll(Collection<T> toAdd) throws StorageException;
+  public long getTime() {
+    return time;
+  }
 
-  void createContainer(T container) throws StorageException;
+  public float getPrice() {
+    return price;
+  }
+  
+  @Override
+  public String toString() {
+    return "YarnProjectsQuota{time=" + time + ", price=" + price + " }";
+  }
+  
 }

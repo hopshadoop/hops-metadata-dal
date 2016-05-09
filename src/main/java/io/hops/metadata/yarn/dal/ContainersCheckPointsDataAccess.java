@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public interface ContainersCheckPointsDataAccess<T> extends EntityDataAccess {
 
-  public Map<String, Long> getAll() throws StorageException;
+  public Map<String, T> getAll() throws StorageException;
 
   public void addAll(List<T> YarnProjectsDailyCost) throws StorageException;
 

@@ -21,7 +21,7 @@ import io.hops.metadata.common.EntityDataAccess;
 import java.util.Collection;
 
 public interface UserDataAccess<T> extends EntityDataAccess{
-  T getUser(byte[] id) throws StorageException;
-  void addUser(T user) throws StorageException;
-  Collection<T> getUsers(Collection<byte[]> ids) throws StorageException;
+  T getUser(int userId) throws StorageException;
+  T getUser(String username) throws StorageException;
+  T addUser(String userName) throws StorageException;
 }
