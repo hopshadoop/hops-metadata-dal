@@ -16,4 +16,6 @@ public interface CompletedContainersStatusDataAccess<T> extends EntityDataAccess
   public void update(Collection<T> entry) throws StorageException;
   
   public Map<String, List<byte[]>> getAll() throws StorageException;
+
+  public void removeAll(Collection<T> entries) throws StorageException;
 }
