@@ -239,6 +239,7 @@ public class TablesDef {
   public static interface MetadataLogTableDef {
 
     public static final String TABLE_NAME = "hdfs_metadata_log";
+    public static final String LOOKUP_TABLE_NAME = "hdfs_inode_dataset_lookup";
     public static final String DATASET_ID = "dataset_id";
     public static final String INODE_ID = "inode_id";
     public static final String TIMESTAMP = "timestamp";
