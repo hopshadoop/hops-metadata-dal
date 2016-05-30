@@ -21,22 +21,26 @@ import io.hops.metadata.common.EntityDataAccess;
 import java.util.Collection;
 import java.util.List;
 
-public interface CorruptReplicaDataAccess<T> extends EntityDataAccess {
+public interface StorageDataAccess<T> extends EntityDataAccess {
 
-  int countAll() throws StorageException;
+  void prepare(Collection<T> modified,
+      Collection<T> removed) throws StorageException;
 
-  int countAllUniqueBlk() throws StorageException;
+  void add(T s) throws StorageException;
 
-  T findByPk(long blockId, int sid, int inodeId) throws StorageException;
+  /**
+   * Returns a single entry of the storage. Note that the storageId is a
+   * primary key.
+   */
+  T findByPk(int sid) throws StorageException;
 
-  List<T> findAll() throws StorageException;
+  /**
+   * Returns a list of storages on the given host.
+   */
+  List<T> findByHostUuid(String uuid) throws StorageException;
 
-  List<T> findByBlockId(long blockId, int inodeId) throws StorageException;
-  
-  List<T> findByINodeId(int inodeId) throws StorageException;
-  
-  List<T> findByINodeIds(int[] inodeIds) throws StorageException;
-
-  void prepare(Collection<T> removed, Collection<T> newed,
-      Collection<T> modified) throws StorageException;
+  /**
+   * Returns a list of all storages
+   */
+  Collection<T> findAll() throws StorageException;
 }

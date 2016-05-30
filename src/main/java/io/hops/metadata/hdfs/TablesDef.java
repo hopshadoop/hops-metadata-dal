@@ -23,6 +23,13 @@ public class TablesDef {
     String INODE_ID = "inode_id";
   }
 
+  public interface StoragesTableDef {
+    String TABLE_NAME="hdfs_storages";
+    String STORAGE_ID="storage_id";
+    String HOST_ID="host_id";
+    String STORAGE_TYPE="storage_type";
+  }
+  
   public interface INodeTableDef {
     // INode Table Columns
     String TABLE_NAME = "hdfs_inodes";
@@ -50,6 +57,7 @@ public class TablesDef {
     String SIZE = "size";
     String FILE_STORED_IN_DB = "file_stored_in_db";
     String LOGICAL_TIME = "logical_time";
+    String STORAGE_POLICY = "storage_policy";
   }
 
   public interface FileInodeInMemoryData {

@@ -15,31 +15,26 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-public class ReplicaUnderConstruction extends ReplicaBase {
+public class Storage {
+  private final int storage_id;
+  private final String host_id;
+  private final int storage_type;
 
-  private int state;
-  private int bucketId;
-
-  public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId, int bucketId) {
-    super(storageId, blockId, inodeId);
-    this.state = state;
-    this.bucketId = bucketId;
+  public Storage(int storage_id, String host_id, int storage_type) {
+    this.storage_id = storage_id;
+    this.host_id = host_id;
+    this.storage_type = storage_type;
   }
 
-  public int getState() {
-    return state;
+  public int getStorageID() {
+    return storage_id;
   }
 
-  public void setState(int state) {
-    this.state = state;
+  public String getHostID() {
+    return host_id;
   }
-  
-  public int getBucketId() {
-    return bucketId;
-  }
-  
-  public void setBucketId(int bucketId) {
-    this.bucketId = bucketId;
+
+  public int getStorageType() {
+    return storage_type;
   }
 }
