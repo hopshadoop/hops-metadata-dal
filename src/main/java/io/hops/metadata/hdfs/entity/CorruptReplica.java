@@ -43,10 +43,9 @@ public class CorruptReplica extends ReplicaBase {
           throw new IllegalStateException();
       }
     }
-
   }
 
-  public CorruptReplica(long blockId, int storageId, int inodeId) {
-    super(storageId, blockId, inodeId);
+  public CorruptReplica(int sid, long blockId, int inodeId) {
+    super(sid, blockId, inodeId);
   }
 }

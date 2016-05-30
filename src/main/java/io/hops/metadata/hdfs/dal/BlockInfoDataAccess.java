@@ -37,10 +37,19 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
   List<T> findAllBlocks() throws StorageException;
 
   List<T> findBlockInfosByStorageId(int storageId) throws StorageException;
-  
+
+  /**
+   * Returns a list of all blocks stored on a set of storages.
+   *
+   * Beware; running this for a big datanode requires a lot of memory
+   */
+  List<T> findBlockInfosBySids(List<Integer> sids) throws StorageException;
+
   Set<Long> findINodeIdsByStorageId(int storageId) throws StorageException;
   
   List<T> findByIds(long[] blockIds, int[] inodeIds) throws StorageException;
+
+  boolean existsOnAnyStorage(long blockId, List<Integer> sids) throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
