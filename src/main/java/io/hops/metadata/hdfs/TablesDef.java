@@ -23,6 +23,13 @@ public class TablesDef {
     public static final String INODE_ID = "inode_id";
   }
 
+  public static interface StoragesTableDef {
+    public static final String TABLE_NAME="hdfs_storages";
+    public static final String STORAGE_ID="storage_id";
+    public static final String HOST_ID="host_id";
+    public static final String STORAGE_TYPE="storage_type";
+  }
+
   public static interface INodeTableDef {
     // INode Table Columns
     public static final String TABLE_NAME = "hdfs_inodes";
@@ -46,6 +53,7 @@ public class TablesDef {
     public static final String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
     public static final String META_ENABLED = "meta_enabled";
     public static final String SIZE = "size";
+    public static final String STORAGE_POLICY = "storage_policy";
   }
 
   public static interface UsersTableDef {
@@ -68,14 +76,12 @@ public class TablesDef {
 
   public static interface BlockChecksumTableDef {
     public static final String TABLE_NAME = "hdfs_block_checksum";
-
     public static final String INODE_ID = "inode_id";
     public static final String BLOCK_INDEX = "block_index";
     public static final String CHECKSUM = "checksum";
   }
 
   public static interface CorruptReplicaTableDef {
-
     public static final String TABLE_NAME = "hdfs_corrupt_replicas";
     public static final String BLOCK_ID = "block_id";
     public static final String INODE_ID = "inode_id";
@@ -84,7 +90,6 @@ public class TablesDef {
   }
 
   public static interface INodeAttributesTableDef {
-
     public static final String TABLE_NAME = "hdfs_inode_attributes";
     public static final String ID = "inodeId";
     public static final String NSQUOTA = "nsquota";
@@ -94,7 +99,6 @@ public class TablesDef {
   }
 
   public static interface ExcessReplicaTableDef {
-
     public static final String TABLE_NAME = "hdfs_excess_replicas";
     public static final String BLOCK_ID = "block_id";
     public static final String INODE_ID = "inode_id";
@@ -104,7 +108,6 @@ public class TablesDef {
   }
 
   public static interface BlockInfoTableDef {
-
     public static final String TABLE_NAME = "hdfs_block_infos";
     public static final String BLOCK_ID = "block_id";
     public static final String BLOCK_INDEX = "block_index";
@@ -153,18 +156,16 @@ public class TablesDef {
   }
 
   public static interface InvalidatedBlockTableDef {
-
     public static final String TABLE_NAME = "hdfs_invalidated_blocks";
+    public static final String INODE_ID = "inode_id";
     public static final String BLOCK_ID = "block_id";
     public static final String STORAGE_ID = "storage_id";
     public static final String STORAGE_IDX = "storage_idx";
-    public static final String INODE_ID = "inode_id";
     public static final String GENERATION_STAMP = "generation_stamp";
     public static final String NUM_BYTES = "num_bytes";
   }
 
   public static interface MisReplicatedRangeQueueTableDef {
-
     public static final String TABLE_NAME = "hdfs_misreplicated_range_queue";
     public static final String RANGE = "range";
   }

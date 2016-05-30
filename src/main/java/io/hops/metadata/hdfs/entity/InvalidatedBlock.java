@@ -24,8 +24,8 @@ public class InvalidatedBlock extends ReplicaBase {
     ByBlockIdAndINodeId,
     ByINodeId,
     ByINodeIds,
-    ByBlockIdStorageIdAndINodeId,
-    ByStorageId,
+    ByBlockIdSidAndINodeId,
+    BySid,
     All;
 
     @Override
@@ -42,9 +42,9 @@ public class InvalidatedBlock extends ReplicaBase {
           return Annotation.PrunedIndexScan;
         case ByINodeIds:
           return Annotation.BatchedPrunedIndexScan;
-        case ByBlockIdStorageIdAndINodeId:
+        case ByBlockIdSidAndINodeId:
           return Annotation.PrimaryKey;
-        case ByStorageId:
+        case BySid:
           return Annotation.IndexScan;
         case All:
           return Annotation.FullTable;
@@ -52,20 +52,18 @@ public class InvalidatedBlock extends ReplicaBase {
           throw new IllegalStateException();
       }
     }
-
   }
 
   private long generationStamp;
   private long numBytes;
-  
 
-  public InvalidatedBlock(int storageId, long blockId, int inodeId) {
-    super(storageId, blockId, inodeId);
+  public InvalidatedBlock(int sid, long blockId, int inodeId) {
+    super(sid, blockId, inodeId);
   }
 
-  public InvalidatedBlock(int storageId, long blockId, long generationStamp,
-      long numBytes, int inodeId) {
-    super(storageId, blockId, inodeId);
+  public InvalidatedBlock(int sid, long blockId,
+      long  generationStamp, long numBytes, int inodeId) {
+    super(sid, blockId, inodeId);
     this.generationStamp = generationStamp;
     this.numBytes = numBytes;
   }
