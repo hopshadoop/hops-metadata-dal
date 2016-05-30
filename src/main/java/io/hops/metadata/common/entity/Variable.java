@@ -42,6 +42,7 @@ public abstract class Variable {
     BTNextKey,
     BTSimpleKey,
     SIdCounter,
+    StorageMap, // TODO do we need this?
     HdfsLeParams,
     YarnLeParams,
     MisReplicatedFilesIndex,

@@ -115,5 +115,13 @@ public abstract class ReplicaBase implements Comparable<ReplicaBase> {
       }
     }
   }
-  
+
+  @Override
+  public String toString() {
+    return "ReplicaBase{" +
+        "storageId=" + storageId +
+        ", blockId=" + blockId +
+        ", inodeId=" + inodeId +
+        '}';
+  }
 }

@@ -21,10 +21,11 @@ public class ProjectedINode extends INodeBase implements
 
   public ProjectedINode(int id, int parentId, String name, short permission,
       int userID, int groupID, long header, boolean symlink, boolean
-      dirWithQuota, boolean
-      underConstruction, boolean subtreeLocked, long subtreeLockOwner, long fileSize) {
+      dirWithQuota, boolean underConstruction, boolean subtreeLocked,
+      long subtreeLockOwner, long fileSize, byte storagePolicy) {
     super(id, parentId, name, userID, groupID, permission, header,
-        dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner, fileSize);
+        dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
+        fileSize, storagePolicy);
     this.symlink = symlink;
   }
 
