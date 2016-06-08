@@ -47,6 +47,7 @@ public abstract class Lock implements Comparable<Lock> {
    */
   public static enum Type {
     INode,
+    INodeAttribute,//Used only for root level single snapshots.
     Block,
     NameNodeLease,
     Lease,
