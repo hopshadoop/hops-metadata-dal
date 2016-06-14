@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.capacity;
+package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.yarn.entity.YarnRunningPrice;
+import java.util.Map;
 
-import java.util.Collection;
+public interface YarnRunningPriceDataAccess<T> extends EntityDataAccess {
 
-public interface FiCaSchedulerAppLastScheduledContainerDataAccess<T>
-    extends EntityDataAccess {
-  T findById(int id) throws StorageException;
+  Map<YarnRunningPrice.PriceType, T> getAll() throws
+          StorageException;
 
-  void prepare(Collection<T> modified, Collection<T> removed)
-      throws StorageException;
+  void add(T YarnRunningPrice) throws StorageException;
+
 }

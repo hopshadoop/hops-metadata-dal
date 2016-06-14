@@ -27,6 +27,8 @@ public interface ContainerDataAccess<T> extends EntityDataAccess {
   Map<String, Container> getAll() throws StorageException;
 
   void addAll(Collection<T> toAdd) throws StorageException;
+  
+  void removeAll(Collection<T> toAdd) throws StorageException;
 
   void createContainer(T container) throws StorageException;
 }

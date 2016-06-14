@@ -18,6 +18,7 @@ package io.hops.metadata.yarn.dal;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.yarn.entity.NodeHBResponse;
+import java.util.Collection;
 
 import java.util.Map;
 
@@ -27,6 +28,6 @@ public interface NodeHBResponseDataAccess<T> extends EntityDataAccess {
 
   Map<String, NodeHBResponse> getAll() throws StorageException;
 
-  void add(T toAdd) throws StorageException;
+  void addAll(Collection<T> toAdd) throws StorageException;
 
 }

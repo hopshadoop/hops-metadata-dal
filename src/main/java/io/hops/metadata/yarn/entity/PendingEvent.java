@@ -17,37 +17,32 @@ package io.hops.metadata.yarn.entity;
 
 public class PendingEvent implements Comparable<PendingEvent> {
 
-  private final String rmnodeId;
-  private final byte type;
-  private final byte status;
-  //Used to order the events when retrieved by scheduler
-  private final int id;
+  private PendingEventID id;
+  private final int type;
+  private final int status;
 
-  public PendingEvent(String rmnodeId, byte type, byte status, int id) {
-    this.rmnodeId = rmnodeId;
+  
+  public PendingEvent(String rmnodeId, int type, int status, int id) {
     this.type = type;
     this.status = status;
-    this.id = id;
+    this.id = new PendingEventID(id, rmnodeId);
   }
 
+  public PendingEvent(PendingEvent pendingEvent) {
+    this.type = pendingEvent.getType();
+    this.status = pendingEvent.getStatus();
+    this.id = new PendingEventID(pendingEvent.getId().getEventId(),
+            pendingEvent.getId().getNodeId());
+  }
+  
   /**
    * Returns the globally unique id of the pending event.
    * <p/>
    *
    * @return
    */
-  public int getId() {
+  public PendingEventID getId() {
     return id;
-  }
-
-  /**
-   * Returns the RMNode id for which the event will be triggered.
-   * <p/>
-   *
-   * @return
-   */
-  public String getRmnodeId() {
-    return rmnodeId;
   }
 
   /**
@@ -56,7 +51,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public byte getType() {
+  public int getType() {
     return type;
   }
 
@@ -66,20 +61,20 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public byte getStatus() {
+  public int getStatus() {
     return status;
   }
 
   @Override
   public String toString() {
-    return "HopPendingEvent{" + "rmnodeId=" + rmnodeId + ", type=" + type +
-        ", status=" + status + ", id=" + id + '}';
+    return "HopPendingEvent{" + "rmnodeId=" + id.getNodeId() + ", type=" + type +
+        ", status=" + status + ", id=" + id.getEventId() + '}';
   }
 
   @Override
   public int hashCode() {
     int hash = 3;
-    hash = 53 * hash + this.id;
+    hash = 53 * hash + this.id.hashCode();
     return hash;
   }
 
@@ -92,7 +87,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
       return false;
     }
     final PendingEvent other = (PendingEvent) obj;
-    if (this.id != other.id) {
+    if (!this.id.equals(other.id)) {
       return false;
     }
     return true;
@@ -101,10 +96,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
 
   @Override
   public int compareTo(PendingEvent o) {
-    if (o == null) {
-      throw new NullPointerException("HopPendingEvent was null");
-    }
-    return this.id - o.getId();
+    return this.id.compareTo(o.getId());
   }
 
 }

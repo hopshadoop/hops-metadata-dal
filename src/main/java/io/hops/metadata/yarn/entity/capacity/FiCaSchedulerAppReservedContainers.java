@@ -18,11 +18,11 @@ package io.hops.metadata.yarn.entity.capacity;
 public class FiCaSchedulerAppReservedContainers {
   private final String schedulerapp_id;
   private final int priority_id;
-  private final int nodeid;
+  private final String nodeid;
   private final String rmcontainer_id;
 
   public FiCaSchedulerAppReservedContainers(String schedulerapp_id,
-      int priority_id, int nodeid, String rmcontainer_id) {
+      int priority_id, String nodeid, String rmcontainer_id) {
     this.schedulerapp_id = schedulerapp_id;
     this.priority_id = priority_id;
     this.nodeid = nodeid;
@@ -37,7 +37,7 @@ public class FiCaSchedulerAppReservedContainers {
     return priority_id;
   }
 
-  public int getNodeid() {
+  public String getNodeid() {
     return nodeid;
   }
 

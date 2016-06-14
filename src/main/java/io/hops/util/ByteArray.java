@@ -13,23 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity;
+package io.hops.util;
 
-public class FiCaSchedulerAppNewlyAllocatedContainers {
-  private final String schedulerapp_id;
-  private final String rmcontainer_id;
+import java.util.Arrays;
 
-  public FiCaSchedulerAppNewlyAllocatedContainers(String schedulerapp_id,
-      String rmcontainer_id) {
-    this.schedulerapp_id = schedulerapp_id;
-    this.rmcontainer_id = rmcontainer_id;
+public class ByteArray {
+  private int hash = 0;
+  private final byte[] bytes;
+
+  public ByteArray(byte[] bytes) {
+    this.bytes = bytes;
   }
 
-  public String getSchedulerapp_id() {
-    return schedulerapp_id;
+  public byte[] getBytes() {
+    return bytes;
   }
 
-  public String getRmcontainer_id() {
-    return rmcontainer_id;
+  @Override
+  public int hashCode() {
+    if (hash == 0) {
+      hash = Arrays.hashCode(bytes);
+    }
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ByteArray)) {
+      return false;
+    }
+    return Arrays.equals(bytes, ((ByteArray) o).bytes);
   }
 }

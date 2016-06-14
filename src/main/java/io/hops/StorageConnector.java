@@ -32,13 +32,17 @@ public interface StorageConnector<T> {
 
   public void rollback() throws StorageException;
 
-  public boolean formatStorageNonTransactional() throws StorageException;
+  public boolean formatAllStorageNonTransactional() throws StorageException;
+  
+  public boolean formatYarnStorageNonTransactional() throws StorageException;
   
   public boolean formatStorage() throws StorageException;
   
+  public boolean formatYarnStorage() throws StorageException;
+  
   public boolean formatStorage(Class<? extends EntityDataAccess>... das)
       throws StorageException;
-  
+    
   public boolean isTransactionActive() throws StorageException;
 
   public void stopStorage() throws StorageException;
@@ -53,4 +57,10 @@ public interface StorageConnector<T> {
       throws StorageException;
   
   public void dropAndRecreateDB() throws StorageException;
+  
+  public void flush() throws StorageException;
+  
+   public String getClusterConnectString();
+
+  public String getDatabaseName();
 }

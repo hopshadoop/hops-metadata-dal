@@ -13,17 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.capacity;
+package io.hops.metadata.yarn.entity;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
+public class SchedulerAppReservations {
 
-import java.util.Collection;
+  private final String schedulerapp_id;
+  private final int priority_id;
+  private final int counter;
 
-public interface FiCaSchedulerAppReservationsDataAccess<T>
-    extends EntityDataAccess {
-  T findById(int id) throws StorageException;
+  public SchedulerAppReservations(String schedulerapp_id, int priority_id,
+          int counter) {
+    this.schedulerapp_id = schedulerapp_id;
+    this.priority_id = priority_id;
+    this.counter = counter;
+  }
 
-  void prepare(Collection<T> modified, Collection<T> removed)
-      throws StorageException;
+  public String getSchedulerapp_id() {
+    return schedulerapp_id;
+  }
+
+  public int getPriority_id() {
+    return priority_id;
+  }
+
+  public int getCounter() {
+    return counter;
+  }
 }

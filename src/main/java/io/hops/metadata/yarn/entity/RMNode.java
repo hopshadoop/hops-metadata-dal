@@ -28,7 +28,7 @@ public class RMNode implements Comparable<RMNode> {
   private final String currentState;
   private final String nodemanagerVersion;
   private final int overcommittimeout;
-  private final int uciId;
+  private final int pendingEventId;
 
   public RMNode(String nodeId) {
     this.nodeId = nodeId;
@@ -42,13 +42,14 @@ public class RMNode implements Comparable<RMNode> {
     this.currentState = null;
     this.nodemanagerVersion = null;
     this.overcommittimeout = -1;
-    this.uciId = -1;
+    this.pendingEventId = 0;
   }
 
   public RMNode(String nodeId, String hostName, int commandPort, int httpPort,
-      String nodeAddress, String httpAddress, String healthReport,
-      long lastHealthReportTime, String currentState, String nodemanagerVersion,
-      int overcommittimeout, int uciId) {
+          String nodeAddress, String httpAddress, String healthReport,
+          long lastHealthReportTime, String currentState,
+          String nodemanagerVersion,
+          int overcommittimeout, int pendingId) {
     this.nodeId = nodeId;
     this.hostName = hostName;
     this.commandPort = commandPort;
@@ -60,7 +61,7 @@ public class RMNode implements Comparable<RMNode> {
     this.currentState = currentState;
     this.nodemanagerVersion = nodemanagerVersion;
     this.overcommittimeout = overcommittimeout;
-    this.uciId = uciId;
+    this.pendingEventId = pendingId;
   }
 
   public String getNodemanagerVersion() {
@@ -107,8 +108,8 @@ public class RMNode implements Comparable<RMNode> {
     return currentState;
   }
 
-  public int getUciId() {
-    return uciId;
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   @Override
@@ -116,16 +117,28 @@ public class RMNode implements Comparable<RMNode> {
     if (o == null) {
       throw new NullPointerException("HOP :: HopRMNode was null");
     }
-    if (this.nodeId.equals(o.getNodeId())) {
-      return 0;
-    } else {
-      return -1;
-    }
+    return this.nodeId.compareTo(o.nodeId);
+    
   }
 
   @Override
   public String toString() {
     return "HopRMNode{" + "nodeId=" + nodeId + '}';
+  }
+
+  @Override
+  public int hashCode() {
+
+    return nodeId.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof RMNode)) {
+      return false;
+    }
+    RMNode other = (RMNode) obj;
+    return nodeId.equals(other.nodeId);
   }
 
 }

@@ -31,6 +31,8 @@ public class TablesDef {
     public static final String PARENT_ID = "parent_id";
     public static final String MODIFICATION_TIME = "modification_time";
     public static final String ACCESS_TIME = "access_time";
+    public static final String USER_ID = "user_id";
+    public static final String GROUP_ID = "group_id";
     public static final String PERMISSION = "permission";
     public static final String CLIENT_NAME = "client_name";
     public static final String CLIENT_MACHINE = "client_machine";
@@ -44,6 +46,24 @@ public class TablesDef {
     public static final String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
     public static final String META_ENABLED = "meta_enabled";
     public static final String SIZE = "size";
+  }
+
+  public static interface UsersTableDef {
+    public static final String TABLE_NAME = "hdfs_users";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+  }
+
+  public static interface GroupsTableDef {
+    public static final String TABLE_NAME = "hdfs_groups";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+  }
+
+  public static interface UsersGroupsTableDef {
+    public static final String TABLE_NAME = "hdfs_users_groups";
+    public static final String USER_ID = "user_id";
+    public static final String GROUP_ID = "group_id";
   }
 
   public static interface BlockChecksumTableDef {
@@ -219,9 +239,12 @@ public class TablesDef {
   public static interface MetadataLogTableDef {
 
     public static final String TABLE_NAME = "hdfs_metadata_log";
+    public static final String LOOKUP_TABLE_NAME = "hdfs_inode_dataset_lookup";
     public static final String DATASET_ID = "dataset_id";
     public static final String INODE_ID = "inode_id";
-    public static final String LOGICAL_TIME = "logical_time";
+    public static final String TIMESTAMP = "timestamp";
+    public static final String INODE_PID = "inode_pid";
+    public static final String INODE_NAME = "inode_name";
     public static final String OPERATION = "operation";
   }
 

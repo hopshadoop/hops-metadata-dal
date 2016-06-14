@@ -31,6 +31,8 @@ public class TablesDef {
     public static final String CONTAINERIDCOUNTER = "containeridcounter";
     public static final String PENDING = "pending";
     public static final String STOPED = "stoped";
+    public static final String USER_NAME = "username";
+    public static final String PROJECT_NAME = "projectname";
   }
 
   public static interface ContainerIdToCleanTableDef {
@@ -38,6 +40,7 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_containerid_toclean";
     public static final String CONTAINERID = "containerid";
     public static final String RMNODEID = "rmnodeid";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface ContainerStatusTableDef {
@@ -47,7 +50,9 @@ public class TablesDef {
     public static final String STATE = "state";
     public static final String DIAGNOSTICS = "diagnostics";
     public static final String EXIT_STATUS = "exitstatus";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
     public static final String RMNODEID = "rmnodeid";
+    public static final String TYPE = "type";
     //State values
     public static final String STATE_RUNNING = "RUNNING";
     public static final String STATE_COMPLETED = "COMPLETE";
@@ -59,18 +64,19 @@ public class TablesDef {
     public static final String CONTAINERID_ID = "containerid_id";
     public static final String CONTAINERSTATE = "containerstate";
   }
+  
+  /**
+   * Table for storing container duration information
+   * Used for Quotas
+   */
+  public static interface ContainersLogsTableDef {
 
-  public static interface FiCaSchedulerAppLiveContainersTableDef {
-    public static final String TABLE_NAME = "yarn_schedulerapp_livecontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
-  }
-
-  public static interface FiCaSchedulerAppNewlyAllocatedContainersTableDef {
-    public static final String TABLE_NAME =
-        "yarn_schedulerapp_newlyallocatedcontainers";
-    public static final String SCHEDULERAPP_ID = "applicationattemptid";
-    public static final String RMCONTAINER_ID = "rmcontainer_id";
+    public static final String TABLE_NAME = "yarn_containers_logs";
+    public static final String CONTAINERID = "container_id";
+    public static final String START = "start";
+    public static final String STOP = "stop";
+    public static final String EXITSTATUS = "exit_status";
+    public static final String PRICE = "price";
   }
 
   public static interface FiCaSchedulerNodeTableDef {
@@ -79,6 +85,7 @@ public class TablesDef {
     public static final String NUMCONTAINERS = "numcontainers";
     public static final String RMNODEID = "rmnodeid";
     public static final String NODENAME = "nodename";
+    public static final String RMCONTAINERID = "rmcontainerid";
   }
 
   public static interface FifoSchedulerAppsTableDef {
@@ -93,13 +100,23 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_rmnode_finishedapplications";
     public static final String RMNODEID = "rmnodeid";
     public static final String APPLICATIONID = "applicationid";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface JustLaunchedContainersTableDef {
 
     public static final String TABLE_NAME = "yarn_justlaunchedcontainers";
-    public static final String CONTAINERID = "containerid_id";
+    public static final String CONTAINERID = "containerid";
     public static final String RMNODEID = "rmnodeid";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
+  }
+
+  public static interface JustFinishedContainersTableDef {
+
+    public static final String TABLE_NAME = "yarn_just_finished_containers";
+    public static final String CONTAINERID = "containerid";
+    public static final String APPATTEMPTID = "appattemptid";
+    public static final String CONTAINER = "container";
   }
 
   public static interface LaunchedContainersTableDef {
@@ -119,6 +136,7 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_nextheartbeat";
     public static final String RMNODEID = "rmnodeid";
     public static final String NEXTHEARTBEAT = "nextheartbeat";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
 
     //Field that denotes the integer value of the nextheartbeat field if is true
     public static final int NEXTHEARTBEAT_TRUE = 1;
@@ -142,6 +160,7 @@ public class TablesDef {
     public static final String LOCATION = "location";
     public static final String LEVEL = "level";
     public static final String PARENT = "parent";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   /**
@@ -156,15 +175,18 @@ public class TablesDef {
     public static final String STATUS = "status";
     public static final String ID = "id";
 
+    //TODO this should not be in tableDef
     //Event Type
-    public static final byte NODE_ADDED = 1;
-    public static final byte NODE_REMOVED = 2;
-    public static final byte NODE_UPDATED = 3;
+    public static final int NODE_ADDED = 1;
+    public static final int NODE_REMOVED = 2;
+    public static final int NODE_UPDATED = 3;
 
     //Event status
-    public static final byte NEW = 1;
-    public static final byte PENDING = 2;
-    public static final byte COMPLETED = 3;
+    public static final int NEW = 1;
+    public static final int PENDING = 2;
+    public static final int COMPLETED = 3;
+    public static final int SCHEDULER_FINISHED_PROCESSING = 4;
+    public static final int SCHEDULER_NOT_FINISHED_PROCESSING = 5;
 
     //Event transactionstate action
     public static final int PERSISTEDEVENT_ADD = 1;
@@ -173,7 +195,7 @@ public class TablesDef {
 
   public static interface QueueMetricsTableDef {
     public static final String TABLE_NAME = "yarn_queuemetrics";
-    public static final String ID = "id";
+    public static final String QUEUE_NAME = "queue_name";
     public static final String APPS_SUBMITTED = "apps_submitted";
     public static final String APPS_RUNNING = "apps_running";
     public static final String APPS_PENDING = "apps_pending";
@@ -198,8 +220,6 @@ public class TablesDef {
     public static final String ACTIVE_USERS = "active_users";
     public static final String ACTIVE_APPLICATIONS = "active_applications";
     public static final String PARENT_ID = "parent_id";
-    public static final String QUEUE_NAME = "queue_name";
-
   }
 
   public static interface ResourceRequestTableDef {
@@ -218,6 +238,7 @@ public class TablesDef {
     public static final String PARENT = "parent";
     public static final String MEMORY = "memory";
     public static final String VIRTUAL_CORES = "virtualcores";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface RMContainerTableDef {
@@ -227,13 +248,15 @@ public class TablesDef {
     public static final String APPLICATIONATTEMPTID_ID = "appattemptid_id";
     public static final String NODEID_ID = "nodeid_id";
     public static final String USER = "user";
-    //  public static final String RESERVED_NODEID_ID = "reservednodeid_id";
-    //  public static final String RESERVED_PRIORITY_ID = "reservedpriority_id";
     public static final String STARTTIME = "starttime";
     public static final String FINISHTIME = "finishtime";
     public static final String STATE = "state";
     public static final String FINISHEDSTATUSSTATE = "finishedstatusstate";
     public static final String EXITSTATUS = "exitstatus";
+    public static final String RESERVED_NODE_ID = "reservednode_id";
+    public static final String RESERVED_PRIORITY = "reservedpriority";
+    public static final String RESERVED_MEMORY = "reservedmemory";
+    public static final String RESERVED_VCORES = "reservedvcores";
   }
 
   public static interface RMContextActiveNodesTableDef {
@@ -275,7 +298,7 @@ public class TablesDef {
     public static final String CURRENT_STATE = "currentstate";
     public static final String OVERCOMMIT_TIMEOUT = "overcommittimeout";
     public static final String NODEMANAGER_VERSION = "nodemanager_version";
-    public static final String UCI_ID = "uci_id";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface SchedulerApplicationTableDef {
@@ -291,6 +314,7 @@ public class TablesDef {
     public static final String CONTAINERID = "containerid";
     public static final String RMNODEID = "rmnodeid";
     public static final String UPDATEDCONTAINERINFOID = "updatedcontainerinfoid";
+    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface YarnVariablesTableDef {
@@ -323,10 +347,82 @@ public class TablesDef {
   public static interface RPCTableDef {
 
     public static final String TABLE_NAME = "yarn_appmaster_rpc";
-    public static final String ID = "id";
+    public static final String RPCID = "rpcid";
     public static final String TYPE = "type";
     public static final String RPC = "rpc";
     public static final String USERID = "userid";
+  }
+
+  public static interface HeartBeatRPCTableDef {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_rpc";
+    public static final String RPCID = "rpcid";
+    public static final String NODEID = "nodeid";
+    public static final String RESPONSEID = "responseid";
+    public static final String NODE_HEALTH_STATUS = "node_health_status";
+    public static final String LAST_CONTAINER_TOKEN_KEY
+            = "last_container_token_key";
+    public static final String LAST_NM_KEY = "last_nm_key";
+  }
+
+  public static interface HeartBeatContainerStatusesTableDef {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_container_statuses";
+    public static final String RPCID = "rpcid";
+    public static final String CONTAINERID = "containerid";
+    public static final String STATUS = "status";
+  }
+
+  public static interface HeartBeatKeepAliveApplications {
+
+    public static final String TABLE_NAME = "yarn_heartbeat_keepalive_app";
+    public static final String RPCID = "rpcid";
+    public static final String APPID = "appid";
+  }
+
+  public static interface AllocateRPC {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc";
+    public static final String RPCID = "rpcid";
+    public static final String PROGRESS = "progress";
+    public static final String RESPONSEID = "responseid";
+  }
+
+  public static interface AllocateRPCAsk {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_ask";
+    public static final String RPCID = "rpcid";
+    public static final String REQUESTID = "requestid";
+    public static final String REQUEST = "request";
+  }
+
+  public static interface AllocateRPCBlackListAdd {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_blacklist_add";
+    public static final String RPCID = "rpcid";
+    public static final String RESOURCE = "resource";
+  }
+
+  public static interface AllocateRPCBlackListRemove {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_blacklist_remove";
+    public static final String RPCID = "rpcid";
+    public static final String RESOURCE = "resource";
+  }
+
+  public static interface AllocateRPCRelease {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_release";
+    public static final String RPCID = "rpcid";
+    public static final String CONTAINERID = "containerid";
+  }
+
+  public static interface AllocateRPCResourceIncrease {
+
+    public static final String TABLE_NAME = "yarn_allocate_rpc_resource_increase";
+    public static final String RPCID = "rpcid";
+    public static final String REQUESTID = "containerid";
+    public static final String REQUEST = "request";
   }
 
   /*
@@ -345,7 +441,7 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_schedulerapp_reservations";
     public static final String SCHEDULERAPP_ID = "schedulerapp_id";
     public static final String PRIORITY_ID = "priority_id";
-
+    public static final String COUNTER = "counter";
   }
 
   public static interface FiCaSchedulerAppReservedContainersTableDef {
@@ -361,6 +457,7 @@ public class TablesDef {
         "yarn_schedulerapp_schedulingopportunities";
     public static final String SCHEDULERAPP_ID = "schedulerapp_id";
     public static final String PRIORITY_ID = "priority_id";
+    public static final String COUNTER = "counter";
   }
 
   /*
@@ -376,6 +473,38 @@ public class TablesDef {
         "reservedappschedulable_id";
   }
 
+  public interface AppSchedulableTableDef {
+
+    public static final String TABLE_NAME = "yarn_appschedulable";
+    public static final String SCHEDULERAPP_ID = "schedulerapp_id";
+    public static final String STARTTIME = "starttime";
+    public static final String FSQUEUENAME = "fsqueuename";
+  }
+
+  public interface LocalityLevelTableDef {
+
+    public static final String TABLE_NAME = "yarn_localitylevel";
+    public static final String SCHEDULERAPP_ID = "schedulerapp_id";
+    public static final String PRIORITY_ID = "priority_id";
+    public static final String NODETYPE = "nodetype";
+  }
+
+  public interface PreemptionMapTableDef {
+
+    public static final String TABLE_NAME = "yarn_preemptionmap";
+    public static final String SCHEDULERAPP_ID = "schedulerapp_id";
+    public static final String RMCONTAINER_ID = "rmcontainer_id";
+    public static final String VALUE = "value";
+  }
+
+  public interface RunnableAppsTableDef {
+
+    public static final String TABLE_NAME = "yarn_runnable_apps";
+    public static final String QUEUENAME = "queuename";
+    public static final String SCHEDULERAPP_ID = "schedulerapp_id";
+    public static final String ISRUNNABLE = "isrunnable";
+  }
+  
   /*
   RMStateStore
    */
@@ -384,8 +513,31 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_allocate_response";
     public static final String APPLICATIONATTEMPTID = "applicationattemptid";
     public static final String ALLOCATERESPONSE = "allocate_response";
+    public static final String RESPONSEID = "responseid";
   }
 
+  public static interface AllocatedContainersTableDef {
+    public static final String TABLE_NAME = "yarn_allocated_containers";
+    public static final String APPLICATIONATTEMPTID = "applicationattemptid";
+    public static final String CONTAINERID = "containerid";
+    public static final String RESPONSEID = "responseid";
+  }
+   
+  public static interface CompletedContainersStatusTableDef {
+    public static final String TABLE_NAME = "yarn_completed_containers_status";
+    public static final String APPLICATIONATTEMPTID = "applicationattemptid";
+    public static final String CONTAINERID = "containerid";
+    public static final String RESPONSEID = "responseid";
+    public static final String STATUS = "status";
+  }
+  
+  public static interface AllocatedNMTokensTableDef {
+    public static final String TABLE_NAME = "yarn_allocated_nmtokens";
+    public static final String APPLICATIONATTEMPTID = "applicationattemptid";
+    public static final String NMTOKEN = "nmtoken";
+    public static final String RESPONSEID = "responseid";
+  }
+    
   public static interface ApplicationAttemptStateTableDef {
     public static final String TABLE_NAME = "yarn_applicationattemptstate";
     public static final String APPLICATIONID = "applicationid";
@@ -406,7 +558,21 @@ public class TablesDef {
     public static final String NAME = "appname";
     public static final String SMSTATE = "appsmstate";
   }
+  
+  public static interface UpdatedNodeTableDef {
 
+    public static final String TABLE_NAME = "yarn_updated_node";
+    public static final String APPLICATIONID = "applicationid";
+    public static final String NODEID = "nodeid";
+  }
+
+  public static interface RanNodeTableDef {
+
+    public static final String TABLE_NAME = "yarn_ran_node";
+    public static final String APPLICATIONATTEMPTID = "application_attempt_id";
+    public static final String NODEID = "nodeid";
+  }
+    
   public static interface DelegationKeyTableDef {
     public static final String TABLE_NAME = "yarn_delegation_key";
     public static final String KEY = "key";
@@ -436,5 +602,46 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_sequence_number";
     public static final String ID = "id";
     public static final String SEQUENCE_NUMBER = "sequence_number";
+  }
+   
+  public static interface YarnProjectsQuotaTableDef {
+      public static final String TABLE_NAME = "yarn_projects_quota";
+      public static final String PROJECTID = "projectname";   
+      public static final String REMAINING_QUOTA = "quota_remaining";   
+      public static final String TOTAL_USED_QUOTA = "total";
+  }
+  
+  public static interface YarnProjectsDailyCostTableDef {
+      public static final String TABLE_NAME = "yarn_projects_daily_cost";
+      public static final String PROJECTNAME = "projectname";   
+      public static final String USER = "user";   
+      public static final String DAY = "day";   
+      public static final String CREDITS_USED = "credits_used";
+  }  
+  
+  public static interface ContainersCheckPointsTableDef {
+    public static final String TABLE_NAME = "yarn_containers_checkpoint";
+    public static final String CONTAINERID = "container_id";
+    public static final String CHECKPOINT = "checkpoint";
+    public static final String PRICE = "price";
+  }
+  
+  public static interface YarnRunningPriceTableDef {
+    public static final String TABLE_NAME = "yarn_running_price";
+    public static final String ID = "id";
+    public static final String TIME = "time";
+    public static final String PRICE = "price";
+  }
+  
+  public static interface YarnHistoryPriceTableDef {
+    public static final String TABLE_NAME = "yarn_history_price";    
+    public static final String TIME = "time";
+    public static final String PRICE = "price";
+  }
+  
+  public static interface CSLeafQueuesPendingAppsTableDef {
+    public static final String TABLE_NAME = "yarn_cs_leaf_queue_pending_apps";
+    public static final String APPATTEMPTID = "app_attempt_id";
+    public static final String PATH = "path";
   }
 }

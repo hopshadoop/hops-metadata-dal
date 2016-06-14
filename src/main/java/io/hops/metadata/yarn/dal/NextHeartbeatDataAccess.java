@@ -17,6 +17,8 @@ package io.hops.metadata.yarn.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.yarn.entity.NextHeartbeat;
+import java.util.List;
 
 import java.util.Map;
 
@@ -40,9 +42,9 @@ public interface NextHeartbeatDataAccess<T> extends EntityDataAccess {
    * @param nextHeartbeat
    * @throws StorageException
    */
-  void updateNextHeartbeat(String rmnodeid, boolean nextHeartbeat)
+  void updateAll(List<NextHeartbeat> toUpdate)
       throws StorageException;
-
+  
   Map<String, Boolean> getAll() throws StorageException;
 
 }

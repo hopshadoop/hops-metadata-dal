@@ -40,5 +40,5 @@ public interface RPCDataAccess<T> extends EntityDataAccess {
 
   void add(T toAdd) throws StorageException;
 
-  void remove(T toRemove) throws StorageException;
+  void removeAll(List<T> toRemove) throws StorageException;
 }

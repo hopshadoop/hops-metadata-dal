@@ -21,91 +21,44 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class INode implements Comparable<INode> {
+public class INode extends INodeBase implements Comparable<INode> {
 
-  private int id;
-  private String name;
-  private int parentId;
-  private boolean dirWithQuota;
   private long modificationTime;
   private long accessTime;
-  private byte[] permission;
-  private boolean underConstruction;
   private String clientName;
   private String clientMachine;
   private String clientNode;
   private int generationStamp;
-  private long header;
   private String symlink;
-  private boolean subtreeLocked;
-  private long subtreeLockOwner;
   private boolean metaEnabled;
-  private long size;
 
   public INode() {
   }
 
   public INode(int id, String name, int parentId, boolean dirWithQuota,
-      long modificationTime, long accessTime, byte[] permission,
-      boolean underConstruction, String clientName, String clientMachine,
+      long modificationTime, long accessTime, int userID, int
+      groupID, short permission, boolean underConstruction, String clientName,
+      String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
       long size) {
 
-    this.id = id;
-    this.name = name;
-    this.parentId = parentId;
-    this.dirWithQuota = dirWithQuota;
+    super(id, parentId, name, userID, groupID, permission, header,
+        dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
+        size);
+
     this.modificationTime = modificationTime;
     this.accessTime = accessTime;
-    this.permission = permission;
-    this.underConstruction = underConstruction;
     this.clientName = clientName;
     this.clientMachine = clientMachine;
     this.clientNode = clientNode;
     this.generationStamp = generationStamp;
-    this.header = header;
     this.symlink = symlink;
-    this.subtreeLocked = subtreeLocked;
-    this.subtreeLockOwner = subtreeLockOwner;
     this.metaEnabled = metaEnabled;
-    this.size = size;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(int parentId) {
-    this.parentId = parentId;
   }
 
   public boolean isDir() {
     return header == 0 && symlink == null;
-  }
-
-  public boolean isDirWithQuota() {
-    return dirWithQuota;
-  }
-
-  public void setDirWithQuota(boolean dirWithQuota) {
-    this.dirWithQuota = dirWithQuota;
   }
 
   public long getModificationTime() {
@@ -122,22 +75,6 @@ public class INode implements Comparable<INode> {
 
   public void setAccessTime(long accessTime) {
     this.accessTime = accessTime;
-  }
-
-  public byte[] getPermission() {
-    return permission;
-  }
-
-  public void setPermission(byte[] permission) {
-    this.permission = permission;
-  }
-
-  public boolean isUnderConstruction() {
-    return underConstruction;
-  }
-
-  public void setUnderConstruction(boolean underConstruction) {
-    this.underConstruction = underConstruction;
   }
 
   public String getClientName() {
@@ -172,14 +109,6 @@ public class INode implements Comparable<INode> {
     this.generationStamp = generationStamp;
   }
 
-  public long getHeader() {
-    return header;
-  }
-
-  public void setHeader(long header) {
-    this.header = header;
-  }
-
   public String getSymlink() {
     return symlink;
   }
@@ -188,36 +117,12 @@ public class INode implements Comparable<INode> {
     this.symlink = symlink;
   }
 
-  public boolean isSubtreeLocked() {
-    return subtreeLocked;
-  }
-
-  public void setSubtreeLocked(boolean subtreeLocked) {
-    this.subtreeLocked = subtreeLocked;
-  }
-
-  public long getSubtreeLockOwner() {
-    return subtreeLockOwner;
-  }
-
-  public void setSubtreeLockOwner(long subtreeLockOwner) {
-    this.subtreeLockOwner = subtreeLockOwner;
-  }
-
   public boolean isMetaEnabled() {
     return metaEnabled;
   }
 
   public void setMetaEnabled(boolean metaEnabled) {
     this.metaEnabled = metaEnabled;
-  }
-
-  public long getSize() {
-    return size;
-  }
-
-  public void setSize(long size) {
-    this.size = size;
   }
 
   @Override

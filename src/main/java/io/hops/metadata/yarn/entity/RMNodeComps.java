@@ -15,52 +15,69 @@
  */
 package io.hops.metadata.yarn.entity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RMNodeComps {
 
+  private final PendingEvent hopPendingEvent;
   private final RMNode hopRMNode;
   private final NextHeartbeat hopNextHeartbeat;
   private final Node hopNode;
   private final NodeHBResponse hopNodeHBResponse;
   private final Resource hopResource;
-  private final List<JustLaunchedContainers> hopJustLaunchedContainers;
   //hopUpdatedContainerInfo are grouped by updatedContainerInfoId
-  private final Map<Integer, List<UpdatedContainerInfo>>
-      hopUpdatedContainerInfo;
+  private final List<UpdatedContainerInfo> hopUpdatedContainerInfo;
   private final List<ContainerId> hopContainerIdsToClean;
   private final List<FinishedApplications> hopFinishedApplications;
-  private final Map<String, ContainerStatus> hopContainersStatus;
+  private final List<ContainerStatus> hopContainersStatus;
+  private Map<String, ContainerStatus> hopContainerStatusMap;
+  private final String rmNodeId;
 
   public RMNodeComps(RMNode hopRMNode, NextHeartbeat hopNextHeartbeat,
-      Node hopNode, NodeHBResponse hopNodeHBResponse, Resource hopResource,
-      List<JustLaunchedContainers> hopJustLaunchedContainers,
-      Map<Integer, List<UpdatedContainerInfo>> hopUpdatedContainerInfo,
-      List<ContainerId> hopContainerIdsToClean,
-      List<FinishedApplications> hopFinishedApplications,
-      Map<String, ContainerStatus> hopContainersStatus) {
+          Node hopNode,
+          NodeHBResponse hopNodeHBResponse, Resource hopResource,
+          PendingEvent hopPendingEvent,
+          List<UpdatedContainerInfo> hopUpdatedContainerInfo,
+          List<ContainerId> hopContainerIdsToClean,
+          List<FinishedApplications> hopFinishedApplications,
+          List<ContainerStatus> hopContainersStatus, String rmNodeId) {
     this.hopRMNode = hopRMNode;
     this.hopNextHeartbeat = hopNextHeartbeat;
     this.hopNode = hopNode;
     this.hopNodeHBResponse = hopNodeHBResponse;
     this.hopResource = hopResource;
-    this.hopJustLaunchedContainers = hopJustLaunchedContainers;
+    this.hopPendingEvent = hopPendingEvent;
     this.hopUpdatedContainerInfo = hopUpdatedContainerInfo;
     this.hopContainerIdsToClean = hopContainerIdsToClean;
     this.hopFinishedApplications = hopFinishedApplications;
     this.hopContainersStatus = hopContainersStatus;
+    this.rmNodeId = rmNodeId;
+  }
+
+//  public RMNodeComps(RMNode hopRMNode, NextHeartbeat hopNextHeartbeat,
+//          Node hopNode,
+//          NodeHBResponse hopNodeHBResponse, Resource hopResource,
+//          List<JustLaunchedContainers> hopJustLaunchedContainers,
+//          List<UpdatedContainerInfo> hopUpdatedContainerInfo,
+//          List<ContainerId> hopContainerIdsToClean,
+//          List<FinishedApplications> hopFinishedApplications,
+//          List<ContainerStatus> hopContainersStatus) {
+//    this(hopRMNode, hopNextHeartbeat, hopNode, hopNodeHBResponse, hopResource,
+//            null, hopJustLaunchedContainers, hopUpdatedContainerInfo,
+//            hopContainerIdsToClean, hopFinishedApplications, hopContainersStatus);
+//  }
+
+  public PendingEvent getPendingEvent() {
+    return hopPendingEvent;
   }
 
   public Resource getHopResource() {
     return hopResource;
   }
 
-  public List<JustLaunchedContainers> getHopJustLaunchedContainers() {
-    return hopJustLaunchedContainers;
-  }
-
-  public Map<Integer, List<UpdatedContainerInfo>> getHopUpdatedContainerInfo() {
+  public List<UpdatedContainerInfo> getHopUpdatedContainerInfo() {
     return hopUpdatedContainerInfo;
   }
 
@@ -72,8 +89,19 @@ public class RMNodeComps {
     return hopFinishedApplications;
   }
 
-  public Map<String, ContainerStatus> getHopContainersStatus() {
+  public List< ContainerStatus> getHopContainersStatus() {
     return hopContainersStatus;
+  }
+
+  public Map< String, ContainerStatus> getHopContainersStatusMap() {
+    if (hopContainerStatusMap == null) {
+      hopContainerStatusMap = new HashMap<String, ContainerStatus>(
+              hopContainersStatus.size());
+    }
+    for (ContainerStatus status : hopContainersStatus) {
+      hopContainerStatusMap.put(status.getContainerid(), status);
+    }
+    return hopContainerStatusMap;
   }
 
   public RMNode getHopRMNode() {
@@ -92,4 +120,7 @@ public class RMNodeComps {
     return hopNodeHBResponse;
   }
 
+  public String getRMNodeId(){
+    return rmNodeId;
+  }
 }

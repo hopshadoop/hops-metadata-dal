@@ -32,4 +32,17 @@ public class DalDriver {
       throw new StorageInitializtionException(ex);
     }
   }
+  public static DalNdbEventStreaming loadHopsNdbEventStreamingLib(
+          String storageFactoryClassName) throws StorageInitializtionException {
+    try {
+      return (DalNdbEventStreaming) Class.forName(storageFactoryClassName).
+              newInstance();
+    } catch (ClassNotFoundException ex) {
+      throw new StorageInitializtionException(ex);
+    } catch (InstantiationException ex) {
+      throw new StorageInitializtionException(ex);
+    } catch (IllegalAccessException ex) {
+      throw new StorageInitializtionException(ex);
+    }
+  }
 }

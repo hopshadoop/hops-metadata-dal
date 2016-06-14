@@ -23,14 +23,20 @@ public class ContainerId {
 
   private final String rmnodeid;
   private final String containerId;
+  private final int pendingEventId;
 
-  public ContainerId(String rmnodeid, String containerId) {
+  public ContainerId(String rmnodeid, String containerId, int pendingId) {
     this.rmnodeid = rmnodeid;
     this.containerId = containerId;
+    this.pendingEventId = pendingId;
   }
 
   public String getRmnodeid() {
     return rmnodeid;
+  }
+
+  public int getPendingEventId() {
+    return pendingEventId;
   }
 
   public String getContainerId() {
