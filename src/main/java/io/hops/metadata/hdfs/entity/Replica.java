@@ -15,105 +15,58 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-public abstract class Replica implements Comparable<Replica> {
+import io.hops.metadata.common.FinderType;
 
-  protected int storageId;
-  protected long blockId;
-  private int inodeId;
+import java.util.Comparator;
+
+/**
+ * This class holds the information of one replica of a block in one datanode.
+ */
+public class Replica extends ReplicaBase {
+
+  public static enum Finder implements FinderType<Replica> {
+
+    ByBlockIdAndINodeId,
+    ByINodeId,
+    ByINodeIds,
+    ByBlockIdAndStorageId;
+
+    @Override
+    public Class getType() {
+      return Replica.class;
+    }
+
+    @Override
+    public Annotation getAnnotated() {
+      switch (this) {
+        case ByBlockIdAndINodeId:
+          return Annotation.PrunedIndexScan;
+        case ByINodeId:
+          return Annotation.PrunedIndexScan;
+        case ByBlockIdAndStorageId:
+          return Annotation.IndexScan;
+        case ByINodeIds:
+          return Annotation.BatchedPrunedIndexScan;
+        default:
+          throw new IllegalStateException();
+      }
+    }
+
+  }
+
+  public static enum Order implements Comparator<Replica> {
+
+    ByStorageId() {
+      @Override
+      public int compare(Replica o1, Replica o2) {
+        return Integer.valueOf(o1.getStorageId()).compareTo(
+            Integer.valueOf(o2.getStorageId
+                ()));
+      }
+    }
+  }
 
   public Replica(int storageId, long blockId, int inodeId) {
-    this.storageId = storageId;
-    this.blockId = blockId;
-    this.inodeId = inodeId;
+    super(storageId, blockId, inodeId);
   }
-
-  /**
-   * @return the storageId
-   */
-  public int getStorageId() {
-    return storageId;
-  }
-
-  /**
-   * @param storageId
-   *     the storageId to set
-   */
-  public void setStorageId(int storageId) {
-    this.storageId = storageId;
-  }
-
-  /**
-   * @return the blockId
-   */
-  public long getBlockId() {
-    return blockId;
-  }
-
-  /**
-   * @param blockId
-   *     the blockId to set
-   */
-  public void setBlockId(long blockId) {
-    this.blockId = blockId;
-  }
-
-  @Override
-  public int hashCode() {
-    int hash = 7;
-    hash = 59 * hash + this.storageId;
-    hash = 59 * hash + (int) (this.blockId ^ (this.blockId >>> 32));
-    return hash;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final Replica other = (Replica) obj;
-    if (this.storageId != other.storageId) {
-      return false;
-    }
-    if (this.blockId != other.blockId) {
-      return false;
-    }
-    return true;
-  }
-
-  public int getInodeId() {
-    return inodeId;
-  }
-
-  public void setInodeId(int inodeId) {
-    this.inodeId = inodeId;
-  }
-
-  @Override
-  public int compareTo(Replica t) {
-    if (this.equals(t)) {
-      return 0;
-    }
-
-    if (t == null) {
-      return 1;
-    }
-    
-    if (this.getStorageId() == t.getStorageId()) {
-      if (this.getBlockId() > t.getBlockId()) {
-        return 1;
-      } else {
-        return -1;
-      }
-    } else {
-      if (this.getStorageId() > t.getStorageId()) {
-        return 1;
-      } else {
-        return -1;
-      }
-    }
-  }
-  
 }

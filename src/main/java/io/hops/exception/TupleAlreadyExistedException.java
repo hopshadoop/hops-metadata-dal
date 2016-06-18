@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.hdfs.entity;
+package io.hops.exception;
 
-public class ReplicaUnderConstruction extends ReplicaBase{
+public class TupleAlreadyExistedException extends StorageException {
 
-  private int state;
-
-  public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId) {
-    super(storageId, blockId, inodeId);
-    this.state = state;
+  public TupleAlreadyExistedException() {
   }
 
-  public int getState() {
-    return state;
+  public TupleAlreadyExistedException(String message) {
+    super(message);
   }
 
-  public void setState(int state) {
-    this.state = state;
+  public TupleAlreadyExistedException(Throwable cause) {
+    super(cause);
+  }
+
+  public TupleAlreadyExistedException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

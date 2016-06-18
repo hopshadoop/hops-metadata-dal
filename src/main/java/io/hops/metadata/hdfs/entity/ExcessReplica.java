@@ -17,7 +17,7 @@ package io.hops.metadata.hdfs.entity;
 
 import io.hops.metadata.common.FinderType;
 
-public class ExcessReplica extends Replica {
+public class ExcessReplica extends ReplicaBase {
 
   public static enum Finder implements FinderType<ExcessReplica> {
 

@@ -20,6 +20,7 @@ import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.CounterType;
 import io.hops.metadata.common.FinderType;
+import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.transaction.lock.TransactionLocks;
 
 import java.util.ArrayList;
@@ -77,8 +78,8 @@ public class TransactionContext {
     for (EntityContext context : contexts) {
       context.prepare(tlm);
     }
-    resetContext();
     connector.commit();
+    resetContext();
   }
 
   public void rollback() throws StorageException, TransactionContextException {
@@ -143,7 +144,9 @@ public class TransactionContext {
 
   public <T> Collection<T> findList(FinderType<T> finder, Object... params)
       throws TransactionContextException, StorageException {
-    aboutToPerform();
+    if (finder != MetadataLogEntry.Finder.ALL_CACHED) {
+      aboutToPerform();
+    }
     if (typeContextMap.containsKey(finder.getType())) {
       //      logger.debug("TX-FindList: " + finder.getType().getName());
       return typeContextMap.get(finder.getType()).findList(finder, params);

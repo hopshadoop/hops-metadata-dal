@@ -15,21 +15,26 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-public class ReplicaUnderConstruction extends ReplicaBase{
+public class AccessTimeLogEntry {
+  private final int inodeId;
+  private final int userId;
+  private final long accessTime;
 
-  private int state;
-
-  public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId) {
-    super(storageId, blockId, inodeId);
-    this.state = state;
+  public AccessTimeLogEntry(int inodeId, int userId, long accessTime) {
+    this.inodeId = inodeId;
+    this.userId = userId;
+    this.accessTime = accessTime;
   }
 
-  public int getState() {
-    return state;
+  public int getInodeId() {
+    return inodeId;
   }
 
-  public void setState(int state) {
-    this.state = state;
+  public int getUserId() {
+    return userId;
+  }
+
+  public long getAccessTime() {
+    return accessTime;
   }
 }

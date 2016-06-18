@@ -79,4 +79,8 @@ public abstract class RequestHandler {
     }
     return 0;
   }
+
+  protected void resetWaitTime() {
+    waitTime = 0;
+  }
 }

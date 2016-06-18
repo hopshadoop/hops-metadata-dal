@@ -15,23 +15,20 @@
  */
 package io.hops.metadata.hdfs.dal;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
 
-public interface LeasePathDataAccess<T> extends EntityDataAccess {
+public interface MetadataLogDataAccess<T> extends EntityDataAccess {
 
-  Collection<T> findByHolderId(int holderId) throws StorageException;
+  void add(T metadataLogEntry) throws StorageException;
 
-  Collection<T> findByPrefix(String prefix) throws StorageException;
+  void addAll(Collection<T> logEntries) throws StorageException;
 
-  Collection<T> findAll() throws StorageException;
+  Collection<T> readExisting(Collection<T> logEntries) throws StorageException;
 
-  T findByPath(String path) throws StorageException;
-
-  void prepare(Collection<T> removed, Collection<T> newed,
-      Collection<T> modified) throws StorageException;
-
-  void removeAll() throws StorageException;
+  @VisibleForTesting
+  Collection<T> find(int fileId) throws StorageException;
 }

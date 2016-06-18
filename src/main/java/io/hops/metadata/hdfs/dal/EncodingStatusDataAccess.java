@@ -32,11 +32,11 @@ public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
   T findByParityInodeId(int inodeId) throws StorageException;
 
-  Collection<T> findRequestedEncodings(long limit) throws StorageException;
+  Collection<T> findRequestedEncodings(int limit) throws StorageException;
 
   int countRequestedEncodings() throws StorageException;
 
-  Collection<T> findRequestedRepairs(long limit) throws StorageException;
+  Collection<T> findRequestedRepairs(int limit) throws StorageException;
 
   int countRequestedRepairs() throws StorageException;
 
@@ -44,7 +44,7 @@ public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
   int countActiveEncodings() throws StorageException;
 
-  Collection<T> findEncoded(long limit) throws StorageException;
+  Collection<T> findEncoded(int limit) throws StorageException;
 
   int countEncoded() throws StorageException;
 
@@ -52,7 +52,7 @@ public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
   int countActiveRepairs() throws StorageException;
 
-  Collection<T> findRequestedParityRepairs(long limit) throws StorageException;
+  Collection<T> findRequestedParityRepairs(int limit) throws StorageException;
 
   int countRequestedParityRepairs() throws StorageException;
 
@@ -68,7 +68,7 @@ public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
   int getLostParityBlockCount();
 
-  Collection<T> findDeleted(long limit) throws StorageException;
+  Collection<T> findDeleted(int limit) throws StorageException;
 
   Collection<T> findRevoked() throws StorageException;
 }

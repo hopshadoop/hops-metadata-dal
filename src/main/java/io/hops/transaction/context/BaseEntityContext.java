@@ -120,6 +120,19 @@ abstract class BaseEntityContext<Key, Entity> extends EntityContext<Entity> {
           "Unattached Entity passed to be removed");
     }
   }
+  
+  public void forceRemove(Entity entity) throws TransactionContextException {
+    Key entityKey = getKey(entity);
+    ContextEntity contextEntity = contextEntities.get(entityKey);
+    if (contextEntity == null) {
+      contextEntity = new ContextEntity(entity, State.REMOVED);
+      contextEntities.put(entityKey, contextEntity);
+    } else {
+      contextEntity.update(entity, State.REMOVED);
+    }
+  }
+  
+  
 
   @Override
   public void clear() throws TransactionContextException {

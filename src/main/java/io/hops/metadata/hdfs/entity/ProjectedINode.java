@@ -26,12 +26,14 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
   private boolean underConstruction;
   private boolean subtreeLocked;
   private long subtreeLockOwner;
-    private int status;
-    private int isdeleted;
+  private int status;
+  private int isdeleted;
+  private long fileSize;
 
   public ProjectedINode(int id, int parentId, String name, byte[] permission,
       long header, boolean symlink, boolean dirWithQuota,
-      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner,int status,int isdeleted) {
+      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner,
+      long fileSize,int isdeleted,int status) {
     this.id = id;
     this.parentId = parentId;
     this.name = name;
@@ -42,8 +44,9 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     this.underConstruction = underConstruction;
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
-      this.status=status;
-      this.isdeleted=isdeleted;
+    this.fileSize = fileSize;
+    this.status=status;
+    this.isdeleted=isdeleted;
   }
 
   public int getId() {
@@ -130,17 +133,19 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     this.subtreeLockOwner = subtreeLockOwner;
   }
 
-    public int getStatus(){ return status;}
+  public int getStatus(){ return status;}
 
-    public void setStatus(int status){ this.status=status;}
+  public void setStatus(int status){ this.status=status;}
 
-    public int getIsdeleted(){ return isdeleted;}
+  public int getIsdeleted(){ return isdeleted;}
 
-    public void setIsdeleted(int isdeleted){ this.isdeleted=isdeleted;}
+  public void setIsdeleted(int isdeleted){ this.isdeleted=isdeleted;}
 
+  public long getFileSize() {
+    return fileSize;
+  }
 
-
-    @Override
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -160,7 +165,9 @@ public class ProjectedINode implements Comparable<ProjectedINode> {
     if (!name.equals(that.name)) {
       return false;
     }
-
+    if(isdeleted !=that.isdeleted){
+      return false;
+    }
     return true;
   }
 

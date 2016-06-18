@@ -17,7 +17,7 @@ package io.hops.metadata.hdfs.entity;
 
 import io.hops.metadata.common.FinderType;
 
-public class InvalidatedBlock extends Replica {
+public class InvalidatedBlock extends ReplicaBase {
 
   public static enum Finder implements FinderType<InvalidatedBlock> {
 
@@ -25,7 +25,7 @@ public class InvalidatedBlock extends Replica {
     ByINodeId,
     ByINodeIds,
     ByBlockIdStorageIdAndINodeId,
-    ByBlockIdsStorageIdsAndINodeIds,
+    ByStorageId,
     All;
 
     @Override
@@ -44,8 +44,8 @@ public class InvalidatedBlock extends Replica {
           return Annotation.BatchedPrunedIndexScan;
         case ByBlockIdStorageIdAndINodeId:
           return Annotation.PrimaryKey;
-        case ByBlockIdsStorageIdsAndINodeIds:
-          return Annotation.Batched;
+        case ByStorageId:
+          return Annotation.IndexScan;
         case All:
           return Annotation.FullTable;
         default:

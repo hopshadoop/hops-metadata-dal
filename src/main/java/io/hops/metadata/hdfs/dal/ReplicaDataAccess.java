@@ -20,6 +20,7 @@ import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface ReplicaDataAccess<T> extends EntityDataAccess {
 
@@ -29,11 +30,8 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   
   List<T> findReplicasByINodeIds(int[] inodeIds) throws StorageException;
   
-  List<T> findReplicasByStorageId(int storageId) throws StorageException;
-  
-  List<T> findReplicasByPKS(long[] blockIds, int[] inodesIds, int[] sids)
-      throws StorageException;
-  
+  Map<Long, Integer> findBlockAndInodeIdsByStorageId(int storageId) throws StorageException;
+
   int countAllReplicasForStorageId(int sid) throws StorageException;
   
   void prepare(Collection<T> removed, Collection<T> newed,

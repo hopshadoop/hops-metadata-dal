@@ -15,48 +15,134 @@
  */
 package io.hops.transaction.context;
 
+import io.hops.metadata.common.FinderType;
 import io.hops.transaction.EntityManager;
 import io.hops.transaction.handler.RequestHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
+import static io.hops.transaction.context.EntityContextStat.HitMissCounter;
+import static io.hops.transaction.context.EntityContextStat.StatsAggregator;
 
 public class TransactionsStats {
+
+  private static Log log = LogFactory.getLog(TransactionsStats.class);
   private static TransactionsStats instance = null;
 
-  private class TransactionStat {
+  public static class TransactionStat {
     private RequestHandler.OperationType name;
     private Collection<EntityContextStat> stats;
     private Exception ignoredException;
 
-    public TransactionStat(RequestHandler.OperationType name,
+    private long acquireTime;
+    private long processingTime;
+    private long commitTime;
+
+    TransactionStat(RequestHandler.OperationType name,
         Collection<EntityContextStat> stats, Exception ignoredException) {
       this.name = name;
       this.stats = stats;
       this.ignoredException = ignoredException;
     }
+
+    public void setTimes(long acquire, long processing, long commit){
+      this.acquireTime = acquire;
+      this.processingTime = processing;
+      this.commitTime = commit;
+    }
+
+
+    static String getHeader(){
+      String header = "Tx,";
+      for(FinderType.Annotation annotation : FinderType.Annotation.values()){
+        String ann = annotation.toString();
+        header += ann + "_hits," + ann +"_hitsRows," + ann +"_misses," +
+            ann +"_missesRows,";
+      }
+      header += "Hits,HitsRows,Misses,MissesRows,New,Modified,Deleted," +
+          "Acquire,Processing,Commit,TotalTime";
+      return header;
+    }
+
+    @Override
+    public String toString(){
+      String tx = name.toString() + ",";
+      StatsAggregator txStatsAggregator = new StatsAggregator();
+
+      for(EntityContextStat contextStat : stats){
+        txStatsAggregator.update(contextStat.getStatsAggregator());
+      }
+
+      for(FinderType.Annotation annotation : FinderType.Annotation.values()){
+        HitMissCounter hitMissCounter = txStatsAggregator.getCounter
+            (annotation);
+        tx += hitMissCounter.hits + "," + hitMissCounter.hitsRowsCount + "," +
+            "" +  hitMissCounter.misses + "," + hitMissCounter
+            .missesRowsCount + ",";
+      }
+
+      tx += txStatsAggregator.hitMissCounter.hits +"," + txStatsAggregator
+          .hitMissCounter.hitsRowsCount +"," + txStatsAggregator
+          .hitMissCounter.misses +"," + txStatsAggregator.hitMissCounter
+          .missesRowsCount + ",";
+
+      tx += txStatsAggregator.newRows + "," + txStatsAggregator.modifiedRows
+          + "," + txStatsAggregator.deletedRows + ",";
+
+      tx += acquireTime + "," + processingTime + "," + commitTime + "," +
+          (acquireTime + processingTime + commitTime);
+      return tx;
+    }
+  }
+
+
+  public static class ResolvingCacheStat {
+    public static enum Op{
+      GET,
+      SET
+    }
+    private Op operation;
+    private long elapsed;
+    private int roundTrips;
+
+    public ResolvingCacheStat(Op operation, long elapsed, int roundTrips){
+      this.operation = operation;
+      this.elapsed = elapsed;
+      this.roundTrips = roundTrips;
+    }
+
+    static String getHeader(){
+      return "Operation, Elapsed, RoundTrips";
+    }
+    @Override
+    public String toString() {
+      return operation.toString() +"," + elapsed + "," + roundTrips;
+    }
   }
 
   private boolean enabled;
+  private int WRITER_ROUND;
   private BufferedWriter statsLogWriter;
-  private BufferedWriter aggStatsLogWriter;
+  private BufferedWriter csvFileWriter;
+  private BufferedWriter memcacheCSVFileWriter;
   private List<TransactionStat> transactionStats;
-  private Map<RequestHandler.OperationType, List<TransactionStat>>
-      transactionAggregatedStats;
   private File statsDir;
+  private Thread writerThread;
+  private List<ResolvingCacheStat> resolvingCacheStats;
+  private boolean detailedStats;
 
   private TransactionsStats() {
     this.enabled = false;
-    this.transactionStats = new ArrayList<TransactionStat>();
-    this.transactionAggregatedStats =
-        new HashMap<RequestHandler.OperationType, List<TransactionStat>>();
+    this.transactionStats = new LinkedList<TransactionStat>();
+    this.resolvingCacheStats = new LinkedList<ResolvingCacheStat>();
   }
 
   public static TransactionsStats getInstance() {
@@ -67,22 +153,44 @@ public class TransactionsStats {
   }
 
 
-  public void setConfiguration(boolean enableOrDisable, String statsDir)
+  public void setConfiguration(boolean enableOrDisable, String statsDir, int
+      writerRound, boolean detailed)
       throws IOException {
     if (enableOrDisable) {
       this.enabled = true;
       this.statsDir = new File(statsDir);
+      this.WRITER_ROUND = writerRound;
       if (!this.statsDir.exists()) {
         this.statsDir.mkdirs();
       }
       BaseEntityContext.enableStats();
+
+      this.writerThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          while (true && enabled){
+            try {
+              Thread.sleep(WRITER_ROUND*1000);
+            } catch (InterruptedException e) {
+              log.warn(e);
+            }
+            try {
+              dump();
+            } catch (IOException e) {
+             log.warn(e);
+            }
+          }
+        }
+      });
+      this.writerThread.start();
+      this.detailedStats = detailed;
     } else {
       this.enabled = false;
       BaseEntityContext.disableStats();
     }
   }
 
-  public void collectStats(RequestHandler.OperationType operationType,
+  public TransactionStat collectStats(RequestHandler.OperationType operationType,
       Exception ignoredException) throws IOException {
     if (enabled) {
       Collection<EntityContextStat> contextStats =
@@ -90,81 +198,109 @@ public class TransactionsStats {
       if (!contextStats.isEmpty() || ignoredException != null) {
         TransactionStat stat =
             new TransactionStat(operationType, contextStats, ignoredException);
-        transactionStats.add(stat);
-
-        List<TransactionStat> statList =
-            transactionAggregatedStats.get(operationType);
-        if (statList == null) {
-          statList = new ArrayList<TransactionStat>();
-          transactionAggregatedStats.put(operationType, statList);
+        synchronized (transactionStats) {
+          transactionStats.add(stat);
         }
-        statList.add(stat);
+        return stat;
+      }
+    }
+    return null;
+  }
+
+  public void pushResolvingCacheStats(ResolvingCacheStat stat){
+    if(enabled){
+      synchronized (resolvingCacheStats){
+        resolvingCacheStats.add(stat);
       }
     }
   }
 
-  public void dump() throws IOException {
+  private void dump() throws IOException {
     if (enabled) {
-      dumpOrdered();
-      dumpAggregate();
-      clear();
+      synchronized (transactionStats) {
+        if(!transactionStats.isEmpty()) {
+          dumpDetailed();
+          dumpCSVLike();
+          clear();
+        }
+      }
+      synchronized (resolvingCacheStats){
+        if(!resolvingCacheStats.isEmpty()) {
+          dumpResolvingCacheStats();
+          memcacheCSVFileWriter.flush();
+          resolvingCacheStats.clear();
+        }
+      }
     }
   }
 
+  public void close() throws IOException {
+    if(enabled) {
+      enabled = false;
+      writerThread.interrupt();
+      if(statsLogWriter != null) {
+        statsLogWriter.close();
+      }
+      if(csvFileWriter != null) {
+        csvFileWriter.close();
+      }
+      if(memcacheCSVFileWriter != null){
+        memcacheCSVFileWriter.close();
+      }
+    }
+  }
+
+  public boolean isEnabled(){
+    return enabled;
+  }
 
   private void clear() throws IOException {
-    statsLogWriter.close();
-    aggStatsLogWriter.close();
-    statsLogWriter = null;
-    aggStatsLogWriter = null;
-    transactionAggregatedStats.clear();
+    if(statsLogWriter != null){
+      statsLogWriter.flush();
+    }
+    if(csvFileWriter != null) {
+      csvFileWriter.flush();
+    }
     transactionStats.clear();
   }
 
-  private void dumpAggregate() throws IOException {
-    for (Map.Entry<RequestHandler.OperationType, List<TransactionStat>> e : transactionAggregatedStats
-        .entrySet()) {
-      dumpAggregate(e.getKey(), e.getValue());
+  private void dumpResolvingCacheStats() throws IOException{
+    boolean fileExists = getResolvingCacheCSVFile().exists();
+    BufferedWriter writer = getResolvingCSVFileWriter();
+    if(!fileExists) {
+      writer.write(ResolvingCacheStat.getHeader());
+      writer.newLine();
+    }
+    for(ResolvingCacheStat stat : resolvingCacheStats){
+      writer.write(stat.toString());
+      writer.newLine();
     }
   }
 
-  private void dumpAggregate(RequestHandler.OperationType operationType,
-      List<TransactionStat> transactionStats) throws IOException {
-    BufferedWriter writer = getAggStatsLogWriter();
-    writer.write("Transaction: " + operationType.toString());
-    writer.newLine();
-
-    EntityContextStat.StatsAggregator globalAggregator =
-        new EntityContextStat.StatsAggregator();
-    for (TransactionStat transactionStat : transactionStats) {
-      EntityContextStat.StatsAggregator txStatAgg =
-          dump(writer, transactionStat);
-      globalAggregator.update(txStatAgg);
+  private void dumpCSVLike() throws IOException{
+    boolean fileExists = getCSVFile().exists();
+    BufferedWriter writer = getCSVFileWriter();
+    if(!fileExists) {
+      writer.write(TransactionStat.getHeader());
+      writer.newLine();
     }
-
-    writer.write(operationType.toString() + ": Global  Tx. Count=" +
-        transactionStats.size());
-    writer.newLine();
-    writer.write(
-        globalAggregator.toString(operationType.toString() + ": Global"));
-
-    writer.newLine();
-    writer.newLine();
-  }
-
-  private void dumpOrdered() throws IOException {
-    for (TransactionStat stat : transactionStats) {
-      dumpOrdered(stat);
+    for(TransactionStat stat : transactionStats){
+      writer.write(stat.toString());
+      writer.newLine();
     }
   }
 
-  private void dumpOrdered(TransactionStat transactionStat) throws IOException {
-    BufferedWriter writer = getStatsLogWriter();
-    writer.write("Transaction: " + transactionStat.name.toString());
-    writer.newLine();
-    dump(writer, transactionStat);
-    writer.newLine();
-    writer.newLine();
+  private void dumpDetailed() throws IOException {
+    if(detailedStats) {
+      BufferedWriter writer = getStatsLogWriter();
+      for (TransactionStat stat : transactionStats) {
+        writer.write("Transaction: " + stat.name.toString());
+        writer.newLine();
+        dump(writer, stat);
+        writer.newLine();
+        writer.newLine();
+      }
+    }
   }
 
   private EntityContextStat.StatsAggregator dump(BufferedWriter writer,
@@ -188,28 +324,40 @@ public class TransactionsStats {
     return txAggStat;
   }
 
+  private BufferedWriter getCSVFileWriter() throws IOException {
+    if (csvFileWriter == null) {
+      this.csvFileWriter = new BufferedWriter(
+          new FileWriter(getCSVFile(), true));
+    }
+    return this.csvFileWriter;
+  }
+
+
   private BufferedWriter getStatsLogWriter() throws IOException {
     if (statsLogWriter == null) {
       this.statsLogWriter = new BufferedWriter(
-          new FileWriter(new File(statsDir, getStatsFile()), true));
+          new FileWriter(getStatsFile(), true));
     }
     return this.statsLogWriter;
   }
 
-  private BufferedWriter getAggStatsLogWriter() throws IOException {
-    if (aggStatsLogWriter == null) {
-      this.aggStatsLogWriter = new BufferedWriter(
-          new FileWriter(new File(statsDir, getAggStatsFile()), true));
+  private BufferedWriter getResolvingCSVFileWriter() throws IOException {
+    if (memcacheCSVFileWriter == null) {
+      this.memcacheCSVFileWriter = new BufferedWriter(
+          new FileWriter(getResolvingCacheCSVFile(), true));
     }
-    return this.aggStatsLogWriter;
+    return this.memcacheCSVFileWriter;
   }
 
-  private String getStatsFile() {
-    return "hops-" + System.currentTimeMillis() + ".log";
+  private File getStatsFile() {
+    return new File(statsDir, "hops-stats.log");
   }
 
-  private String getAggStatsFile() {
-    return "hops-agg-" + System.currentTimeMillis() + ".log";
+  private File getCSVFile() {
+    return new File(statsDir, "hops-stats.csv");
   }
 
+  private File getResolvingCacheCSVFile() {
+    return new File(statsDir, "hops-resolving-cache-stats.csv");
+  }
 }

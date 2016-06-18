@@ -42,6 +42,8 @@ public class TablesDef {
     public static final String UNDER_CONSTRUCTION = "under_construction";
     public static final String SUBTREE_LOCKED = "subtree_locked";
     public static final String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
+    public static final String META_ENABLED = "meta_enabled";
+    public static final String SIZE = "size";
     public static final String ISDELETED ="isdeleted";
     public static final String STATUS = "status";
   }
@@ -122,22 +124,16 @@ public class TablesDef {
   }
 
   public static interface LeaseTableDef {
-
     public static final String TABLE_NAME = "hdfs_leases";
     public static final String HOLDER = "holder";
     public static final String LAST_UPDATE = "last_update";
     public static final String HOLDER_ID = "holder_id";
-    public static final String PART_KEY = "part_key";
-    public static final int PART_KEY_VAL = 0;
   }
 
   public static interface LeasePathTableDef {
-
     public static final String TABLE_NAME = "hdfs_lease_paths";
-    public static final String PART_KEY = "part_key";
     public static final String HOLDER_ID = "holder_id";
     public static final String PATH = "path";
-    public static final int PART_KEY_VAL = 0;
   }
 
   public static interface InvalidatedBlockTableDef {
@@ -223,4 +219,56 @@ public class TablesDef {
     public static final String VARIABLE_VALUE = "value";
     public static final Integer MAX_VARIABLE_SIZE = 500;
   }
+
+  public static interface MetadataLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_metadata_log";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String INODE_ID = "inode_id";
+    public static final String LOGICAL_TIME = "logical_time";
+    public static final String OPERATION = "operation";
+  }
+
+  public static interface AccessTimeLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_access_log";
+    public static final String INODE_ID = "inode_id";
+    public static final String USER_ID = "user_id";
+    public static final String ACCESS_TIME = "access_time";
+  }
+
+  public static interface SizeLogTableDef {
+
+    public static final String TABLE_NAME = "hdfs_size_log";
+    public static final String INODE_ID = "inode_id";
+    public static final String SIZE = "size";
+  }
+
+  public static interface EncodingJobsTableDef {
+
+    public static final String TABLE_NAME = "hdfs_encoding_jobs";
+    public static final String JT_IDENTIFIER = "jt_identifier";
+    public static final String JOB_ID = "job_id";
+    public static final String PATH = "path";
+    public static final String JOB_DIR = "job_dir";
+  }
+
+  public static interface RepairJobsTableDef {
+
+    public static final String TABLE_NAME = "hdfs_repair_jobs";
+    public static final String JT_IDENTIFIER = "jt_identifier";
+    public static final String JOB_ID = "job_id";
+    public static final String PATH = "path";
+    public static final String IN_DIR = "in_dir";
+    public static final String OUT_DIR = "out_dir";
+  }
+
+  public static interface OnGoingSubTreeOpsDef {
+
+    public static final String TABLE_NAME = "hdfs_on_going_sub_tree_ops";
+    public static final String PATH = "path";
+    public static final String NAME_NODE_ID = "namenode_id";
+    public static final String OP_NAME = "op_name";
+    public static final int LIMIT = 5;
+  } 
 }

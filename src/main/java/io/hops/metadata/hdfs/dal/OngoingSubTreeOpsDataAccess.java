@@ -20,18 +20,13 @@ import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
 
-public interface LeasePathDataAccess<T> extends EntityDataAccess {
+public interface OngoingSubTreeOpsDataAccess<T> extends EntityDataAccess {
 
-  Collection<T> findByHolderId(int holderId) throws StorageException;
-
-  Collection<T> findByPrefix(String prefix) throws StorageException;
-
-  Collection<T> findAll() throws StorageException;
-
-  T findByPath(String path) throws StorageException;
+  Collection<T> findByPathsByPrefix(String prefix) throws StorageException;
+  
+  //only for testing
+  Collection<T> allOps() throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
-
-  void removeAll() throws StorageException;
 }
