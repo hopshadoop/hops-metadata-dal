@@ -22,21 +22,14 @@ public class FinishedApplications implements Comparable<FinishedApplications>{
 
   private final String rmnodeid;
   private final String applicationId;
-  private final int pendingEventId;
 
-  public FinishedApplications(String rmnodeid, String applicationId,
-          int pendingId) {
+  public FinishedApplications(String rmnodeid, String applicationId) {
     this.rmnodeid = rmnodeid;
     this.applicationId = applicationId;
-    this.pendingEventId = pendingId;
   }
 
   public String getRMNodeID() {
     return rmnodeid;
-  }
-
-  public int getPendingEventId() {
-    return pendingEventId;
   }
 
   public String getApplicationId() {
@@ -46,7 +39,7 @@ public class FinishedApplications implements Comparable<FinishedApplications>{
   @Override
   public String toString() {
     return "HopFinishedApplications{" + "rmnodeid=" + rmnodeid +
-        ", applicationId=" + applicationId + ", pendingevetid=" + pendingEventId + '}';
+        ", applicationId=" + applicationId + '}';
   }
 
   public int compareTo(FinishedApplications f) {

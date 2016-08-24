@@ -18,11 +18,18 @@ package io.hops.metadata.yarn.entity;
 public class PendingEvent implements Comparable<PendingEvent> {
 
   private PendingEventID id;
-  private final int type;
-  private final int status;
+  private final Type type;
+  private final Status status;
 
+  public enum Type {
+    NODE_UPDATED, NODE_REMOVED, NODE_ADDED
+  }
   
-  public PendingEvent(String rmnodeId, int type, int status, int id) {
+  public enum Status {
+    SCHEDULER_FINISHED_PROCESSING, SCHEDULER_NOT_FINISHED_PROCESSING, NEW
+  }
+  
+  public PendingEvent(String rmnodeId, Type type, Status status, int id) {
     this.type = type;
     this.status = status;
     this.id = new PendingEventID(id, rmnodeId);
@@ -51,7 +58,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public int getType() {
+  public Type getType() {
     return type;
   }
 
@@ -61,7 +68,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public int getStatus() {
+  public Status getStatus() {
     return status;
   }
 

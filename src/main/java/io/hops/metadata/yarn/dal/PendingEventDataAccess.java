@@ -59,6 +59,8 @@ public interface PendingEventDataAccess<T> extends EntityDataAccess {
   void removePendingEvent(T pendingEvent) throws StorageException;
 
   void addAll(Collection<T> toUpdate) throws StorageException;
+  
+  void add(T toAdd) throws StorageException;
 
   void removeAll(Collection<T> toRemove) throws StorageException;
 }

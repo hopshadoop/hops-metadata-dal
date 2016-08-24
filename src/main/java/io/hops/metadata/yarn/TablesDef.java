@@ -40,7 +40,6 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_containerid_toclean";
     public static final String CONTAINERID = "containerid";
     public static final String RMNODEID = "rmnodeid";
-    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface ContainerStatusTableDef {
@@ -100,7 +99,6 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_rmnode_finishedapplications";
     public static final String RMNODEID = "rmnodeid";
     public static final String APPLICATIONID = "applicationid";
-    public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
   public static interface JustLaunchedContainersTableDef {
@@ -234,8 +232,6 @@ public class TablesDef {
 
     public static final String TABLE_NAME = "yarn_resource";
     public static final String ID = "id";
-    public static final String TYPE = "type";
-    public static final String PARENT = "parent";
     public static final String MEMORY = "memory";
     public static final String VIRTUAL_CORES = "virtualcores";
     public static final String PENDING_EVENT_ID = "pendingeventid";
@@ -287,8 +283,6 @@ public class TablesDef {
     public static final String HOST_NAME = "hostname";
     public static final String COMMAND_PORT = "commandport";
     public static final String HTTP_PORT = "httpport";
-    public static final String NODE_ADDRESS = "nodeaddress";
-    public static final String HTTP_ADDRESS = "httpaddress";
     public static final String NEXT_HEARTBEAT = "nextheartbeat";
     public static final String RESOURCE_ID = "resourceid";
     public static final String HEALTH_REPORT = "healthreport";
@@ -296,7 +290,6 @@ public class TablesDef {
     public static final String LAST_HEALTH_REPORT_TIME = "lasthealthreporttime";
     public static final String NODEHBRESPONSE_ID = "lastnodehbresponse_id";
     public static final String CURRENT_STATE = "currentstate";
-    public static final String OVERCOMMIT_TIMEOUT = "overcommittimeout";
     public static final String NODEMANAGER_VERSION = "nodemanager_version";
     public static final String PENDING_EVENT_ID = "pendingeventid";
   }

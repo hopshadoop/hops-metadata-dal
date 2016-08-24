@@ -43,8 +43,11 @@ public interface NextHeartbeatDataAccess<T> extends EntityDataAccess {
    * @throws StorageException
    */
   void updateAll(List<NextHeartbeat> toUpdate)
-      throws StorageException;
-  
+          throws StorageException;
+
+  void update(NextHeartbeat toUpdate)
+          throws StorageException;
+
   Map<String, Boolean> getAll() throws StorageException;
 
 }

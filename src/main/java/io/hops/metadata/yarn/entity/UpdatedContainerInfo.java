@@ -29,6 +29,14 @@ public class UpdatedContainerInfo implements Comparable<UpdatedContainerInfo> {
     this.updatedContainerInfoId = updatedContainerInfoId;
     this.pendingEventId = pendingId;
   }
+  
+  public UpdatedContainerInfo(String rmnodeid, String containerId,
+          int updatedContainerInfoId) {
+    this.rmnodeid = rmnodeid;
+    this.containerId = containerId;
+    this.updatedContainerInfoId = updatedContainerInfoId;
+    this.pendingEventId = -1;
+  }
 
   public int getPendingEventId() {
     return pendingEventId;
