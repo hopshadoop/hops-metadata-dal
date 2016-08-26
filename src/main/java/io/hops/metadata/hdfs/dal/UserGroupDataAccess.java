@@ -23,6 +23,8 @@ import java.util.List;
 public interface UserGroupDataAccess<U,G> extends EntityDataAccess{
   void addUserToGroup(U user, G group) throws StorageException;
   void addUserToGroup(int userId, int groupId) throws StorageException;
+  void addUserToGroups(int userId, List<Integer> groupIds) throws
+      StorageException;
   List<G> getGroupsForUser(U user) throws StorageException;
   List<G> getGroupsForUser(int userId) throws StorageException;
 }
