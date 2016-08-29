@@ -134,7 +134,6 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_nextheartbeat";
     public static final String RMNODEID = "rmnodeid";
     public static final String NEXTHEARTBEAT = "nextheartbeat";
-    public static final String PENDING_EVENT_ID = "pendingeventid";
 
     //Field that denotes the integer value of the nextheartbeat field if is true
     public static final int NEXTHEARTBEAT_TRUE = 1;
