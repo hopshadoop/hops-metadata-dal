@@ -41,7 +41,11 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
           int exitstatus, String rMNodeId, int pendingId, Type type) {
     this.containerid = containerid;
     this.state = state;
-    this.diagnostics = diagnostics.substring(0, 500);
+    if (diagnostics.length() > 500) {
+      this.diagnostics = diagnostics.substring(0, 500);
+    } else {
+      this.diagnostics = diagnostics;
+    }
     this.exitstatus = exitstatus;
     this.rMNodeId = rMNodeId;
     this.pendingEventId = pendingId;
