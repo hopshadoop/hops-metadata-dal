@@ -30,11 +30,6 @@ public class NextHeartbeat {
   }
 
 
-  // TODO: THIS IS HERE JUST FOR A QUICK FIX
-  // IT SHOULD BE DELETED
-  public NextHeartbeat(String rmnodeid, boolean nextheartbeat) {
-    this(rmnodeid, nextheartbeat, 0);
-  }
   /**
    * @return
    */
