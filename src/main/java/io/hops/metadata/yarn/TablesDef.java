@@ -52,6 +52,7 @@ public class TablesDef {
     public static final String PENDING_EVENT_ID = "pendingeventid";
     public static final String RMNODEID = "rmnodeid";
     public static final String TYPE = "type";
+    public static final String UCI_ID = "uciid";
     //State values
     public static final String STATE_RUNNING = "RUNNING";
     public static final String STATE_COMPLETED = "COMPLETE";

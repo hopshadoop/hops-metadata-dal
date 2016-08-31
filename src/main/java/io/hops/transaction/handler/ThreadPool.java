@@ -7,11 +7,14 @@ import java.util.concurrent.Executors;
  * Created by antonis on 8/29/16.
  */
 public final class ThreadPool {
+
+    private final int POOL_SIZE  = 60;
+
     private volatile static ThreadPool instance = null;
     private final ExecutorService commitThreadPool;
 
     private ThreadPool() {
-        commitThreadPool = Executors.newCachedThreadPool();
+        commitThreadPool = Executors.newFixedThreadPool(POOL_SIZE);
     }
 
     public static ThreadPool getInstance() {
