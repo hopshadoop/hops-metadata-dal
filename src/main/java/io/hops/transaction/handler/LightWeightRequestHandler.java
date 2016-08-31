@@ -60,24 +60,24 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
                   ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
                   ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
         } else {
-          log.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          log.error("Transaction failed after " + RETRY_COUNT + " retries.", e);
           throw e;
         }
       } catch (IOException e) {
         rollback = true;
-        log.debug("Transaction failed.", e);
+        log.error("Transaction failed.", e);
         throw e;
       } catch (RuntimeException e) {
         rollback = true;
-        log.debug("Transaction failed.", e);
+        log.error("Transaction failed.", e);
         throw e;
       } catch (Error e) {
         rollback = true;
-        log.debug("Transaction failed.", e);
+        log.error("Transaction failed.", e);
         throw e;
       } finally {
         if (rollback && connector.isTransactionActive()) {
-          log.debug("Transaction rollback. retries:" + RETRY_COUNT);
+          log.error("Transaction rollback. retries:" + RETRY_COUNT);
           connector.rollback();
         }
         NDCWrapper.pop();
@@ -87,7 +87,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
             log.error("Rollback the TX");
             connector.rollback();
           } catch (Exception e) {
-            log.warn("Could not rollback transaction", e);
+            log.error("Could not rollback transaction", e);
           }
         }
       }

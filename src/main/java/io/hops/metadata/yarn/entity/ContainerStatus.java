@@ -25,6 +25,7 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
   private final String diagnostics;
   private final int exitstatus;
   private final String rMNodeId;
+  private final Integer uciId;
   private final int pendingEventId;
   private final Type type;
           
@@ -33,12 +34,12 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
   }
 
   public ContainerStatus(String containerid, String rMNodeId, Type type,
-          int pendingEventId) {
-    this(containerid, null, null, 0, rMNodeId, pendingEventId, type);
+          int pendingEventId, int uciId) {
+    this(containerid, null, null, 0, rMNodeId, pendingEventId, type, uciId);
   }
   
   public ContainerStatus(String containerid, String state, String diagnostics,
-          int exitstatus, String rMNodeId, int pendingId, Type type) {
+          int exitstatus, String rMNodeId, int pendingId, Type type, int uciId) {
     this.containerid = containerid;
     this.state = state;
     this.diagnostics = diagnostics.substring(0, Math.min(500, diagnostics.
@@ -47,9 +48,10 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     this.rMNodeId = rMNodeId;
     this.pendingEventId = pendingId;
     this.type = type;
+    this.uciId = uciId;
   }
 
-  public ContainerStatus(String containerid, String rMNodeId, Type type) {
+  public ContainerStatus(String containerid, String rMNodeId, Type type, int uciId) {
     this.containerid = containerid;
     this.state = "";
     this.diagnostics = "";
@@ -57,8 +59,13 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     this.rMNodeId = rMNodeId;
     this.pendingEventId = -1;
     this.type = type;
+    this.uciId = uciId;
   }
-  
+
+  public int getUciId() {
+    return uciId;
+  }
+
   public int getPendingEventId() {
     return pendingEventId;
   }
@@ -92,12 +99,12 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
   public String toString() {
     return "HopContainerStatus{" + "containerid=" + containerid + ", state=" +
         state + ", diagnostics=" + diagnostics + ", exitstatus=" + exitstatus +
-        "type= " + type + '}';
+        "type= " + type + "uciId= " + uciId + '}';
   }
 
   @Override
   public int hashCode() {
-    return containerid.hashCode() + 100 * type.hashCode();
+    return containerid.hashCode() + 100 * uciId.hashCode();
   }
 
   @Override
@@ -122,7 +129,7 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     if(containerid.compareTo(other.getContainerid())!=0){
         return containerid.compareTo(other.getContainerid());
     }else{
-        return type.compareTo(other.getType());
+        return uciId.compareTo(other.getUciId());
     }
   }
 
