@@ -24,7 +24,6 @@ public class RMNodeComps {
   private final PendingEvent hopPendingEvent;
   private final RMNode hopRMNode;
   private final NextHeartbeat hopNextHeartbeat;
-  private final NodeHBResponse hopNodeHBResponse;
   private final Resource hopResource;
   //hopUpdatedContainerInfo are grouped by updatedContainerInfoId
   private final List<UpdatedContainerInfo> hopUpdatedContainerInfo;
@@ -35,7 +34,7 @@ public class RMNodeComps {
   private final String rmNodeId;
 
   public RMNodeComps(RMNode hopRMNode, NextHeartbeat hopNextHeartbeat,
-          NodeHBResponse hopNodeHBResponse, Resource hopResource,
+          Resource hopResource,
           PendingEvent hopPendingEvent,
           List<UpdatedContainerInfo> hopUpdatedContainerInfo,
           List<ContainerId> hopContainerIdsToClean,
@@ -43,7 +42,6 @@ public class RMNodeComps {
           List<ContainerStatus> hopContainersStatus, String rmNodeId) {
     this.hopRMNode = hopRMNode;
     this.hopNextHeartbeat = hopNextHeartbeat;
-    this.hopNodeHBResponse = hopNodeHBResponse;
     this.hopResource = hopResource;
     this.hopPendingEvent = hopPendingEvent;
     this.hopUpdatedContainerInfo = hopUpdatedContainerInfo;
@@ -107,10 +105,6 @@ public class RMNodeComps {
 
   public NextHeartbeat getHopNextHeartbeat() {
     return hopNextHeartbeat;
-  }
-
-  public NodeHBResponse getHopNodeHBResponse() {
-    return hopNodeHBResponse;
   }
 
   public String getRMNodeId(){
