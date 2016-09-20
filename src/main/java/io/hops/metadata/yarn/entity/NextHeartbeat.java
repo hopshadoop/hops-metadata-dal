@@ -17,6 +17,10 @@ package io.hops.metadata.yarn.entity;
 
 public class NextHeartbeat {
 
+  //Field that denotes the integer value of the nextheartbeat field if is true
+  public static final int NEXTHEARTBEAT_TRUE = 1;
+  public static final int NEXTHEARTBEAT_FALSE = 0;
+
   private final String rmnodeid;
   private final boolean nextheartbeat;
 
@@ -48,6 +52,21 @@ public class NextHeartbeat {
   public String toString() {
     return "HopNextHeartbeat{" + "rmnodeid=" + rmnodeid + ", nextheartbeat=" +
         nextheartbeat + '}';
+  }
+  
+    /**
+   * As ClusterJ boolean is buggy, we use Int to store the boolean field to NDB
+   * and we convert it here to integer.
+   * <p/>
+   *
+   * @return
+   */
+  public static boolean intToBoolean(int a) {
+    return a == NEXTHEARTBEAT_TRUE;
+  }
+
+  public static int booleanToInt(boolean a) {
+    return a ? NEXTHEARTBEAT_TRUE : NEXTHEARTBEAT_FALSE;
   }
 
 }

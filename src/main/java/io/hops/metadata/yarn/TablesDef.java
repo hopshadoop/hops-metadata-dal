@@ -52,9 +52,6 @@ public class TablesDef {
     public static final String RMNODEID = "rmnodeid";
     public static final String NEXTHEARTBEAT = "nextheartbeat";
 
-    //Field that denotes the integer value of the nextheartbeat field if is true
-    public static final int NEXTHEARTBEAT_TRUE = 1;
-    public static final int NEXTHEARTBEAT_FALSE = 0;
   }
 
   /**
@@ -68,6 +65,7 @@ public class TablesDef {
     public static final String TYPE = "type";
     public static final String STATUS = "status";
     public static final String ID = "id";
+    public static final String CONTAINS = "contains";
   }
 
   public static interface ResourceTableDef {
