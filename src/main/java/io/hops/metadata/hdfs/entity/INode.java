@@ -35,7 +35,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   public INode() {
   }
 
-  public INode(int id, String name, int parentId, boolean dirWithQuota,
+  public INode(int id, String name, int parentId, int partitionId, boolean isDir, boolean dirWithQuota,
       long modificationTime, long accessTime, int userID, int
       groupID, short permission, boolean underConstruction, String clientName,
       String clientMachine,
@@ -43,7 +43,7 @@ public class INode extends INodeBase implements Comparable<INode> {
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
       long size) {
 
-    super(id, parentId, name, userID, groupID, permission, header,
+    super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
         size);
 
@@ -55,10 +55,6 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.generationStamp = generationStamp;
     this.symlink = symlink;
     this.metaEnabled = metaEnabled;
-  }
-
-  public boolean isDir() {
-    return header == 0 && symlink == null;
   }
 
   public long getModificationTime() {
