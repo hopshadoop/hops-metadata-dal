@@ -29,6 +29,8 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String PARENT_ID = "parent_id";
+    public static final String PARTITION_ID = "partition_id";
+    public static final String IS_DIR = "is_dir";
     public static final String MODIFICATION_TIME = "modification_time";
     public static final String ACCESS_TIME = "access_time";
     public static final String USER_ID = "user_id";
@@ -288,6 +290,7 @@ public class TablesDef {
     public static final String PATH = "path";
     public static final String NAME_NODE_ID = "namenode_id";
     public static final String OP_NAME = "op_name";
-    public static final int LIMIT = 5;
+    public static final String PARTITION_ID = "partition_id";
+    public static final int LIMIT = 2;
   } 
 }
