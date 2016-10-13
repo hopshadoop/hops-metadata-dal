@@ -112,5 +112,34 @@ public class TablesDef {
     public static final String UPDATEDCONTAINERINFOID = "updatedcontainerinfoid";
     public static final String PENDING_EVENT_ID = "pendingeventid";
   }
+  
+  public static interface ApplicationAttemptStateTableDef {
+    public static final String TABLE_NAME = "yarn_applicationattemptstate";
+    public static final String APPLICATIONID = "applicationid";
+    public static final String APPLICATIONATTEMPTID = "applicationattemptid";
+    public static final String APPLICATIONATTEMPTSTATE =
+        "applicationattemptstate";
+  }
+  
+  public static interface ApplicationStateTableDef {
+    public static final String TABLE_NAME = "yarn_applicationstate";
+    public static final String APPLICATIONID = "applicationid";
+    public static final String APPSTATE = "appstate";
+    public static final String USER = "appuser";
+    public static final String NAME = "appname";
+    public static final String SMSTATE = "appsmstate";
+  }
+  
+    public static interface DelegationKeyTableDef {
+    public static final String TABLE_NAME = "yarn_delegation_key";
+    public static final String KEY = "key";
+    public static final String DELEGATIONKEY = "delegationkey";
+  }
+
+  public static interface DelegationTokenTableDef {
+    public static final String TABLE_NAME = "yarn_delegation_token";
+    public static final String SEQ_NUMBER = "seq_number";
+    public static final String RMDT_IDENTIFIER = "rmdt_identifier";
+  }
 
 }

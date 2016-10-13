@@ -47,6 +47,10 @@ public abstract class Variable {
     MisReplicatedFilesIndex,
     ClusterInSafeMode,
     BrLbMaxBlkPerTU,
+    RMStateStoreVersion,
+    RMStateStoreEpoch,
+    AMRMToken,
+    RMDTSequenceNumber,
     //Generic Variables
     GenericInteger,
     GenericLong,
@@ -144,6 +148,14 @@ public abstract class Variable {
         return new IntVariable(varType);
       case BrLbMaxBlkPerTU:
         return new LongVariable(varType);
+      case RMStateStoreVersion:
+        return new ByteArrayVariable(varType);
+      case RMStateStoreEpoch:
+        return new LongVariable(varType);
+      case AMRMToken:
+        return new ByteArrayVariable(varType);
+      case RMDTSequenceNumber:
+        return new IntVariable(varType);
     }
     return null;
   }
