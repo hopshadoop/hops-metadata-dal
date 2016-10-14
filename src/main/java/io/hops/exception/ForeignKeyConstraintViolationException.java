@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.hdfs.dal;
+package io.hops.exception;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
+public class ForeignKeyConstraintViolationException extends StorageException{
+  public ForeignKeyConstraintViolationException() {
+  }
 
-import java.util.Collection;
+  public ForeignKeyConstraintViolationException(String message) {
+    super(message);
+  }
 
-public interface GroupDataAccess<T> extends EntityDataAccess{
-  T getGroup(int groupId) throws StorageException;
-  T getGroup(String groupName) throws StorageException;
-  T addGroup(String groupName) throws StorageException;
-  void removeGroup(int groupId) throws StorageException;
+  public ForeignKeyConstraintViolationException(Throwable cause) {
+    super(cause);
+  }
+
+  public ForeignKeyConstraintViolationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
