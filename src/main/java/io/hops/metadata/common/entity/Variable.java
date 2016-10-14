@@ -51,6 +51,7 @@ public abstract class Variable {
     RMStateStoreEpoch,
     AMRMToken,
     RMDTSequenceNumber,
+    QuotaTicksCounter,
     //Generic Variables
     GenericInteger,
     GenericLong,
@@ -156,6 +157,8 @@ public abstract class Variable {
         return new ByteArrayVariable(varType);
       case RMDTSequenceNumber:
         return new IntVariable(varType);
+      case QuotaTicksCounter:
+        return new LongVariable(varType);
     }
     return null;
   }

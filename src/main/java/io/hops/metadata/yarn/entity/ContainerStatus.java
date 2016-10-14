@@ -27,19 +27,14 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
   private final String rMNodeId;
   private final Integer uciId;
   private final int pendingEventId;
-  private final Type type;
-          
-  public enum Type{
-      JUST_LAUNCHED, UCI
-  }
-
-  public ContainerStatus(String containerid, String rMNodeId, Type type,
-          int pendingEventId, int uciId) {
-    this(containerid, null, null, 0, rMNodeId, pendingEventId, type, uciId);
+  
+  public ContainerStatus(String containerid, String state, String diagnostics,
+          int exitstatus, String rMNodeId) {
+    this(containerid, state, diagnostics, exitstatus, rMNodeId, -1, -1);
   }
   
   public ContainerStatus(String containerid, String state, String diagnostics,
-          int exitstatus, String rMNodeId, int pendingId, Type type, int uciId) {
+          int exitstatus, String rMNodeId, int pendingId, int uciId) {
     this.containerid = containerid;
     this.state = state;
     this.diagnostics = diagnostics.substring(0, Math.min(500, diagnostics.
@@ -47,18 +42,16 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     this.exitstatus = exitstatus;
     this.rMNodeId = rMNodeId;
     this.pendingEventId = pendingId;
-    this.type = type;
     this.uciId = uciId;
   }
 
-  public ContainerStatus(String containerid, String rMNodeId, Type type, int uciId) {
+  public ContainerStatus(String containerid, String rMNodeId, int uciId) {
     this.containerid = containerid;
     this.state = "";
     this.diagnostics = "";
     this.exitstatus = 0;
     this.rMNodeId = rMNodeId;
     this.pendingEventId = -1;
-    this.type = type;
     this.uciId = uciId;
   }
 
@@ -90,16 +83,13 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     return rMNodeId;
   }
 
-  public Type getType() {
-      return type;
-  }
 
   
   @Override
   public String toString() {
     return "HopContainerStatus{" + "containerid=" + containerid + ", state=" +
         state + ", diagnostics=" + diagnostics + ", exitstatus=" + exitstatus +
-        "type= " + type + "uciId= " + uciId + '}';
+        "uciId= " + uciId + '}';
   }
 
   @Override
@@ -117,8 +107,7 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     }
 
     return containerid
-            .equals(((ContainerStatus) o).getContainerid()) && type.equals(
-            ((ContainerStatus)o).getType());
+            .equals(((ContainerStatus) o).getContainerid());
   }
 
   @Override

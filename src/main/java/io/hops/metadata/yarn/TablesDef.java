@@ -142,4 +142,47 @@ public class TablesDef {
     public static final String RMDT_IDENTIFIER = "rmdt_identifier";
   }
 
+  public static interface ProjectQuotaTableDef {
+
+    public static final String TABLE_NAME = "yarn_projects_quota";
+    public static final String PROJECTID = "projectname";
+    public static final String REMAINING_QUOTA = "quota_remaining";
+    public static final String TOTAL_USED_QUOTA = "total";
+  }
+
+  public static interface ContainersLogsTableDef {
+
+    public static final String TABLE_NAME = "yarn_containers_logs";
+    public static final String CONTAINERID = "container_id";
+    public static final String START = "start";
+    public static final String STOP = "stop";
+    public static final String EXITSTATUS = "exit_status";
+    public static final String PRICE = "price";
+    public static final String VCORES = "vcores";
+    public static final String MB = "mb";
+  }
+
+  public static interface ContainersCheckPointsTableDef {
+
+    public static final String TABLE_NAME = "yarn_containers_checkpoint";
+    public static final String CONTAINERID = "container_id";
+    public static final String CHECKPOINT = "checkpoint";
+    public static final String MULTIPLICATOR = "multiplicator";
+  }
+
+  public static interface ProjectsDailyCostTableDef {
+
+    public static final String TABLE_NAME = "yarn_projects_daily_cost";
+    public static final String PROJECTNAME = "projectname";
+    public static final String USER = "user";
+    public static final String DAY = "day";
+    public static final String CREDITS_USED = "credits_used";
+  }
+
+  public static interface PriceMultiplicatorTableDef {
+
+    public static final String TABLE_NAME = "yarn_price_multiplicator";
+    public static final String ID = "id";
+    public static final String MULTIPLICATOR = "multiplicator";
+  }
 }
