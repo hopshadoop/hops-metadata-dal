@@ -119,6 +119,7 @@ public class TablesDef {
     public static final String APPLICATIONATTEMPTID = "applicationattemptid";
     public static final String APPLICATIONATTEMPTSTATE =
         "applicationattemptstate";
+    public static final String TRAKINGURL = "applicationattempttrakingurl";
   }
   
   public static interface ApplicationStateTableDef {

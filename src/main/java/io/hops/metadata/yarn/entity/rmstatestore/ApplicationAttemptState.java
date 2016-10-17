@@ -22,17 +22,20 @@ public class ApplicationAttemptState {
   private final String applicationid;
   private final String applicationattemptid;
   private final byte[] applicationattemptstate;
+  private final String trakingURL;
 
   public ApplicationAttemptState(String applicationid,
       String applicationattemptid) {
-    this(applicationid, applicationattemptid, null);
+    this(applicationid, applicationattemptid, null, null);
   }
 
   public ApplicationAttemptState(String applicationid,
-      String applicationattemptid, byte[] applicationattemptstate) {
+      String applicationattemptid, byte[] applicationattemptstate,
+      String trakingURL) {
     this.applicationid = applicationid;
     this.applicationattemptid = applicationattemptid;
     this.applicationattemptstate = applicationattemptstate;
+    this.trakingURL = trakingURL;
   }
 
   public String getApplicationId() {
@@ -45,6 +48,10 @@ public class ApplicationAttemptState {
 
   public byte[] getApplicationattemptstate() {
     return applicationattemptstate;
+  }
+
+  public String getTrakingURL() {
+    return trakingURL;
   }
 
   @Override
