@@ -155,6 +155,10 @@ public abstract class EntityContext<T> {
     throw new UnsupportedOperationException("Please Implement Me");
   }
 
+  protected boolean isLogDebugEnabled(){
+    return LOG.isDebugEnabled();
+  }
+
   private static void log(String opName, CacheHitState state,
       Object... params) {
     if (!LOG.isDebugEnabled()) {
