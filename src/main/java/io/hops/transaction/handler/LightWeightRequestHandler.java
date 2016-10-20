@@ -49,45 +49,58 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         totalTime = System.currentTimeMillis();
         Object ret = performTask();
         totalTime = System.currentTimeMillis() - totalTime;
-        log.debug("Total time taken. Time " + totalTime + " ms");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Total time taken. Time " + totalTime + " ms");
+        }
         return ret;
       } catch (TransientStorageException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
           totalTime = System.currentTimeMillis() - totalTime;
-          log.error(
-              "Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT +
-                  ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
-                  ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
+          if(LOG.isDebugEnabled()) {
+            LOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT +
+                            ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
+                            ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
+          }
         } else {
-          log.error("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          if(LOG.isDebugEnabled()) {
+            LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          }
           throw e;
         }
       } catch (IOException e) {
         rollback = true;
-        log.error("Transaction failed.", e);
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Transaction failed.", e);
+        }
         throw e;
       } catch (RuntimeException e) {
         rollback = true;
-        log.error("Transaction failed.", e);
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Transaction failed.", e);
+        }
         throw e;
       } catch (Error e) {
         rollback = true;
-        log.error("Transaction failed.", e);
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Transaction failed.", e);
+        }
         throw e;
       } finally {
         if (rollback && connector.isTransactionActive()) {
-          log.error("Transaction rollback. retries:" + RETRY_COUNT);
+          if(LOG.isDebugEnabled()) {
+            LOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
+          }
           connector.rollback();
         }
         NDCWrapper.pop();
         NDCWrapper.remove();
         if (rollback) {
           try {
-            log.error("Rollback the TX");
+            LOG.error("Rollback the TX");
             connector.rollback();
           } catch (Exception e) {
-            log.error("Could not rollback transaction", e);
+            LOG.error("Could not rollback transaction", e);
           }
         }
       }
