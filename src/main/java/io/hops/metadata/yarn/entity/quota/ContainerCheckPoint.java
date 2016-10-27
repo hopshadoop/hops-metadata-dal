@@ -13,34 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity;
 
-/**
- * Pojo class for the RMNode.containersToClean set. Hostname, commandport point
- * to the RMNode primary key.
- */
-public class ContainerId {
+package io.hops.metadata.yarn.entity.quota;
 
-  private final String rmnodeid;
+public class ContainerCheckPoint {
   private final String containerId;
+  private final long checkPoint;
+  private final float multiplicator;
 
-  public ContainerId(String rmnodeid, String containerId) {
-    this.rmnodeid = rmnodeid;
-    this.containerId = containerId;
+  public ContainerCheckPoint(String containerId){
+    this(containerId, 0,0);
   }
-
-  public String getRmnodeid() {
-    return rmnodeid;
+  public ContainerCheckPoint(String containerId, long checkPoint, float price) {
+    this.containerId = containerId;
+    this.checkPoint = checkPoint;
+    this.multiplicator = price;
   }
 
   public String getContainerId() {
     return containerId;
   }
 
-  @Override
-  public String toString() {
-    return "HopContainerId{" + "rmnodeid=" + rmnodeid + ", containerId=" +
-        containerId + '}';
+  public long getCheckPoint() {
+    return checkPoint;
   }
-
+  
+  public float getMultiplicator() {
+    return multiplicator;
+  }
 }

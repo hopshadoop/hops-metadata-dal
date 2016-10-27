@@ -23,7 +23,7 @@ public class ByteArrayVariable extends Variable {
 
   public ByteArrayVariable(Finder type, byte[] value) {
     this(type);
-    if (value.length > 255) {
+    if (value != null && value.length > 255) {
       throw new IllegalArgumentException(
           "byte array shouldn't exceed 255 bytes");
     }
@@ -50,16 +50,26 @@ public class ByteArrayVariable extends Variable {
     }
     ByteBuffer buf = ByteBuffer.wrap(val);
     int len = buf.get();
+    if(len==0){
+      return;
+    }
     value = new byte[len];
     buf.get(value);
   }
 
   @Override
   public byte[] getBytes() {
-    ByteBuffer buf = ByteBuffer.allocate(getLength());
-    buf.put((byte) value.length);
-    buf.put(value);
-    return buf.array();
+    int length = getLength();
+    if (length > 0) {
+      ByteBuffer buf = ByteBuffer.allocate(getLength());
+      buf.put((byte) value.length);
+      buf.put(value);
+      return buf.array();
+    } else {
+      ByteBuffer buf = ByteBuffer.allocate(1);
+      buf.put((byte) 0);
+      return buf.array();
+    }
   }
 
   @Override

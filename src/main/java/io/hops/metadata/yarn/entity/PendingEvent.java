@@ -18,14 +18,24 @@ package io.hops.metadata.yarn.entity;
 public class PendingEvent implements Comparable<PendingEvent> {
 
   private PendingEventID id;
-  private final int type;
-  private final int status;
-
+  private final Type type;
+  private final Status status;
+  private int contains;
   
-  public PendingEvent(String rmnodeId, int type, int status, int id) {
+  public enum Type {
+    NODE_UPDATED, NODE_REMOVED, NODE_ADDED
+  }
+  
+  public enum Status {
+    SCHEDULER_FINISHED_PROCESSING, SCHEDULER_NOT_FINISHED_PROCESSING, NEW
+  }
+  
+  public PendingEvent(String rmnodeId, Type type, Status status, int id, 
+          int contains) {
     this.type = type;
     this.status = status;
     this.id = new PendingEventID(id, rmnodeId);
+    this.contains = contains;
   }
 
   public PendingEvent(PendingEvent pendingEvent) {
@@ -33,6 +43,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
     this.status = pendingEvent.getStatus();
     this.id = new PendingEventID(pendingEvent.getId().getEventId(),
             pendingEvent.getId().getNodeId());
+    this.contains = pendingEvent.getContains();
   }
   
   /**
@@ -51,7 +62,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public int getType() {
+  public Type getType() {
     return type;
   }
 
@@ -61,7 +72,7 @@ public class PendingEvent implements Comparable<PendingEvent> {
    *
    * @return
    */
-  public int getStatus() {
+  public Status getStatus() {
     return status;
   }
 
@@ -99,4 +110,11 @@ public class PendingEvent implements Comparable<PendingEvent> {
     return this.id.compareTo(o.getId());
   }
 
+  public int getContains(){
+    return contains;
+  }
+
+  public void setContains(int contains) {
+    this.contains=contains;
+  }
 }

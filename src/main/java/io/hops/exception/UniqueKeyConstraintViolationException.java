@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.rmstatestore;
+package io.hops.exception;
 
-public class DelegationToken {
-  private final int seqnumber;
-  private final byte[] rmdtidentifier;
-
-  public DelegationToken(int seqnumber) {
-    this(seqnumber, null);
-  }
-  
-  public DelegationToken(int seqnumber, byte[] rmdtidentifier) {
-    this.seqnumber = seqnumber;
-    this.rmdtidentifier = rmdtidentifier;
+public class UniqueKeyConstraintViolationException extends StorageException{
+  public UniqueKeyConstraintViolationException() {
   }
 
-  public int getSeqnumber() {
-    return seqnumber;
+  public UniqueKeyConstraintViolationException(String message) {
+    super(message);
   }
 
-  public byte[] getRmdtidentifier() {
-    return rmdtidentifier;
+  public UniqueKeyConstraintViolationException(Throwable cause) {
+    super(cause);
+  }
+
+  public UniqueKeyConstraintViolationException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

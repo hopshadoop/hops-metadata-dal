@@ -13,26 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.rmstatestore;
+package io.hops.metadata.yarn.entity.quota;
 
-public class DelegationToken {
-  private final int seqnumber;
-  private final byte[] rmdtidentifier;
+public class PriceMultiplicator {
 
-  public DelegationToken(int seqnumber) {
-    this(seqnumber, null);
+  private final MultiplicatorType type;
+  private final float price;
+
+  public enum MultiplicatorType{
+    VARIABLE;
+  }
+  public PriceMultiplicator(MultiplicatorType type, float price) {
+    this.type = type;
+    this.price = price;
+  }
+
+  public MultiplicatorType getId() {
+    return type;
+  }
+
+
+  public float getValue() {
+    return price;
   }
   
-  public DelegationToken(int seqnumber, byte[] rmdtidentifier) {
-    this.seqnumber = seqnumber;
-    this.rmdtidentifier = rmdtidentifier;
+  @Override
+  public String toString() {
+    return "YarnProjectsQuota{" + "type=" + type + ", price="
+            + price + " }";
   }
 
-  public int getSeqnumber() {
-    return seqnumber;
-  }
-
-  public byte[] getRmdtidentifier() {
-    return rmdtidentifier;
-  }
 }

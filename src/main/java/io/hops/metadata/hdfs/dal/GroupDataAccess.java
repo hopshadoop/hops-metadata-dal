@@ -24,4 +24,5 @@ public interface GroupDataAccess<T> extends EntityDataAccess{
   T getGroup(int groupId) throws StorageException;
   T getGroup(String groupName) throws StorageException;
   T addGroup(String groupName) throws StorageException;
+  void removeGroup(int groupId) throws StorageException;
 }
