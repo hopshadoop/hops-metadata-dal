@@ -245,7 +245,8 @@ public class TablesDef {
     public static final String DATASET_ID = "dataset_id";
     public static final String INODE_ID = "inode_id";
     public static final String TIMESTAMP = "timestamp";
-    public static final String INODE_PID = "inode_pid";
+    public static final String INODE_PARTITION_ID = "inode_partition_id";
+    public static final String INODE_PARENT_ID = "inode_parent_id";
     public static final String INODE_NAME = "inode_name";
     public static final String OPERATION = "operation";
   }
