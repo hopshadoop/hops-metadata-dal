@@ -17,43 +17,19 @@ package io.hops.metadata.yarn.entity;
 
 public class Resource implements Comparable<Resource>{
 
-  /**
-   * Used in resource primary key, to know by which class the particular
-   * resource is used.
-   */
-  public static final int FICASCHEDULERNODE = 1;
-  public static final int RMNODE = 2;
-  public static final int SCHEDULERAPPLICATIONATTEMPT = 3;
-  public static final int CLUSTER = 4;
-  public static final int FSSCHEDULERNODE = 4;
-  /**
-   * Resource types, useful when an entity has more than one resources.
-   */
-  public static final int TOTAL_CAPABILITY = 1;
-  public static final int USED = 2;
-  public static final int AVAILABLE = 3;
-  public static final int CURRENTRESERVATION = 4;
-  public static final int RESOURCELIMIT = 5;
-  public static final int CURRENTCONSUMPTION = 6;
   
   private final String id;
-  private final Integer type;
-  private final Integer parent;
   private int memory;
   private int virtualcores;
   private int pendingEventId;
   
-  public Resource(String id, int type, int parent) {
+  public Resource(String id) {
     this.id = id;
-    this.type = type;
-    this.parent = parent;
   }
   
-  public Resource(String id, int type, int parent, int memory,
+  public Resource(String id, int memory,
           int virtualcores, int pendingId) {
     this.id = id;
-    this.type = type;
-    this.parent = parent;
     this.memory = memory;
     this.virtualcores = virtualcores;
     this.pendingEventId = pendingId;
@@ -66,15 +42,7 @@ public class Resource implements Comparable<Resource>{
   public String getId() {
     return id;
   }
-  
-  public int getType() {
-    return type;
-  }
-  
-  public int getParent() {
-    return parent;
-  }
-  
+    
   public int getMemory() {
     return memory;
   }
@@ -85,8 +53,7 @@ public class Resource implements Comparable<Resource>{
   
   @Override
   public String toString() {
-    return "HopResource{" + "id=" + id + ", type=" + type + ", parent=" +
-        parent + '}';
+    return "HopResource{" + "id=" + id + '}';
   }
   
   @Override
@@ -94,18 +61,12 @@ public class Resource implements Comparable<Resource>{
     if(this.id.compareTo(r.id)!=0){
       return this.id.compareTo(r.id);
     }
-    if(this.type.compareTo(r.type)!=0){
-      return this.type.compareTo(r.type);
-    }
-    if(this.parent.compareTo(r.parent)!=0){
-      return this.parent.compareTo(r.parent);
-    }
     return 0;
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode() + 100 * type.hashCode() + 200 * parent.hashCode();
+    return id.hashCode();
   }
 
   @Override
@@ -114,8 +75,7 @@ public class Resource implements Comparable<Resource>{
       return false;
     }
     Resource other = (Resource) obj;
-    return (id.equals(other.id) && type.equals(other.type) && parent.equals(
-            other.parent));
+    return (id.equals(other.id));
   }
 
 }

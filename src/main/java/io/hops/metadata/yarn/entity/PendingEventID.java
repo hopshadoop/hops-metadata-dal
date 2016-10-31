@@ -47,4 +47,9 @@ public class PendingEventID implements Comparable<PendingEventID> {
   public int hashCode() {
     return nodeId.hashCode() + eventId;
   }
+  
+  @Override
+  public String toString(){
+    return nodeId + " " + eventId;
+  }
 }

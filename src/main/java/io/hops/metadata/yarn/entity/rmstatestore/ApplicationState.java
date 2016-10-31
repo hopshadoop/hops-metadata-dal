@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2015 hops.io.
  *
@@ -19,6 +20,7 @@ public class ApplicationState {
 
   private final String applicationId;
   private final byte[] appstate;
+  //for hopsworks
   private final String user;
   private final String name;
   private final String state;
@@ -59,6 +61,7 @@ public class ApplicationState {
   public String getState() {
     return state;
   }
+  
 
   @Override
   public String toString() {

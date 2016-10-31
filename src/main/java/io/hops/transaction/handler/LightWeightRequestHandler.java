@@ -100,7 +100,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
             LOG.error("Rollback the TX");
             connector.rollback();
           } catch (Exception e) {
-            LOG.warn("Could not rollback transaction", e);
+            LOG.error("Could not rollback transaction", e);
           }
         }
       }

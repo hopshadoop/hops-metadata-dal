@@ -19,6 +19,10 @@ public class DelegationKey {
   private final int key;
   private final byte[] delegationkey;
 
+  public DelegationKey(int key) {
+    this(key, null);
+  }
+  
   public DelegationKey(int key, byte[] delegationkey) {
     this.key = key;
     this.delegationkey = delegationkey;

@@ -31,6 +31,8 @@ public interface FinishedApplicationsDataAccess<T> extends EntityDataAccess {
 
   public void addAll(Collection<T> applications) throws StorageException;
 
+  public void add(T application) throws StorageException;
+  
   public void removeAll(Collection<T> applications) throws StorageException;
 
 }

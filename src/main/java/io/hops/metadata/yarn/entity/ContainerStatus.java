@@ -25,27 +25,38 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
   private final String diagnostics;
   private final int exitstatus;
   private final String rMNodeId;
+  private final Integer uciId;
   private final int pendingEventId;
-  private final Type type;
-          
-  public enum Type{
-      JUST_LAUNCHED, UCI
-  }
-
-  public ContainerStatus(String containerid, String rMNodeId, Type type,
-          int pendingEventId) {
-    this(containerid, null, null, 0, rMNodeId, pendingEventId, type);
+  
+  public ContainerStatus(String containerid, String state, String diagnostics,
+          int exitstatus, String rMNodeId) {
+    this(containerid, state, diagnostics, exitstatus, rMNodeId, -1, -1);
   }
   
   public ContainerStatus(String containerid, String state, String diagnostics,
-          int exitstatus, String rMNodeId, int pendingId, Type type) {
+          int exitstatus, String rMNodeId, int pendingId, int uciId) {
     this.containerid = containerid;
     this.state = state;
-    this.diagnostics = diagnostics;
+    this.diagnostics = diagnostics.substring(0, Math.min(500, diagnostics.
+            length()));
     this.exitstatus = exitstatus;
     this.rMNodeId = rMNodeId;
     this.pendingEventId = pendingId;
-    this.type = type;
+    this.uciId = uciId;
+  }
+
+  public ContainerStatus(String containerid, String rMNodeId, int uciId) {
+    this.containerid = containerid;
+    this.state = "";
+    this.diagnostics = "";
+    this.exitstatus = 0;
+    this.rMNodeId = rMNodeId;
+    this.pendingEventId = -1;
+    this.uciId = uciId;
+  }
+
+  public int getUciId() {
+    return uciId;
   }
 
   public int getPendingEventId() {
@@ -72,21 +83,18 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     return rMNodeId;
   }
 
-  public Type getType() {
-      return type;
-  }
 
   
   @Override
   public String toString() {
     return "HopContainerStatus{" + "containerid=" + containerid + ", state=" +
         state + ", diagnostics=" + diagnostics + ", exitstatus=" + exitstatus +
-        "type= " + type + '}';
+        "uciId= " + uciId + '}';
   }
 
   @Override
   public int hashCode() {
-    return containerid.hashCode() + 100 * type.hashCode();
+    return containerid.hashCode() + 100 * uciId.hashCode();
   }
 
   @Override
@@ -99,8 +107,7 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     }
 
     return containerid
-            .equals(((ContainerStatus) o).getContainerid()) && type.equals(
-            ((ContainerStatus)o).getType());
+            .equals(((ContainerStatus) o).getContainerid());
   }
 
   @Override
@@ -111,7 +118,7 @@ public class ContainerStatus implements Comparable<ContainerStatus> {
     if(containerid.compareTo(other.getContainerid())!=0){
         return containerid.compareTo(other.getContainerid());
     }else{
-        return type.compareTo(other.getType());
+        return uciId.compareTo(other.getUciId());
     }
   }
 
