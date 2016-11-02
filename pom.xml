@@ -85,5 +85,4 @@
         </repository>
         <downloadUrl>http://kompics.sics.se/maven/repository</downloadUrl>
   </distributionManagement>
-  
 </project>
