@@ -149,7 +149,7 @@ public class INode extends INodeBase implements Comparable<INode> {
     return Arrays.hashCode(this.name.getBytes());
   }
 
-  public static enum Order implements Comparator<INode> {
+  public enum Order implements Comparator<INode> {
 
     ByName() {
       @Override

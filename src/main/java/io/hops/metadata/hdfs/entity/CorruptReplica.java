@@ -19,7 +19,7 @@ import io.hops.metadata.common.FinderType;
 
 public class CorruptReplica extends ReplicaBase {
 
-  public static enum Finder implements FinderType<CorruptReplica> {
+  public enum Finder implements FinderType<CorruptReplica> {
 
     ByINodeId,
     ByINodeIds,

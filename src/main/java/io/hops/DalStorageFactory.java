@@ -22,10 +22,9 @@ import java.util.Properties;
 
 public interface DalStorageFactory {
 
-  public void setConfiguration(Properties conf)
-      throws StorageInitializtionException;
+  void setConfiguration(Properties conf) throws StorageInitializtionException;
 
-  public StorageConnector getConnector();
+  MultiZoneStorageConnector getMultiZoneConnector();
 
-  public EntityDataAccess getDataAccess(Class type);
+  EntityDataAccess getDataAccess(StorageConnector connector, Class type);
 }

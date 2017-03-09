@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.CounterType;
+import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.common.FinderType;
 
 import java.util.Collection;

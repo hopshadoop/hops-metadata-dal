@@ -18,8 +18,6 @@ package io.hops.metadata.hdfs.dal;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
-import java.util.Collection;
-
 public interface UserDataAccess<T> extends EntityDataAccess{
   T getUser(int userId) throws StorageException;
   T getUser(String username) throws StorageException;

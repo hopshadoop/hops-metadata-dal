@@ -16,7 +16,7 @@
 package io.hops.metadata.common;
 
 public interface FinderType<T> {
-  public static enum Annotation {
+  enum Annotation {
     PrimaryKey,
     PrunedIndexScan,
     IndexScan,
@@ -50,7 +50,7 @@ public interface FinderType<T> {
     }
   }
 
-  public Class getType();
+  Class getType();
 
-  public Annotation getAnnotated();
+  Annotation getAnnotated();
 }

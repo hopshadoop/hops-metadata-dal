@@ -15,6 +15,7 @@
  */
 package io.hops.transaction.handler;
 
+import io.hops.StorageConnector;
 import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.exception.TransientStorageException;
@@ -22,6 +23,7 @@ import io.hops.exception.TupleAlreadyExistedException;
 import io.hops.log.NDCWrapper;
 import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.transaction.EntityManager;
+import io.hops.transaction.TransactionCluster;
 import io.hops.transaction.TransactionInfo;
 import io.hops.transaction.context.TransactionsStats;
 import io.hops.transaction.lock.TransactionLockAcquirer;
@@ -41,13 +43,15 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   }
 
   @Override
-  protected Object execute(Object info) throws IOException {
+  protected Object execute(TransactionCluster cluster, Object info) throws IOException {
     boolean rollback;
     boolean committed;
     int tryCount = 0;
     IOException ignoredException;
     TransactionLocks locks = null;
     Object txRetValue = null;
+
+    StorageConnector connector = EntityManager.startTransaction(cluster);
 
     while (tryCount <= RETRY_COUNT) {
       long expWaitTime = exponentialBackoff();
@@ -65,7 +69,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       tryCount++;
       ignoredException = null;
       committed = false;
-      
+
       EntityManager.preventStorageCall(false);
       try {
         setNDC(info);
@@ -81,7 +85,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(LOG.isDebugEnabled()) {
           LOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
         }
-        setRandomPartitioningKey();
         EntityManager.begin();
         if(LOG.isDebugEnabled()) {
           LOG.debug("TX Started");
@@ -97,7 +100,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(LOG.isDebugEnabled()) {
           LOG.debug("Update timestamp phase started");
         }
-        updatedTimestamp();
+        updatedTimestamp(cluster);
         
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -109,7 +112,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         setNDC(info);
         EntityManager.preventStorageCall(true);
         try {
-          txRetValue = performTask();
+          txRetValue = performTask(connector);
         } catch (IOException e) {
           if (shouldAbort(e)) {
             throw e;
@@ -124,8 +127,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
 
         TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
-            .collectStats(opType,
-            ignoredException);
+            .collectStats(opType, ignoredException);
 
         EntityManager.commit(locksAcquirer.getLocks());
         committed = true;
@@ -175,8 +177,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (TupleAlreadyExistedException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
-          previousLogEntries = EntityManager.findList(
-              MetadataLogEntry.Finder.ALL_CACHED);
+          previousLogEntries = EntityManager.findList(MetadataLogEntry.Finder.ALL_CACHED);
           if (previousLogEntries.isEmpty()) {
             LOG.error("Transaction failed", e);
             throw e;
@@ -233,11 +234,10 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     throw new RuntimeException("TransactionalRequestHandler did not execute");
   }
 
-  private void updatedTimestamp()
+  private void updatedTimestamp(TransactionCluster cluster)
       throws TransactionContextException, StorageException {
     if (!previousLogEntries.isEmpty()) {
-      EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING,
-          previousLogEntries);
+      EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING, previousLogEntries);
     }
   }
 
@@ -265,22 +265,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   private void removeNDC() {
     NDCWrapper.clear();
     NDCWrapper.remove();
-  }
-
-  private void setRandomPartitioningKey()
-      throws StorageException, StorageException {
-    //      Random rand =new Random(System.currentTimeMillis());
-    //      Integer partKey = new Integer(rand.nextInt());
-    //      //set partitioning key
-    //      Object[] pk = new Object[2];
-    //      pk[0] = partKey;
-    //      pk[1] = Integer.toString(partKey);
-    //
-    //      EntityManager.setPartitionKey(INodeDataAccess.class, pk);
-    //
-    ////      EntityManager.readCommited();
-    ////      EntityManager.find(INode.Finder.ByPK_NameAndParentId, "", partKey);
-    
   }
 
   protected abstract boolean shouldAbort(Exception e);

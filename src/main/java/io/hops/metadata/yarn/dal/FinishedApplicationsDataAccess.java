@@ -29,10 +29,10 @@ public interface FinishedApplicationsDataAccess<T> extends EntityDataAccess {
 
   Map<String, List<FinishedApplications>> getAll() throws StorageException;
 
-  public void addAll(Collection<T> applications) throws StorageException;
+  void addAll(Collection<T> applications) throws StorageException;
 
-  public void add(T application) throws StorageException;
+  void add(T application) throws StorageException;
   
-  public void removeAll(Collection<T> applications) throws StorageException;
+  void removeAll(Collection<T> applications) throws StorageException;
 
 }

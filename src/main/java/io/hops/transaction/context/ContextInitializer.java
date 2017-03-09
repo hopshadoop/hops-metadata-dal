@@ -15,13 +15,18 @@
  */
 package io.hops.transaction.context;
 
-import io.hops.StorageConnector;
-
 import java.util.Map;
 
+import io.hops.MultiZoneStorageConnector;
+import io.hops.StorageConnector;
+
 public interface ContextInitializer {
+  /**
+   * initialize entities given a connector.
+   * @param connector
+   * @return
+   */
+  Map<Class, EntityContext> createEntityContexts(StorageConnector connector);
 
-  public Map<Class, EntityContext> createEntityContexts();
-
-  public StorageConnector getConnector();
+  MultiZoneStorageConnector getMultiZoneConnector();
 }

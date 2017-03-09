@@ -35,7 +35,7 @@ public class TransactionContext {
   private static String UNKNOWN_TYPE = "Unknown type:";
   private boolean activeTxExpected = false;
   private Map<Class, EntityContext> typeContextMap;
-  private Set<EntityContext> contexts = new HashSet<EntityContext>();
+  private Set<EntityContext> contexts = new HashSet<>();
   private StorageConnector connector;
 
   public TransactionContext(StorageConnector connector,
@@ -63,6 +63,10 @@ public class TransactionContext {
 
   public void begin() throws StorageException {
     activeTxExpected = true;
+    /* FIXME[rob]: this may cause severe problems if we being a tx
+     * using one connection and we attempt to commit using another.
+     * we may need to return it
+     */
     connector.beginTransaction();
   }
 

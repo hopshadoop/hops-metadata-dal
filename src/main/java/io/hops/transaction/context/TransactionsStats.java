@@ -17,6 +17,7 @@ package io.hops.transaction.context;
 
 import io.hops.metadata.common.FinderType;
 import io.hops.transaction.EntityManager;
+import io.hops.transaction.TransactionCluster;
 import io.hops.transaction.handler.RequestHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -191,7 +192,7 @@ public class TransactionsStats {
   }
 
   public TransactionStat collectStats(RequestHandler.OperationType operationType,
-      Exception ignoredException) throws IOException {
+                                      Exception ignoredException) throws IOException {
     if (enabled) {
       Collection<EntityContextStat> contextStats =
           EntityManager.collectSnapshotStat();

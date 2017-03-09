@@ -31,6 +31,7 @@
 package io.hops.transaction.lock;
 
 import io.hops.metadata.common.entity.Variable;
+import io.hops.transaction.TransactionCluster;
 
 import java.io.IOException;
 import java.util.EnumMap;
@@ -41,9 +42,7 @@ public final class VariablesLock extends Lock {
   private final Map<Variable.Finder, TransactionLockTypes.LockType> variables;
 
   VariablesLock() {
-    this.variables =
-        new EnumMap<Variable.Finder, TransactionLockTypes.LockType>(
-            Variable.Finder.class);
+    this.variables = new EnumMap<>(Variable.Finder.class);
   }
 
   VariablesLock addVariable(Variable.Finder variableType,
