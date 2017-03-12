@@ -15,4 +15,10 @@ public class SnapShotConstants {
     public static final int isDeleted = 1;
     //INode which is not deleted
     public static final int isNotDeleted = 0;
+    //Snapshot was taken
+    public static final int snapShotTaken = 1;
+    //Snapshot was not taken
+    public static final int snapShotNotTaken = 0;
+
+
 }

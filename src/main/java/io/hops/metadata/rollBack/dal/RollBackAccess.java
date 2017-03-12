@@ -23,7 +23,9 @@ public interface RollBackAccess extends EntityDataAccess {
 
     boolean processBlocksPhase2() throws IOException;//Insert new row for each backup row with [new row's id]=-[back-up row's id]
     
-    boolean processRootAndSetSubTreeLocked(long nameNodeId) throws IOException;//Removes the present row of root and replaces it with backup row.The id of RootIsChanged to maxInodeId+1, so that no operation can take writeLock on root 
-                                               //since the inode with 1(root_id) doesn't exist. At the end of the rollBack, it is set to 1.
     boolean unSetSubTreeLockedOnRoot() throws IOException;
+
+    boolean  waitForSubTreeOperations() throws IOException;
+
+    boolean waitForQuotaUpdates() throws IOException;
 }

@@ -48,6 +48,10 @@ public abstract class Variable {
     ClusterInSafeMode,
     MaxNNID,
     RollBackStatus,
+    RollBackRequestStatus,
+    SnapShotStatus,
+    SnapshotRequestStatus,
+    RemoveSnapshotStatus,
     //Generic Variables
     GenericInteger,
     GenericLong,
