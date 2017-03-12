@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.hdfs.dal;
+package io.hops.exception;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
+public class UniqueKeyConstraintViolationException extends StorageException{
+  public UniqueKeyConstraintViolationException() {
+  }
 
-import java.util.Collection;
+  public UniqueKeyConstraintViolationException(String message) {
+    super(message);
+  }
 
-public interface UserDataAccess<T> extends EntityDataAccess{
-  T getUser(int userId) throws StorageException;
-  T getUser(String username) throws StorageException;
-  T addUser(String userName) throws StorageException;
-  void removeUser(int userId) throws StorageException;
+  public UniqueKeyConstraintViolationException(Throwable cause) {
+    super(cause);
+  }
+
+  public UniqueKeyConstraintViolationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

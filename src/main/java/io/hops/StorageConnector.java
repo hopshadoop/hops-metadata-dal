@@ -35,11 +35,15 @@ public interface StorageConnector<T> {
   public boolean formatAllStorageNonTransactional() throws StorageException;
   
   public boolean formatYarnStorageNonTransactional() throws StorageException;
-  
+
+  public boolean formatHDFSStorageNonTransactional() throws StorageException;
+
   public boolean formatStorage() throws StorageException;
   
   public boolean formatYarnStorage() throws StorageException;
-  
+
+  public boolean formatHDFSStorage() throws StorageException;
+
   public boolean formatStorage(Class<? extends EntityDataAccess>... das)
       throws StorageException;
     
