@@ -28,6 +28,7 @@ public abstract class RequestHandler {
   private long waitTime;
 
   public interface OperationType {
+    TransactionCluster getCluster();
   }
 
   protected static Log LOG = LogFactory.getLog(RequestHandler.class);
@@ -49,11 +50,11 @@ public abstract class RequestHandler {
   }
 
   public Object handle() throws IOException {
-    // FIXME[rob]: we maintain compatibility with existing behaviour by always connecting to the primary by default.
-    return handle(TransactionCluster.PRIMARY, null);
+    return handle(null);
   }
 
-  public Object handle(TransactionCluster cluster, Object info) throws IOException {
+  public Object handle(Object info) throws IOException {
+    TransactionCluster cluster = this.opType.getCluster();
     waitTime = 0;
     return execute(cluster, info);
   }

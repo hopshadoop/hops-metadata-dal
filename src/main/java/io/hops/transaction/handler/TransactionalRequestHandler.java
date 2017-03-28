@@ -76,7 +76,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(LOG.isDebugEnabled()) {
           LOG.debug("Pretransaction phase started");
         }
-        preTransactionSetup();
+        preTransactionSetup(connector);
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
         setNDC(info);
@@ -241,7 +241,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     }
   }
 
-  protected abstract void preTransactionSetup() throws IOException;
+  protected abstract void preTransactionSetup(StorageConnector connector) throws IOException;
   
   public abstract void acquireLock(TransactionLocks locks) throws IOException;
   

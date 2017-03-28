@@ -70,6 +70,14 @@ public class EntityManager {
   }
 
   /**
+   *
+   * @returns the {@link StorageConnector} bound to this transaction
+   */
+  public static StorageConnector transactionConnector() throws StorageException{
+    return context().connector;
+  }
+
+  /**
    * This initializes all the thread-local data for the transaction, including the storage connector.
    * If no initialization is necessary, a call to this will do nothing.
    * Initialization will only happen on the first invocation on a new thread or any invocation after a {@link #removeContext()}.
