@@ -70,7 +70,6 @@ public class EntityManager {
   }
 
   /**
-   *
    * @returns the {@link StorageConnector} bound to this transaction
    */
   public static StorageConnector transactionConnector() throws StorageException{
@@ -78,25 +77,27 @@ public class EntityManager {
   }
 
   /**
-   * This initializes all the thread-local data for the transaction, including the storage connector.
-   * If no initialization is necessary, a call to this will do nothing.
-   * Initialization will only happen on the first invocation on a new thread or any invocation after a {@link #removeContext()}.
-   * @param cluster the storage cluster to connect to.
+   * This initializes all the thread-local data for the transaction using the provided {@link StorageConnector}.
+   * In a {@link RequestHandler} the {@link StorageConnector} can be obtained by using {@link RequestHandler#zoneConnector}.
+   * This should not be initialized more than once.
+   * Initialization must happen on the first invocation on a new thread or any invocation
+   * after a {@link #commit(TransactionLocks)} or {@link #rollback(TransactionLocks)}.
+   *
+   * @param connector the connector to use for this transaction
    */
-  public static StorageConnector startTransaction(TransactionCluster cluster) {
+  public static void initTransaction(StorageConnector connector) {
     Context ctx = context.get();
     if(ctx != null) {
-      return ctx.connector;
+      throw new RuntimeException("transaction was not committed or rolled back");
+      // return ctx.connector;
     }
-    StorageConnector connector = contextInitializers.get(0).getMultiZoneConnector().connectorFor(cluster);
     ctx = new EntityManager.Context(connector, createContext(connector));
     context.set(ctx);
-    return ctx.connector;
   }
 
   private static Context context() {
     Context ctx = context.get();
-    if (context == null) {
+    if (ctx == null) {
       throw new RuntimeException("context was not initialized");
     }
     return ctx;

@@ -18,7 +18,6 @@ package io.hops.transaction.handler;
 import io.hops.StorageConnector;
 import io.hops.exception.TransientStorageException;
 import io.hops.log.NDCWrapper;
-import io.hops.transaction.TransactionCluster;
 
 import java.io.IOException;
 
@@ -29,13 +28,9 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
   }
 
   @Override
-  protected Object execute(TransactionCluster cluster, Object info) throws IOException {
+  protected Object execute(StorageConnector connector, Object info) throws IOException {
     int tryCount = 0;
     long totalTime = 0;
-
-    // FIXME[rob]: see TransactionContext.begin for why this is bad, though not sure if applies here
-    StorageConnector clusterConnector = zoneConnector.connectorFor(cluster);
-
 
     while (tryCount <= RETRY_COUNT) {
       boolean rollback = false;
@@ -51,9 +46,9 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         //If in the outer tx lock level was set to some thing other than read-commited
         //then we will end up taking un necessary locks.
         //To make sure that we done have this problem I explicitly set the locks to read-commited.
-        clusterConnector.readCommitted();
+        connector.readCommitted();
         totalTime = System.currentTimeMillis();
-        Object ret = performTask(clusterConnector);
+        Object ret = performTask(connector);
         totalTime = System.currentTimeMillis() - totalTime;
         if(LOG.isDebugEnabled()) {
           LOG.debug("Total time taken. Time " + totalTime + " ms");
@@ -74,37 +69,25 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           }
           throw e;
         }
-      } catch (IOException e) {
-        rollback = true;
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Transaction failed.", e);
-        }
-        throw e;
-      } catch (RuntimeException e) {
-        rollback = true;
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Transaction failed.", e);
-        }
-        throw e;
-      } catch (Error e) {
+      } catch (IOException | RuntimeException | Error e) {
         rollback = true;
         if(LOG.isDebugEnabled()) {
           LOG.debug("Transaction failed.", e);
         }
         throw e;
       } finally {
-        if (rollback && clusterConnector.isTransactionActive()) {
+        if (rollback && connector.isTransactionActive()) {
           if(LOG.isDebugEnabled()) {
             LOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
           }
-          clusterConnector.rollback();
+          connector.rollback();
         }
         NDCWrapper.pop();
         NDCWrapper.remove();
         if (rollback) {
           try {
             LOG.error("Rollback the TX");
-            clusterConnector.rollback();
+            connector.rollback();
           } catch (Exception e) {
             LOG.error("Could not rollback transaction", e);
           }

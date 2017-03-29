@@ -23,7 +23,6 @@ import io.hops.exception.TupleAlreadyExistedException;
 import io.hops.log.NDCWrapper;
 import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.transaction.EntityManager;
-import io.hops.transaction.TransactionCluster;
 import io.hops.transaction.TransactionInfo;
 import io.hops.transaction.context.TransactionsStats;
 import io.hops.transaction.lock.TransactionLockAcquirer;
@@ -43,7 +42,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   }
 
   @Override
-  protected Object execute(TransactionCluster cluster, Object info) throws IOException {
+  protected Object execute(StorageConnector connector, Object info) throws IOException {
     boolean rollback;
     boolean committed;
     int tryCount = 0;
@@ -51,9 +50,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     TransactionLocks locks = null;
     Object txRetValue = null;
 
-    StorageConnector connector = EntityManager.startTransaction(cluster);
-
     while (tryCount <= RETRY_COUNT) {
+      EntityManager.initTransaction(connector);
       long expWaitTime = exponentialBackoff();
       long txStartTime = System.currentTimeMillis();
       long oldTime = System.currentTimeMillis();
@@ -100,7 +98,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(LOG.isDebugEnabled()) {
           LOG.debug("Update timestamp phase started");
         }
-        updatedTimestamp(cluster);
+        updatedTimestamp();
         
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -234,7 +232,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     throw new RuntimeException("TransactionalRequestHandler did not execute");
   }
 
-  private void updatedTimestamp(TransactionCluster cluster)
+  private void updatedTimestamp()
       throws TransactionContextException, StorageException {
     if (!previousLogEntries.isEmpty()) {
       EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING, previousLogEntries);

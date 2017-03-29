@@ -55,11 +55,12 @@ public abstract class RequestHandler {
 
   public Object handle(Object info) throws IOException {
     TransactionCluster cluster = this.opType.getCluster();
+    StorageConnector connector = zoneConnector.connectorFor(cluster);
     waitTime = 0;
-    return execute(cluster, info);
+    return execute(connector, info);
   }
 
-  protected abstract Object execute(TransactionCluster cluster, Object info) throws IOException;
+  protected abstract Object execute(StorageConnector connector, Object info) throws IOException;
 
   public abstract Object performTask(StorageConnector connector) throws IOException;
 
