@@ -138,8 +138,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           LOG.debug("TX committed. Time " + commitTime + " ms");
         }
         totalTime = (System.currentTimeMillis() - txStartTime);
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("TX Finished. TX Stats: Try Count: " + tryCount +
+        if(LOG.isInfoEnabled()) {
+          LOG.info(opType+" TX Finished. TX Stats: Try Count: " + tryCount +
                   " Wait Before Next Retry:" +
                   expWaitTime + " Stepup: " + setupTime + " ms, Begin Tx:" +
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
@@ -157,7 +157,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (TransientStorageException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
-          LOG.error("Tx Failed. total tx time " +
+          LOG.error(opType+" TX Failed. total tx time " +
               (System.currentTimeMillis() - txStartTime) +
               " msec. TotalRetryCount(" + RETRY_COUNT +
               ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
