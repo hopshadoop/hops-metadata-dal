@@ -21,9 +21,6 @@ import io.hops.metadata.common.EntityDataAccess;
 import java.util.Properties;
 
 public interface StorageConnector {
-
-  void setConfiguration(Properties conf) throws StorageException;
-
   <T> T obtainSession() throws StorageException;
 
   void beginTransaction() throws StorageException;
