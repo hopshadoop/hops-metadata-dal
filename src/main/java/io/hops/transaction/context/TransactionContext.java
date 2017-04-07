@@ -36,7 +36,7 @@ public class TransactionContext {
   private boolean activeTxExpected = false;
   private Map<Class, EntityContext> typeContextMap;
   private Set<EntityContext> contexts = new HashSet<>();
-  private StorageConnector connector;
+  private final StorageConnector connector;
 
   public TransactionContext(StorageConnector connector,
       Map<Class, EntityContext> entityContext) {
@@ -49,24 +49,8 @@ public class TransactionContext {
     this.connector = connector;
   }
 
-  private void resetContext() throws TransactionContextException {
-    activeTxExpected = false;
-    clearContext();
-    EntityContext.setLockMode(null); // null won't be logged
-  }
-
-  public void clearContext() throws TransactionContextException {
-    for (EntityContext context : contexts) {
-      context.clear();
-    }
-  }
-
   public void begin() throws StorageException {
     activeTxExpected = true;
-    /* FIXME[rob]: this may cause severe problems if we being a tx
-     * using one connection and we attempt to commit using another.
-     * we may need to return it
-     */
     connector.beginTransaction();
   }
 
@@ -83,11 +67,11 @@ public class TransactionContext {
       context.prepare(tlm);
     }
     connector.commit();
-    resetContext();
+    EntityContext.setLockMode(null);
   }
 
   public void rollback() throws StorageException, TransactionContextException {
-    resetContext();
+    EntityContext.setLockMode(null);
     connector.rollback();
   }
 

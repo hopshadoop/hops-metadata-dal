@@ -114,13 +114,28 @@ public class EntityManager {
   public static void commit(TransactionLocks tlm)
       throws TransactionContextException, StorageException {
     context().txContext.commit(tlm);
-    removeContext();
+    context.remove();
   }
 
+  /**
+   * Rollback rolls back a transaction and removes the context.
+   * {@link EntityManager#initTransaction(StorageConnector)} must be called before using commit or rollback again.
+   *
+   *
+   * @param tlm
+   * @throws StorageException if there was an exception rolling back. This can be ignored as the context will be discarded anyway.
+   * @throws TransactionContextException
+   */
   public static void rollback(TransactionLocks tlm)
       throws StorageException, TransactionContextException {
-    context().txContext.rollback();
-    removeContext();
+    // very important!
+    // whatever happens during a rollback the context must be removed.
+    // if not the whole thread will be forever poisoned and unable to continue serving requests.
+    try {
+      context().txContext.rollback();
+    } finally {
+      context.remove();
+    }
   }
 
   public static <T> void remove(T obj)
@@ -204,9 +219,5 @@ public class EntityManager {
       }
     }
     return new TransactionContext(connector, storageMap);
-  }
-  
-  private static void removeContext() {
-    context.remove();
   }
 }

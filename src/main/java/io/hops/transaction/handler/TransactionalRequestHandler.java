@@ -213,14 +213,18 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         rollback = true;
         LOG.error("Transaction handler received an error", e);
         throw e;
+      } catch (Throwable t) {
+        rollback = true;
+        LOG.error("Transaction handler received an unknown throwable", t);
+        throw t;
       } finally {
         removeNDC();
         if (rollback) {
           try {
-            LOG.error("Rollback the TX");
+            LOG.debug("Rollback the TX");
             EntityManager.rollback(locks);
-          } catch (Exception e) {
-            LOG.warn("Could not rollback transaction", e);
+          } catch (Throwable t) {
+            LOG.error("Could not rollback transaction", t);
           }
         }
         // If the code is about to return but the exception was caught
