@@ -152,6 +152,8 @@ public class TablesDef {
     public static final String TABLE_NAME = "hdfs_lease_paths";
     public static final String HOLDER_ID = "holder_id";
     public static final String PATH = "path";
+    public static final String LAST_BLOCK_ID = "last_block_id";
+    public static final String PENULTIMATE_BLOCK_ID = "penultimate_block_id";
   }
 
   public static interface InvalidatedBlockTableDef {
