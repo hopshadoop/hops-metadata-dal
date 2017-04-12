@@ -18,12 +18,13 @@ package io.hops.metadata.hdfs.entity;
 import io.hops.metadata.common.FinderType;
 
 public class MetadataLogEntry {
-  private int datasetId;
-  private int inodeId;
-  private int inodeParentId;
-  private String inodeName;
+  private final int datasetId;
+  private final int inodeId;
+  private final int inodePartitionId;
+  private final int inodeParentId;
+  private final String inodeName;
   private long timestamp;
-  private Operation operation;
+  private final Operation operation;
 
   public enum Operation {
     ADD,
@@ -52,17 +53,20 @@ public class MetadataLogEntry {
     }
   }
 
-  public MetadataLogEntry(int datasetId, int inodeId, int inodeParentId,
-      String inodeName, Operation
+  public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
+      int inodeParentId, String inodeName, Operation
       operation) {
-    this(datasetId, inodeId, inodeParentId, inodeName, 0, operation);
+    this(datasetId, inodeId, inodePartitionId, inodeParentId, inodeName, 0,
+        operation);
     updateTimestamp();
   }
 
-  public MetadataLogEntry(int datasetId, int inodeId, int inodeParentId,
-      String inodeName, long timestamp, Operation operation) {
+  public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
+      int inodeParentId, String inodeName, long timestamp, Operation
+      operation) {
     this.datasetId = datasetId;
     this.inodeId = inodeId;
+    this.inodePartitionId = inodePartitionId;
     this.inodeParentId = inodeParentId;
     this.inodeName = inodeName;
     this.timestamp = timestamp;
@@ -73,16 +77,8 @@ public class MetadataLogEntry {
     return datasetId;
   }
 
-  public void setDatasetId(int datasetId) {
-    this.datasetId = datasetId;
-  }
-
   public int getInodeId() {
     return inodeId;
-  }
-
-  public void setInodeId(int inodeId) {
-    this.inodeId = inodeId;
   }
 
   public long getTimestamp() {
@@ -102,24 +98,15 @@ public class MetadataLogEntry {
     return (short) operation.ordinal();
   }
 
-  public void setOperation(
-      Operation operation) {
-    this.operation = operation;
+  public int getInodePartitionId() {
+    return inodePartitionId;
   }
 
   public int getInodeParentId() {
     return inodeParentId;
   }
 
-  public void setInodeParentId(int inodeParentId) {
-    this.inodeParentId = inodeParentId;
-  }
-
   public String getInodeName() {
     return inodeName;
-  }
-
-  public void setInodeName(String inodeName) {
-    this.inodeName = inodeName;
   }
 }

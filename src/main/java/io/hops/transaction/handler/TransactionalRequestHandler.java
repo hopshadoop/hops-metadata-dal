@@ -69,17 +69,23 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       EntityManager.preventStorageCall(false);
       try {
         setNDC(info);
-        log.debug("Pretransaction phase started");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Pretransaction phase started");
+        }
         preTransactionSetup();
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
         setNDC(info);
         setupTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        log.debug("Pretransaction phase finished. Time " + setupTime + " ms");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
+        }
         setRandomPartitioningKey();
         EntityManager.begin();
-        log.debug("TX Started");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("TX Started");
+        }
         beginTxTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
         
@@ -88,12 +94,16 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
         locksAcquirer.acquire();
 
-        log.debug("Update timestamp phase started");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Update timestamp phase started");
+        }
         updatedTimestamp();
         
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        log.debug("All Locks Acquired. Time " + acquireLockTime + " ms");
+        if(LOG.isDebugEnabled()){
+          LOG.debug("All Locks Acquired. Time " + acquireLockTime + " ms");
+        }
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
         setNDC(info);
@@ -109,9 +119,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
         inMemoryProcessingTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        log.debug(
-            "In Memory Processing Finished. Time " + inMemoryProcessingTime +
-                " ms");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("In Memory Processing Finished. Time " + inMemoryProcessingTime + " ms");
+        }
 
         TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
             .collectStats(opType,
@@ -123,15 +133,20 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(stat != null){
           stat.setTimes(acquireLockTime, inMemoryProcessingTime, commitTime);
         }
-        log.debug("TX committed. Time " + commitTime + " ms");
+
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("TX committed. Time " + commitTime + " ms");
+        }
         totalTime = (System.currentTimeMillis() - txStartTime);
-        log.debug("TX Finished. TX Stats: Try Count: " + tryCount +
-            " Wait Before Next Retry:" +
-            expWaitTime + " Stepup: " + setupTime + " ms, Begin Tx:" +
-            beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
-            "ms, In Memory Processing: " + inMemoryProcessingTime +
-            "ms, Commit Time: " + commitTime + "ms, Total Time: " + totalTime +
-            "ms");
+        if(LOG.isInfoEnabled()) {
+          LOG.info(opType+" TX Finished. TX Stats: Try Count: " + tryCount +
+                  " Wait Before Next Retry:" +
+                  expWaitTime + " Stepup: " + setupTime + " ms, Begin Tx:" +
+                  beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
+                  "ms, In Memory Processing: " + inMemoryProcessingTime +
+                  "ms, Commit Time: " + commitTime + "ms, Total Time: " + totalTime +
+                  "ms");
+        }
         //post TX phase
         //any error in this phase will not re-start the tx
         //TODO: XXX handle failures in post tx phase
@@ -142,7 +157,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (TransientStorageException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
-          log.error("Tx Failed. total tx time " +
+          LOG.error(opType+" TX Failed. total tx time " +
               (System.currentTimeMillis() - txStartTime) +
               " msec. TotalRetryCount(" + RETRY_COUNT +
               ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
@@ -152,7 +167,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
               "ms, Commit Time: " + commitTime +
               "ms, Total Time: " + totalTime + "ms", e);
         } else {
-          log.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          if(LOG.isDebugEnabled()) {
+            LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          }
           throw e;
         }
       } catch (TupleAlreadyExistedException e) {
@@ -161,10 +178,10 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           previousLogEntries = EntityManager.findList(
               MetadataLogEntry.Finder.ALL_CACHED);
           if (previousLogEntries.isEmpty()) {
-            log.error("Transaction failed", e);
+            LOG.error("Transaction failed", e);
             throw e;
           } else {
-            log.error("Tx Failed. total tx time " +
+            LOG.error("Tx Failed. total tx time " +
                 (System.currentTimeMillis() - txStartTime) +
                 " msec. TotalRetryCount(" + RETRY_COUNT +
                 ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
@@ -176,33 +193,35 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
             resetWaitTime(); // Not an overloading error
           }
         } else {
-          log.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          if(LOG.isDebugEnabled()) {
+            LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
+          }
           throw e;
         }
       } catch (IOException e) {
         rollback = true;
         if (committed) {
-          log.error("Exception in Post Tx Stage.", e);
+          LOG.error("Exception in Post Tx Stage.", e);
         } else {
-          log.error("Transaction failed", e);
+          LOG.error("Transaction failed", e);
         }
         throw e;
       } catch (RuntimeException e) {
         rollback = true;
-        log.error("Transaction handler received a runtime exception", e);
+        LOG.error("Transaction handler received a runtime exception", e);
         throw e;
       } catch (Error e) {
         rollback = true;
-        log.error("Transaction handler received an error", e);
+        LOG.error("Transaction handler received an error", e);
         throw e;
       } finally {
         removeNDC();
         if (rollback) {
           try {
-            log.error("Rollback the TX");
+            LOG.error("Rollback the TX");
             EntityManager.rollback(locks);
           } catch (Exception e) {
-            log.warn("Could not rollback transaction", e);
+            LOG.warn("Could not rollback transaction", e);
           }
         }
         // If the code is about to return but the exception was caught

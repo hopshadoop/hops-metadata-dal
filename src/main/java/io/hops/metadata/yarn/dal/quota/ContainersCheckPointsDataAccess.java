@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.rmstatestore;
+package io.hops.metadata.yarn.dal.quota;
 
-public class DelegationToken {
-  private final int seqnumber;
-  private final byte[] rmdtidentifier;
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
+import java.util.List;
+import java.util.Map;
 
-  public DelegationToken(int seqnumber) {
-    this(seqnumber, null);
-  }
-  
-  public DelegationToken(int seqnumber, byte[] rmdtidentifier) {
-    this.seqnumber = seqnumber;
-    this.rmdtidentifier = rmdtidentifier;
-  }
 
-  public int getSeqnumber() {
-    return seqnumber;
-  }
+public interface ContainersCheckPointsDataAccess<T> extends EntityDataAccess {
 
-  public byte[] getRmdtidentifier() {
-    return rmdtidentifier;
-  }
+  public Map<String, T> getAll() throws StorageException;
+
+  public void addAll(List<T> YarnProjectsDailyCost) throws StorageException;
+
+  public void removeAll(List<T> YarnProjectsDailyCost) throws StorageException;
 }

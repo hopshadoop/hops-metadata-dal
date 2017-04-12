@@ -25,17 +25,22 @@ import java.util.List;
 
 public interface INodeDataAccess<T> extends EntityDataAccess {
   
-  T indexScanfindInodeById(int inodeId) throws StorageException;
+  T findInodeByIdFTIS(int inodeId) throws StorageException;
 
-  List<T> indexScanFindInodesByParentId(int parentId) throws StorageException;
+  List<T> findInodesByParentIdFTIS(int parentId) throws StorageException;
 
-  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLock(int parentId)
+  List<T> findInodesByParentIdAndPartitionIdPPIS(int parentId, int partitionId) throws StorageException;
+
+  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLockPPIS(int parentId, int partitionId)
       throws StorageException;
 
-  T pkLookUpFindInodeByNameAndParentId(String name, int parentId)
+  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLockFTIS(int parentId)
       throws StorageException;
 
-  List<T> getINodesPkBatched(String[] names, int[] parentIds)
+  T findInodeByNameParentIdAndPartitionIdPK(String name, int parentId, int partitionId)
+      throws StorageException;
+
+  List<T> getINodesPkBatched(String[] names, int[] parentIds, int[] partitionIds)
       throws StorageException;
 
   List<INodeIdentifier> getAllINodeFiles(long startId, long endId)
@@ -57,7 +62,7 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   int countAll() throws StorageException;
   
-  boolean hasChildren(int parentId) throws StorageException;
+  boolean hasChildren(int parentId, boolean areChildrenRandomlyPartitioned) throws StorageException;
   
   List<T> allINodes() throws StorageException; // only for testing
 }

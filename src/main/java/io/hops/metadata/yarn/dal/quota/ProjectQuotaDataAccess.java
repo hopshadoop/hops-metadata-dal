@@ -13,26 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.entity.rmstatestore;
+package io.hops.metadata.yarn.dal.quota;
 
-public class DelegationToken {
-  private final int seqnumber;
-  private final byte[] rmdtidentifier;
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
+import java.util.Collection;
+import java.util.Map;
 
-  public DelegationToken(int seqnumber) {
-    this(seqnumber, null);
-  }
-  
-  public DelegationToken(int seqnumber, byte[] rmdtidentifier) {
-    this.seqnumber = seqnumber;
-    this.rmdtidentifier = rmdtidentifier;
-  }
+public interface ProjectQuotaDataAccess<T> extends EntityDataAccess {
 
-  public int getSeqnumber() {
-    return seqnumber;
-  }
+  Map<String, T> getAll() throws StorageException;
 
-  public byte[] getRmdtidentifier() {
-    return rmdtidentifier;
-  }
+  void addAll(Collection<T> YarnProjectsQuota) throws StorageException;
+
 }

@@ -29,6 +29,8 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String PARENT_ID = "parent_id";
+    public static final String PARTITION_ID = "partition_id";
+    public static final String IS_DIR = "is_dir";
     public static final String MODIFICATION_TIME = "modification_time";
     public static final String ACCESS_TIME = "access_time";
     public static final String USER_ID = "user_id";
@@ -243,7 +245,8 @@ public class TablesDef {
     public static final String DATASET_ID = "dataset_id";
     public static final String INODE_ID = "inode_id";
     public static final String TIMESTAMP = "timestamp";
-    public static final String INODE_PID = "inode_pid";
+    public static final String INODE_PARTITION_ID = "inode_partition_id";
+    public static final String INODE_PARENT_ID = "inode_parent_id";
     public static final String INODE_NAME = "inode_name";
     public static final String OPERATION = "operation";
   }
@@ -288,6 +291,7 @@ public class TablesDef {
     public static final String PATH = "path";
     public static final String NAME_NODE_ID = "namenode_id";
     public static final String OP_NAME = "op_name";
-    public static final int LIMIT = 5;
+    public static final String PARTITION_ID = "partition_id";
+    public static final int LIMIT = 2;
   } 
 }

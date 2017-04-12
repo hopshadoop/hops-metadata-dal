@@ -31,7 +31,9 @@ public interface ContainerIdToCleanDataAccess<T> extends EntityDataAccess {
   Map<String, Set<ContainerId>> getAll() throws StorageException;
 
   public void addAll(Collection<T> containers) throws StorageException;
-
+  
+  public void add(T container) throws StorageException;
+  
   public void removeAll(Collection<T> containers) throws StorageException;
 
 }

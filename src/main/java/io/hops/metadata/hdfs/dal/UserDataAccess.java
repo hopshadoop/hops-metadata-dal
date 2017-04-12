@@ -24,4 +24,5 @@ public interface UserDataAccess<T> extends EntityDataAccess{
   T getUser(int userId) throws StorageException;
   T getUser(String username) throws StorageException;
   T addUser(String userName) throws StorageException;
+  void removeUser(int userId) throws StorageException;
 }

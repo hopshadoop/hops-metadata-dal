@@ -24,9 +24,9 @@ import java.util.Map;
 
 public interface ResourceDataAccess<T> extends EntityDataAccess {
 
-  T findEntry(String id, int type, int parent) throws StorageException;
+  T findEntry(String id) throws StorageException;
 
-  Map<String, Map<Integer, Map<Integer, Resource>>> getAll()
+  Map<String, Resource> getAll()
       throws StorageException;
 
   void addAll(Collection<T> toAdd) throws StorageException;

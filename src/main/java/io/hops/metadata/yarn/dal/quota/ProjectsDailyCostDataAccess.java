@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.rmstatestore;
+package io.hops.metadata.yarn.dal.quota;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.yarn.entity.quota.ProjectDailyId;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-public interface ApplicationAttemptStateDataAccess<T> extends EntityDataAccess {
+public interface ProjectsDailyCostDataAccess<T> extends EntityDataAccess {
 
-  void add(T toAdd) throws StorageException;
+  //T findEntry(String projectId) throws StorageException;
+  Map<ProjectDailyId, T> getAll() throws
+          StorageException;
 
-  void removeAll(Collection<T> toRemove) throws StorageException;
-  
-  void removeAll() throws StorageException;
-  
-  Map<String,List<T>> getAll() throws StorageException;
+  Map<ProjectDailyId, T> getByDay(long day) throws
+          StorageException;
+
+  void addAll(Collection<T> YarnProjectsDailyCost) throws StorageException;
+
 }

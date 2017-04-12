@@ -34,18 +34,30 @@ public class INodeIdentifier {
 
   Integer inodeID;
   Integer pid;
-  String name;
+  String  name;
+  Integer partitionId;
+  Short   depth;
 
   public INodeIdentifier(Integer inodeID) {
-    this(inodeID, null, null);
+    this(inodeID, null, null, null);
   }
 
-  public INodeIdentifier(Integer inodeID, Integer parentId, String name) {
+  public INodeIdentifier(Integer inodeID, Integer parentId, String name, Integer partitionId) {
     this.inodeID = inodeID;
     this.pid = parentId;
     this.name = name;
+    this.partitionId = partitionId;
+    this.depth = null;
   }
-  
+
+  public Short getDepth() {
+    return depth;
+  }
+
+  public void setDepth(Short depth) {
+    this.depth = depth;
+  }
+
   public Integer getInodeId() {
     return inodeID;
   }
@@ -64,6 +76,14 @@ public class INodeIdentifier {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public void setPartitionId(Integer partitionId){
+    this.partitionId = partitionId;
+  }
+
+  public Integer getPartitionId(){
+    return partitionId;
   }
 
   @Override

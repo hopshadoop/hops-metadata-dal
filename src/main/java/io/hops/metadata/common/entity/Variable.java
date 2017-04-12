@@ -46,7 +46,12 @@ public abstract class Variable {
     YarnLeParams,
     MisReplicatedFilesIndex,
     ClusterInSafeMode,
-    BrLbMaxBlkPerTU,
+    BrLbMaxBlkPerTW,
+    RMStateStoreVersion,
+    RMStateStoreEpoch,
+    AMRMToken,
+    RMDTSequenceNumber,
+    QuotaTicksCounter,
     //Generic Variables
     GenericInteger,
     GenericLong,
@@ -142,7 +147,17 @@ public abstract class Variable {
         return new LongVariable(varType);
       case ClusterInSafeMode:
         return new IntVariable(varType);
-      case BrLbMaxBlkPerTU:
+      case BrLbMaxBlkPerTW:
+        return new LongVariable(varType);
+      case RMStateStoreVersion:
+        return new ByteArrayVariable(varType);
+      case RMStateStoreEpoch:
+        return new LongVariable(varType);
+      case AMRMToken:
+        return new ByteArrayVariable(varType);
+      case RMDTSequenceNumber:
+        return new IntVariable(varType);
+      case QuotaTicksCounter:
         return new LongVariable(varType);
     }
     return null;

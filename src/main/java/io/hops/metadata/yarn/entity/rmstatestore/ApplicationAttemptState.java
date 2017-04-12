@@ -22,26 +22,20 @@ public class ApplicationAttemptState {
   private final String applicationid;
   private final String applicationattemptid;
   private final byte[] applicationattemptstate;
-  private final String host;
-  private final int rpcPort;
-  private final ByteBuffer appAttemptTokens;
-  private final String url;
+  private final String trakingURL;
 
   public ApplicationAttemptState(String applicationid,
       String applicationattemptid) {
-    this(applicationid, applicationattemptid, null, null, 0, null, null);
+    this(applicationid, applicationattemptid, null, null);
   }
 
   public ApplicationAttemptState(String applicationid,
-      String applicationattemptid, byte[] applicationattemptstate, String host,
-      int rpcPort, ByteBuffer appAttemptTokens, String url) {
+      String applicationattemptid, byte[] applicationattemptstate,
+      String trakingURL) {
     this.applicationid = applicationid;
     this.applicationattemptid = applicationattemptid;
     this.applicationattemptstate = applicationattemptstate;
-    this.host = host;
-    this.rpcPort = rpcPort;
-    this.appAttemptTokens = appAttemptTokens;
-    this.url = url;
+    this.trakingURL = trakingURL;
   }
 
   public String getApplicationId() {
@@ -56,20 +50,8 @@ public class ApplicationAttemptState {
     return applicationattemptstate;
   }
 
-  public String getHost() {
-    return host;
-  }
-
-  public int getRpcPort() {
-    return rpcPort;
-  }
-
-  public ByteBuffer getAppAttemptTokens() {
-    return appAttemptTokens;
-  }
-
-  public String getUrl() {
-    return url;
+  public String getTrakingURL() {
+    return trakingURL;
   }
 
   @Override
