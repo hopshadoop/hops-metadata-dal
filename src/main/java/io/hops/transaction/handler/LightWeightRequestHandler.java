@@ -84,14 +84,6 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
         NDCWrapper.pop();
         NDCWrapper.remove();
-        if (rollback) {
-          try {
-            LOG.error("Rollback the TX");
-            connector.rollback();
-          } catch (Exception e) {
-            LOG.error("Could not rollback transaction", e);
-          }
-        }
       }
     }
 
