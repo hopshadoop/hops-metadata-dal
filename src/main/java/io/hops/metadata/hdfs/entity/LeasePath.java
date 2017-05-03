@@ -49,11 +49,22 @@ public class LeasePath implements Comparable<LeasePath> {
   private int holderId;
   private String path;
 
+  private long lastBlockId;
+  private long penultimateBlockId;
+
   public LeasePath(String path, int holderId) {
     this.holderId = holderId;
     this.path = path;
+    this.lastBlockId = -1;
+    this.penultimateBlockId = -1;
   }
 
+  public LeasePath(String path, int holderId, long lastBlockId, long
+      penultimateBlockId){
+    this(path, holderId);
+    this.lastBlockId = lastBlockId;
+    this.penultimateBlockId = penultimateBlockId;
+  }
   /**
    * @return the holderId
    */
@@ -82,6 +93,22 @@ public class LeasePath implements Comparable<LeasePath> {
    */
   public void setPath(String path) {
     this.path = path;
+  }
+
+  public long getLastBlockId() {
+    return lastBlockId;
+  }
+
+  public void setLastBlockId(long lastBlockId) {
+    this.lastBlockId = lastBlockId;
+  }
+
+  public long getPenultimateBlockId() {
+    return penultimateBlockId;
+  }
+
+  public void setPenultimateBlockId(long penultimateBlockId) {
+    this.penultimateBlockId = penultimateBlockId;
   }
 
   @Override

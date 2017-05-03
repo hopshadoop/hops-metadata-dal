@@ -46,10 +46,10 @@ public abstract class Lock implements Comparable<Lock> {
    */
   public static enum Type {
     INode,
-    Block,
     NameNodeLease,
     Lease,
     LeasePath,
+    Block,
     Variable,
     LeDescriptor,
     Replica,
