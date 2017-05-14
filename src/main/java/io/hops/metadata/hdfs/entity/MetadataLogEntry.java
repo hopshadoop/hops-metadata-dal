@@ -31,28 +31,6 @@ public class MetadataLogEntry {
     DELETE
   }
 
-  public enum Finder implements FinderType<MetadataLogEntry> {
-    ALL_CACHED,
-    FETCH_EXISTING;
-
-    @Override
-    public Class getType() {
-      return MetadataLogEntry.class;
-    }
-
-    @Override
-    public Annotation getAnnotated() {
-      switch (this) {
-        case ALL_CACHED:
-          return Annotation.CacheOnly;
-        case FETCH_EXISTING:
-          return Annotation.Batched;
-        default:
-          throw new IllegalStateException();
-      }
-    }
-  }
-
   public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
       int inodeParentId, String inodeName, Operation
       operation) {

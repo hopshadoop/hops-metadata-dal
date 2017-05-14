@@ -144,9 +144,7 @@ public class TransactionContext {
 
   public <T> Collection<T> findList(FinderType<T> finder, Object... params)
       throws TransactionContextException, StorageException {
-    if (finder != MetadataLogEntry.Finder.ALL_CACHED) {
       aboutToPerform();
-    }
     if (typeContextMap.containsKey(finder.getType())) {
       //      logger.debug("TX-FindList: " + finder.getType().getName());
       return typeContextMap.get(finder.getType()).findList(finder, params);
