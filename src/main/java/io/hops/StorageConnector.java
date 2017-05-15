@@ -20,51 +20,48 @@ import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Properties;
 
-public interface StorageConnector<T> {
+public interface StorageConnector {
+  <T> T obtainSession() throws StorageException;
 
-  public void setConfiguration(Properties conf) throws StorageException;
+  void beginTransaction() throws StorageException;
 
-  public <T> T obtainSession() throws StorageException;
+  void commit() throws StorageException;
 
-  public void beginTransaction() throws StorageException;
+  void rollback() throws StorageException;
 
-  public void commit() throws StorageException;
+  boolean formatAllStorageNonTransactional() throws StorageException;
 
-  public void rollback() throws StorageException;
+  boolean formatYarnStorageNonTransactional() throws StorageException;
 
-  public boolean formatAllStorageNonTransactional() throws StorageException;
-  
-  public boolean formatYarnStorageNonTransactional() throws StorageException;
+  boolean formatHDFSStorageNonTransactional() throws StorageException;
 
-  public boolean formatHDFSStorageNonTransactional() throws StorageException;
+  boolean formatStorage() throws StorageException;
 
-  public boolean formatStorage() throws StorageException;
-  
-  public boolean formatYarnStorage() throws StorageException;
+  boolean formatYarnStorage() throws StorageException;
 
-  public boolean formatHDFSStorage() throws StorageException;
+  boolean formatHDFSStorage() throws StorageException;
 
-  public boolean formatStorage(Class<? extends EntityDataAccess>... das)
+  boolean formatStorage(Class<? extends EntityDataAccess>... das)
       throws StorageException;
-    
-  public boolean isTransactionActive() throws StorageException;
 
-  public void stopStorage() throws StorageException;
+  boolean isTransactionActive() throws StorageException;
 
-  public void readLock() throws StorageException;
+  void stopStorage() throws StorageException;
 
-  public void writeLock() throws StorageException;
+  void readLock() throws StorageException;
 
-  public void readCommitted() throws StorageException;
+  void writeLock() throws StorageException;
 
-  public void setPartitionKey(Class className, Object key)
+  void readCommitted() throws StorageException;
+
+  void setPartitionKey(Class className, Object key)
       throws StorageException;
-  
-  public void dropAndRecreateDB() throws StorageException;
-  
-  public void flush() throws StorageException;
-  
-   public String getClusterConnectString();
 
-  public String getDatabaseName();
+  void dropAndRecreateDB() throws StorageException;
+
+  void flush() throws StorageException;
+
+  String getClusterConnectString();
+
+  String getDatabaseName();
 }

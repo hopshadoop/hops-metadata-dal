@@ -15,6 +15,7 @@
  */
 package io.hops.transaction.handler;
 
+import io.hops.StorageConnector;
 import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.exception.TransientStorageException;
@@ -41,7 +42,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   }
 
   @Override
-  protected Object execute(Object info) throws IOException {
+  protected Object execute(StorageConnector connector, Object info) throws IOException {
     boolean rollback;
     boolean committed;
     int tryCount = 0;
@@ -50,6 +51,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     Object txRetValue = null;
 
     while (tryCount <= RETRY_COUNT) {
+      EntityManager.initTransaction(connector);
       long expWaitTime = exponentialBackoff();
       long txStartTime = System.currentTimeMillis();
       long oldTime = System.currentTimeMillis();
@@ -65,14 +67,14 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       tryCount++;
       ignoredException = null;
       committed = false;
-      
+
       EntityManager.preventStorageCall(false);
       try {
         setNDC(info);
         if(LOG.isDebugEnabled()) {
           LOG.debug("Pretransaction phase started");
         }
-        preTransactionSetup();
+        preTransactionSetup(connector);
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
         setNDC(info);
@@ -81,7 +83,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if(LOG.isDebugEnabled()) {
           LOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
         }
-        setRandomPartitioningKey();
         EntityManager.begin();
         if(LOG.isDebugEnabled()) {
           LOG.debug("TX Started");
@@ -109,7 +110,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         setNDC(info);
         EntityManager.preventStorageCall(true);
         try {
-          txRetValue = performTask();
+          txRetValue = performTask(connector);
         } catch (IOException e) {
           if (shouldAbort(e)) {
             throw e;
@@ -124,8 +125,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
 
         TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
-            .collectStats(opType,
-            ignoredException);
+            .collectStats(opType, ignoredException);
 
         EntityManager.commit(locksAcquirer.getLocks());
         committed = true;
@@ -175,8 +175,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (TupleAlreadyExistedException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
-          previousLogEntries = EntityManager.findList(
-              MetadataLogEntry.Finder.ALL_CACHED);
+          previousLogEntries = EntityManager.findList(MetadataLogEntry.Finder.ALL_CACHED);
           if (previousLogEntries.isEmpty()) {
             LOG.error("Transaction failed", e);
             throw e;
@@ -214,14 +213,18 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         rollback = true;
         LOG.error("Transaction handler received an error", e);
         throw e;
+      } catch (Throwable t) {
+        rollback = true;
+        LOG.error("Transaction handler received an unknown throwable", t);
+        throw t;
       } finally {
         removeNDC();
         if (rollback) {
           try {
-            LOG.error("Rollback the TX");
+            LOG.debug("Rollback the TX");
             EntityManager.rollback(locks);
-          } catch (Exception e) {
-            LOG.warn("Could not rollback transaction", e);
+          } catch (Throwable t) {
+            LOG.error("Could not rollback transaction", t);
           }
         }
         // If the code is about to return but the exception was caught
@@ -236,12 +239,11 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   private void updatedTimestamp()
       throws TransactionContextException, StorageException {
     if (!previousLogEntries.isEmpty()) {
-      EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING,
-          previousLogEntries);
+      EntityManager.findList(MetadataLogEntry.Finder.FETCH_EXISTING, previousLogEntries);
     }
   }
 
-  protected abstract void preTransactionSetup() throws IOException;
+  protected abstract void preTransactionSetup(StorageConnector connector) throws IOException;
   
   public abstract void acquireLock(TransactionLocks locks) throws IOException;
   
@@ -265,22 +267,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   private void removeNDC() {
     NDCWrapper.clear();
     NDCWrapper.remove();
-  }
-
-  private void setRandomPartitioningKey()
-      throws StorageException, StorageException {
-    //      Random rand =new Random(System.currentTimeMillis());
-    //      Integer partKey = new Integer(rand.nextInt());
-    //      //set partitioning key
-    //      Object[] pk = new Object[2];
-    //      pk[0] = partKey;
-    //      pk[1] = Integer.toString(partKey);
-    //
-    //      EntityManager.setPartitionKey(INodeDataAccess.class, pk);
-    //
-    ////      EntityManager.readCommited();
-    ////      EntityManager.find(INode.Finder.ByPK_NameAndParentId, "", partKey);
-    
   }
 
   protected abstract boolean shouldAbort(Exception e);

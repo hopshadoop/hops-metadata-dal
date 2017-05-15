@@ -18,8 +18,6 @@ package io.hops.metadata.hdfs.dal;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
-import java.util.Collection;
-
 public interface GroupDataAccess<T> extends EntityDataAccess{
   T getGroup(int groupId) throws StorageException;
   T getGroup(String groupName) throws StorageException;

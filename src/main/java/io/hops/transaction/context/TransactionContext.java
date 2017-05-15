@@ -35,8 +35,8 @@ public class TransactionContext {
   private static String UNKNOWN_TYPE = "Unknown type:";
   private boolean activeTxExpected = false;
   private Map<Class, EntityContext> typeContextMap;
-  private Set<EntityContext> contexts = new HashSet<EntityContext>();
-  private StorageConnector connector;
+  private Set<EntityContext> contexts = new HashSet<>();
+  private final StorageConnector connector;
 
   public TransactionContext(StorageConnector connector,
       Map<Class, EntityContext> entityContext) {
@@ -47,18 +47,6 @@ public class TransactionContext {
       }
     }
     this.connector = connector;
-  }
-
-  private void resetContext() throws TransactionContextException {
-    activeTxExpected = false;
-    clearContext();
-    EntityContext.setLockMode(null); // null won't be logged
-  }
-
-  public void clearContext() throws TransactionContextException {
-    for (EntityContext context : contexts) {
-      context.clear();
-    }
   }
 
   public void begin() throws StorageException {
@@ -79,11 +67,11 @@ public class TransactionContext {
       context.prepare(tlm);
     }
     connector.commit();
-    resetContext();
+    EntityContext.setLockMode(null);
   }
 
   public void rollback() throws StorageException, TransactionContextException {
-    resetContext();
+    EntityContext.setLockMode(null);
     connector.rollback();
   }
 

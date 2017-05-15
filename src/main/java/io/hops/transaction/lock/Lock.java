@@ -34,6 +34,7 @@ import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.FinderType;
 import io.hops.transaction.EntityManager;
+import io.hops.transaction.TransactionCluster;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -44,7 +45,7 @@ public abstract class Lock implements Comparable<Lock> {
    * The Order of entries in Type defines the order
    * by which it's acquired
    */
-  public static enum Type {
+  public enum Type {
     INode,
     Block,
     NameNodeLease,
@@ -67,7 +68,6 @@ public abstract class Lock implements Comparable<Lock> {
   }
 
   protected Lock() {
-
   }
 
   protected final static TransactionLockTypes.LockType DEFAULT_LOCK_TYPE =

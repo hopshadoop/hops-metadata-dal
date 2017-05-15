@@ -15,6 +15,7 @@
  */
 package io.hops.transaction;
 
+import io.hops.StorageConnector;
 import io.hops.exception.StorageException;
 import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.CounterType;
@@ -30,145 +31,193 @@ import io.hops.transaction.lock.TransactionLocks;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * EntityManager needs a call to {@link EntityManager:transaction}
+ * to setup variables for the local thread before doing anything
+ *
+ */
 public class EntityManager {
 
   private EntityManager() {
   }
 
-  private static ConcurrentHashMap<Long, TransactionContext> contexts =
-      new ConcurrentHashMap<Long, TransactionContext>();
+  private static class Context {
+    // connector to use during transaction
+    StorageConnector connector;
+    // transaction context
+    TransactionContext txContext;
+
+    public Context(StorageConnector connector, TransactionContext txContext) {
+      this.connector = connector;
+      this.txContext = txContext;
+    }
+  }
+
+  private static ThreadLocal<Context> context = new ThreadLocal<>();
   private static CopyOnWriteArrayList<ContextInitializer> contextInitializers =
-      new CopyOnWriteArrayList<ContextInitializer>();
+      new CopyOnWriteArrayList<>();
+
   private static boolean initialized = false;
 
   public static void addContextInitializer(ContextInitializer ci) {
     contextInitializers.add(ci);
     if (!initialized) {
       initialized = true;
-      RequestHandler.setStorageConnector(ci.getConnector());
+      RequestHandler.setStorageConnector(ci.getMultiZoneConnector());
     }
   }
-  
-  private static TransactionContext context() {
-    Long threadID = getThreadID();
-    TransactionContext context = contexts.get(threadID);
-    if (context == null) {
-      context = addContext();
+
+  /**
+   * @returns the {@link StorageConnector} bound to this transaction
+   */
+  public static StorageConnector transactionConnector() throws StorageException{
+    return context().connector;
+  }
+
+  /**
+   * This initializes all the thread-local data for the transaction using the provided {@link StorageConnector}.
+   * In a {@link RequestHandler} the {@link StorageConnector} can be obtained by using {@link RequestHandler#zoneConnector}.
+   * This should not be initialized more than once.
+   * Initialization must happen on the first invocation on a new thread or any invocation
+   * after a {@link #commit(TransactionLocks)} or {@link #rollback(TransactionLocks)}.
+   *
+   * @param connector the connector to use for this transaction
+   */
+  public static void initTransaction(StorageConnector connector) {
+    Context ctx = context.get();
+    if(ctx != null) {
+      throw new RuntimeException("transaction was not committed or rolled back");
+      // return ctx.connector;
     }
-    return context;
+    ctx = new EntityManager.Context(connector, createContext(connector));
+    context.set(ctx);
+  }
+
+  private static Context context() {
+    Context ctx = context.get();
+    if (ctx == null) {
+      throw new RuntimeException("context was not initialized");
+    }
+    return ctx;
   }
 
   public static void begin() throws StorageException {
-    context().begin();
+    context().txContext.begin();
   }
 
   public static void preventStorageCall(boolean val) {
-    context().preventStorageCall(val);
+    context().txContext.preventStorageCall(val);
   }
 
   public static void commit(TransactionLocks tlm)
       throws TransactionContextException, StorageException {
-    context().commit(tlm);
-    removeContext();
+    context().txContext.commit(tlm);
+    context.remove();
   }
 
+  /**
+   * Rollback rolls back a transaction and removes the context.
+   * {@link EntityManager#initTransaction(StorageConnector)} must be called before using commit or rollback again.
+   *
+   *
+   * @param tlm
+   * @throws StorageException if there was an exception rolling back. This can be ignored as the context will be discarded anyway.
+   * @throws TransactionContextException
+   */
   public static void rollback(TransactionLocks tlm)
       throws StorageException, TransactionContextException {
-    context().rollback();
-    removeContext();
+    // very important!
+    // whatever happens during a rollback the context must be removed.
+    // if not the whole thread will be forever poisoned and unable to continue serving requests.
+    try {
+      context().txContext.rollback();
+    } finally {
+      context.remove();
+    }
   }
 
   public static <T> void remove(T obj)
       throws StorageException, TransactionContextException {
-    context().remove(obj);
+    context().txContext.remove(obj);
   }
 
   public static void removeAll(Class type)
       throws StorageException, TransactionContextException {
-    context().removeAll(type);
+    context().txContext.removeAll(type);
   }
 
-  public static <T> Collection<T> findList(FinderType<T> finder,
-      Object... params) throws TransactionContextException, StorageException {
-    return context().findList(finder, params);
-  }
-
-  public static <T> T find(FinderType<T> finder, Object... params)
+  public static <T> Collection<T> findList(
+      FinderType<T> finder, Object... params)
       throws TransactionContextException, StorageException {
-    return context().find(finder, params);
+    return context().txContext.findList(finder, params);
   }
 
-  public static int count(CounterType counter, Object... params)
+  public static <T> T find(
+      FinderType<T> finder, Object... params)
       throws TransactionContextException, StorageException {
-    return context().count(counter, params);
+    return context().txContext.find(finder, params);
+  }
+
+  public static int count(
+      CounterType counter, Object... params)
+      throws TransactionContextException, StorageException {
+    return context().txContext.count(counter, params);
   }
 
   public static <T> void update(T entity)
       throws TransactionContextException, StorageException {
-    context().update(entity);
+    context().txContext.update(entity);
   }
 
   public static <T> void add(T entity)
       throws TransactionContextException, StorageException {
-    context().add(entity);
+    context().txContext.add(entity);
   }
   
   public static <T> void snapshotMaintenance(
       TransactionContextMaintenanceCmds cmds, Object... params)
       throws TransactionContextException {
-    context().snapshotMaintenance(cmds, params);
+    context().txContext.snapshotMaintenance(cmds, params);
   }
 
   public static void writeLock() throws StorageException {
+    // this sets the lock mode in a thread-local object.
     EntityContext.setLockMode(EntityContext.LockMode.WRITE_LOCK);
-    contextInitializers.get(0).getConnector().writeLock();
+    context().connector.writeLock();
   }
 
   public static void readLock() throws StorageException {
+    // this sets the lock mode in a thread-local object.
     EntityContext.setLockMode(EntityContext.LockMode.READ_LOCK);
-    contextInitializers.get(0).getConnector().readLock();
+    context().connector.readLock();
   }
 
   public static void readCommited() throws StorageException {
+    // this sets the lock mode in a thread-local object.
     EntityContext.setLockMode(EntityContext.LockMode.READ_COMMITTED);
-    contextInitializers.get(0).getConnector().readCommitted();
+    context().connector.readCommitted();
   }
 
   public static void setPartitionKey(Class name, Object key)
       throws StorageException {
-    contextInitializers.get(0).getConnector().setPartitionKey(name, key);
+    context().connector.setPartitionKey(name, key);
   }
   
   public static Collection<EntityContextStat> collectSnapshotStat()
       throws TransactionContextException {
-    return context().collectSnapshotStat();
+    return context().txContext.collectSnapshotStat();
   }
-  
-  private static Long getThreadID() {
-    return Thread.currentThread().getId();
-  }
-  
-  private static TransactionContext addContext() {
-    Long threadID = getThreadID();
-    Map<Class, EntityContext> storageMap = new HashMap<Class, EntityContext>();
+
+  private static TransactionContext createContext(StorageConnector connector) {
+    Map<Class, EntityContext> storageMap = new HashMap<>();
     for (ContextInitializer initializer : contextInitializers) {
-      Map<Class, EntityContext> tmp = initializer.createEntityContexts();
+      Map<Class, EntityContext> tmp = initializer.createEntityContexts(connector);
       for (Class clzz : tmp.keySet()) {
         storageMap.put(clzz, tmp.get(clzz));
       }
     }
-    TransactionContext context =
-        new TransactionContext(contextInitializers.get(0).getConnector(),
-            storageMap);
-    contexts.put(threadID, context);
-    return context;
-  }
-  
-  private static void removeContext() {
-    Long threadID = getThreadID();
-    contexts.remove(threadID);
+    return new TransactionContext(connector, storageMap);
   }
 }

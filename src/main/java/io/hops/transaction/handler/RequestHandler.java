@@ -15,7 +15,9 @@
  */
 package io.hops.transaction.handler;
 
+import io.hops.MultiZoneStorageConnector;
 import io.hops.StorageConnector;
+import io.hops.transaction.TransactionCluster;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import java.util.Random;
@@ -26,6 +28,7 @@ public abstract class RequestHandler {
   private long waitTime;
 
   public interface OperationType {
+    TransactionCluster getCluster();
   }
 
   protected static Log LOG = LogFactory.getLog(RequestHandler.class);
@@ -34,11 +37,12 @@ public abstract class RequestHandler {
   public static final int RETRY_COUNT = 5;
   public static final int BASE_WAIT_TIME = 2000;
   protected OperationType opType;
-  protected static StorageConnector connector;
   protected static Random rand = new Random(System.currentTimeMillis());
 
-  public static void setStorageConnector(StorageConnector c) {
-    connector = c;
+  protected static MultiZoneStorageConnector zoneConnector;
+
+  public static void setStorageConnector(MultiZoneStorageConnector c) {
+    zoneConnector = c;
   }
 
   public RequestHandler(OperationType opType) {
@@ -50,13 +54,15 @@ public abstract class RequestHandler {
   }
 
   public Object handle(Object info) throws IOException {
+    TransactionCluster cluster = this.opType.getCluster();
+    StorageConnector connector = zoneConnector.connectorFor(cluster);
     waitTime = 0;
-    return execute(info);
+    return execute(connector, info);
   }
 
-  protected abstract Object execute(Object info) throws IOException;
+  protected abstract Object execute(StorageConnector connector, Object info) throws IOException;
 
-  public abstract Object performTask() throws IOException;
+  public abstract Object performTask(StorageConnector connector) throws IOException;
 
   public RequestHandler setParams(Object... params) {
     this.params = params;
@@ -77,7 +83,7 @@ public abstract class RequestHandler {
         Thread.sleep(waitTime);
       }
       if (waitTime == 0) {
-        waitTime = rand.nextInt((int)BASE_WAIT_TIME);
+        waitTime = rand.nextInt(BASE_WAIT_TIME);
       } else {
         waitTime = waitTime * 2;
       }
