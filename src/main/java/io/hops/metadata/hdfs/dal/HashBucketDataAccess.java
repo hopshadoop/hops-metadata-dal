@@ -17,26 +17,17 @@ package io.hops.metadata.hdfs.dal;
 
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
+import io.hops.metadata.hdfs.entity.HashBucket;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-public interface ReplicaDataAccess<T> extends EntityDataAccess {
 
-  List<T> findReplicasById(long blockId, int inodeId) throws StorageException;
-  
-  List<T> findReplicasByINodeId(int inodeId) throws StorageException;
-  
-  List<T> findReplicasByINodeIds(int[] inodeIds) throws StorageException;
-  
-  Map<Long, Integer> findBlockAndInodeIdsByStorageId(int storageId) throws StorageException;
+public interface HashBucketDataAccess<T> extends EntityDataAccess {
 
-  Map<Long, Integer> findBlockAndInodeIdsByStorageIdAndBucketId(int
-      storageId, int bucketId) throws StorageException;
+  T findBucket(int bucketId, int storageId) throws StorageException;
+
+  Collection<T> findBucketsByStorageId(int storageId) throws StorageException;
   
-  int countAllReplicasForStorageId(int sid) throws StorageException;
-  
-  void prepare(Collection<T> removed, Collection<T> newed,
-      Collection<T> modified) throws StorageException;
+  void prepare(Collection<HashBucket> removed, Collection<HashBucket> modified)
+      throws StorageException;
 }
