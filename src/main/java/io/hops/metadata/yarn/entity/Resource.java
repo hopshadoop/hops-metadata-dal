@@ -21,6 +21,7 @@ public class Resource implements Comparable<Resource>{
   private final String id;
   private int memory;
   private int virtualcores;
+  private int gpus;
   private int pendingEventId;
   
   public Resource(String id) {
@@ -28,11 +29,12 @@ public class Resource implements Comparable<Resource>{
   }
   
   public Resource(String id, int memory,
-          int virtualcores, int pendingId) {
+          int virtualcores, int gpus, int pendingId) {
     this.id = id;
     this.memory = memory;
     this.virtualcores = virtualcores;
     this.pendingEventId = pendingId;
+    this.gpus = gpus;
   }
   
   public int getPendingEventId() {
@@ -49,6 +51,10 @@ public class Resource implements Comparable<Resource>{
   
   public int getVirtualCores() {
     return virtualcores;
+  }
+
+  public int getGPUs() {
+    return gpus;
   }
   
   @Override
