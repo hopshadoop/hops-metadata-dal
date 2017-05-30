@@ -22,6 +22,7 @@ import io.hops.log.NDCWrapper;
 import io.hops.transaction.EntityManager;
 import io.hops.transaction.TransactionInfo;
 import io.hops.transaction.context.TransactionsStats;
+import io.hops.transaction.lock.Lock;
 import io.hops.transaction.lock.TransactionLockAcquirer;
 import io.hops.transaction.lock.TransactionLocks;
 
@@ -39,7 +40,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     boolean committed;
     int tryCount = 0;
     IOException ignoredException;
-    TransactionLocks locks = null;
     Object txRetValue = null;
 
     while (tryCount <= RETRY_COUNT) {
@@ -53,6 +53,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       long inMemoryProcessingTime = -1;
       long commitTime = -1;
       long totalTime = -1;
+      TransactionLockAcquirer locksAcquirer = null;
 
       rollback = false;
       tryCount++;
@@ -82,7 +83,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         beginTxTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
         
-        TransactionLockAcquirer locksAcquirer = newLockAcquirer();
+        locksAcquirer = newLockAcquirer();
         acquireLock(locksAcquirer.getLocks());
 
         locksAcquirer.acquire();
@@ -133,7 +134,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
                   "ms, In Memory Processing: " + inMemoryProcessingTime +
                   "ms, Commit Time: " + commitTime + "ms, Total Time: " + totalTime +
-                  "ms");
+                  "ms. "+ getINodeLockInfo(locksAcquirer.getLocks()));
         }
         //post TX phase
         //any error in this phase will not re-start the tx
@@ -153,7 +154,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
               acquireLockTime +
               "ms, In Memory Processing: " + inMemoryProcessingTime +
               "ms, Commit Time: " + commitTime +
-              "ms, Total Time: " + totalTime + "ms", e);
+              "ms, Total Time: " + totalTime + "ms. "+ getINodeLockInfo(locksAcquirer.getLocks()), e);
         } else {
           if(LOG.isDebugEnabled()) {
             LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
@@ -181,7 +182,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if (rollback) {
           try {
             LOG.error("Rollback the TX");
-            EntityManager.rollback(locks);
+            EntityManager.rollback(locksAcquirer.getLocks());
           } catch (Exception e) {
             LOG.warn("Could not rollback transaction", e);
           }
@@ -193,6 +194,20 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       }
     }
     throw new RuntimeException("TransactionalRequestHandler did not execute");
+  }
+
+  private String getINodeLockInfo(TransactionLocks locks){
+    String inodeLockMsg = "";
+    try {
+      if(locks != null) {
+        Lock ilock = locks.getLock(Lock.Type.INode);
+        if (ilock != null) {
+          inodeLockMsg = ilock.toString();
+        }
+      }
+    }catch (TransactionLocks.LockNotAddedException e){
+    }
+    return inodeLockMsg;
   }
 
   protected abstract void preTransactionSetup() throws IOException;

@@ -31,14 +31,24 @@ public abstract class RequestHandler {
   protected static Log LOG = LogFactory.getLog(RequestHandler.class);
   protected Object[] params = null;
   // TODO These should be in a config file
-  public static final int RETRY_COUNT = 5;
-  public static final int BASE_WAIT_TIME = 2000;
+  protected static int RETRY_COUNT = 5;
+  protected static int BASE_WAIT_TIME = 2000;
   protected OperationType opType;
   protected static StorageConnector connector;
   protected static Random rand = new Random(System.currentTimeMillis());
 
   public static void setStorageConnector(StorageConnector c) {
     connector = c;
+  }
+
+  public static void setRetryCount(final int retryCount){
+    RETRY_COUNT = retryCount;
+    LOG.info("Transaction Retry Count is: "+RETRY_COUNT);
+  }
+
+  public static void setRetryBaseWaitTime(final int baseWaitTime){
+    BASE_WAIT_TIME = baseWaitTime;
+    LOG.info("Trasaction wait time before retry is: "+BASE_WAIT_TIME);
   }
 
   public RequestHandler(OperationType opType) {
