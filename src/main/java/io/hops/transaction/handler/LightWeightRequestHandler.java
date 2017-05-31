@@ -49,8 +49,8 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         totalTime = System.currentTimeMillis();
         Object ret = performTask();
         totalTime = System.currentTimeMillis() - totalTime;
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Total time taken. Time " + totalTime + " ms");
+        if(LOG.isInfoEnabled()) {
+          LOG.info(opType+" TX Finished. Total time taken. Time " + totalTime + " ms");
         }
         return ret;
       } catch (TransientStorageException e) {
