@@ -74,6 +74,7 @@ public class TablesDef {
     public static final String ID = "id";
     public static final String MEMORY = "memory";
     public static final String VIRTUAL_CORES = "virtualcores";
+    public static final String GPUS = "gpus";
     public static final String PENDING_EVENT_ID = "pendingeventid";
   }
 
@@ -159,6 +160,7 @@ public class TablesDef {
     public static final String STOP = "stop";
     public static final String EXITSTATUS = "exit_status";
     public static final String PRICE = "price";
+    public static final String GPUS = "gpus";
     public static final String VCORES = "vcores";
     public static final String MB = "mb";
   }
