@@ -31,8 +31,18 @@ public class INode extends INodeBase implements Comparable<INode> {
   private int generationStamp;
   private String symlink;
   private boolean metaEnabled;
+  private boolean isFileStoredInDB;
 
   public INode() {
+//    this.modificationTime = -1;
+//    this.accessTime = -1;
+//    this.clientName = "";
+//    this.clientMachine = "";
+//    this.clientNode = "";
+//    this.generationStamp = -1;
+//    this.symlink = "";
+//    this.metaEnabled = false;
+//    this.isFileStoredInDB = false;
   }
 
   public INode(int id, String name, int parentId, int partitionId, boolean isDir, boolean dirWithQuota,
@@ -41,7 +51,7 @@ public class INode extends INodeBase implements Comparable<INode> {
       String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
-      long size) {
+      long size, boolean isFileStoredInDB) {
 
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
@@ -55,6 +65,7 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.generationStamp = generationStamp;
     this.symlink = symlink;
     this.metaEnabled = metaEnabled;
+    this.isFileStoredInDB = isFileStoredInDB;
   }
 
   public long getModificationTime() {
@@ -121,6 +132,10 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.metaEnabled = metaEnabled;
   }
 
+  public boolean isFileStoredInDB(){ return isFileStoredInDB; }
+
+  public void setFileStoredInDB(boolean isFileStoredInDB){ this.isFileStoredInDB = isFileStoredInDB; }
+
   @Override
   public final int compareTo(INode other) {
     String left = name == null ? "" : name;
@@ -154,7 +169,6 @@ public class INode extends INodeBase implements Comparable<INode> {
     ByName() {
       @Override
       public int compare(INode o1, INode o2) {
-        // TODO - JIM why not compare by ID - more efficient?
         return o1.compareTo(o2);
       }
     };
