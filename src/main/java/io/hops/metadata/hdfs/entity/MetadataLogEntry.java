@@ -15,8 +15,6 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-import io.hops.metadata.common.FinderType;
-
 public class MetadataLogEntry {
   private final int datasetId;
   private final int inodeId;
@@ -36,7 +34,7 @@ public class MetadataLogEntry {
       operation) {
     this(datasetId, inodeId, inodePartitionId, inodeParentId, inodeName, 0,
         operation);
-    updateTimestamp();
+    this.timestamp = System.currentTimeMillis();
   }
 
   public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
@@ -64,8 +62,7 @@ public class MetadataLogEntry {
   }
 
   public long updateTimestamp() {
-    this.timestamp = System.currentTimeMillis();
-    return timestamp;
+    return ++timestamp;
   }
 
   public Operation getOperation() {
@@ -86,5 +83,18 @@ public class MetadataLogEntry {
 
   public String getInodeName() {
     return inodeName;
+  }
+
+  @Override
+  public String toString() {
+    return "MetadataLogEntry{" +
+        "datasetId=" + datasetId +
+        ", inodeId=" + inodeId +
+        ", inodePartitionId=" + inodePartitionId +
+        ", inodeParentId=" + inodeParentId +
+        ", inodeName='" + inodeName + '\'' +
+        ", timestamp=" + timestamp +
+        ", operation=" + operation +
+        '}';
   }
 }
