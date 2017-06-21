@@ -37,9 +37,12 @@ import io.hops.transaction.EntityManager;
 
 import java.io.IOException;
 import java.util.Collection;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public abstract class Lock implements Comparable<Lock> {
 
+  protected final static Log LOG = LogFactory.getLog(Lock.class);
   /*
    * The Order of entries in Type defines the order
    * by which it's acquired
