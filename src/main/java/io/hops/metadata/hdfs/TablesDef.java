@@ -48,6 +48,31 @@ public class TablesDef {
     String SUBTREE_LOCK_OWNER = "subtree_lock_owner";
     String META_ENABLED = "meta_enabled";
     String SIZE = "size";
+    String FILE_STORED_IN_DB = "file_stored_in_db";
+  }
+
+  public interface FileInodeInMemoryData {
+    String TABLE_NAME = "hdfs_inmemory_file_inode_data";
+    String ID = "inode_id";
+    String DATA = "data";
+  }
+
+  public interface FileInodeSmallDiskData {
+    String TABLE_NAME = "hdfs_ondisk_small_file_inode_data";
+    String ID = "inode_id";
+    String DATA = "data";
+  }
+
+  public interface FileInodeMediumlDiskData {
+    String TABLE_NAME = "hdfs_ondisk_medium_file_inode_data";
+    String ID = "inode_id";
+    String DATA = "data";
+  }
+
+  public interface FileInodeLargeDiskData {
+    String TABLE_NAME = "hdfs_ondisk_large_file_inode_data";
+    String ID = "inode_id";
+    String DATA = "data";
   }
 
   public interface UsersTableDef {
