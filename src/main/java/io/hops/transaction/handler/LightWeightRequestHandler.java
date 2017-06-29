@@ -49,8 +49,9 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         totalTime = System.currentTimeMillis();
         Object ret = performTask();
         totalTime = System.currentTimeMillis() - totalTime;
-        if(LOG.isInfoEnabled()) {
-          LOG.info(opType+" TX Finished. Total time taken. Time " + totalTime + " ms");
+        if(LOG.isDebugEnabled()) {
+          LOG.debug(opType+" TX Finished. Total time taken. Time " +
+              totalTime + " ms");
         }
         return ret;
       } catch (TransientStorageException e) {
@@ -58,31 +59,29 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         if (tryCount <= RETRY_COUNT) {
           totalTime = System.currentTimeMillis() - totalTime;
           if(LOG.isDebugEnabled()) {
-            LOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT +
-                            ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
-                            ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
+            LOG.debug("Tx Failed. total tx time " + " TotalRetryCount(" +
+                RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
+                ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
           }
         } else {
-          if(LOG.isDebugEnabled()) {
-            LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
-          }
+          LOG.error("Transaction failed after " + RETRY_COUNT + " retries.", e);
           throw e;
         }
       } catch (IOException e) {
         rollback = true;
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
           LOG.debug("Transaction failed.", e);
         }
         throw e;
       } catch (RuntimeException e) {
         rollback = true;
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
           LOG.debug("Transaction failed.", e);
         }
         throw e;
       } catch (Error e) {
         rollback = true;
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
           LOG.debug("Transaction failed.", e);
         }
         throw e;
@@ -97,7 +96,9 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         NDCWrapper.remove();
         if (rollback) {
           try {
-            LOG.error("Rollback the TX");
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("Rollback the TX");
+            }
             connector.rollback();
           } catch (Exception e) {
             LOG.error("Could not rollback transaction", e);
