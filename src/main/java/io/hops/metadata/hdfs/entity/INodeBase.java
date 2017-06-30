@@ -35,6 +35,18 @@ public class INodeBase {
   protected boolean isDir;
 
   public INodeBase(){
+//    this.id = -1;
+//    this.parentId = -1;
+//    this.name = "";
+//    this.userID = null;
+//    this.groupID = null;
+//    this.permission = -1;
+//    this.header = -1;
+//    this.dirWithQuota = false;
+//    this.underConstruction = false;
+//    this.subtreeLocked = false;
+//    this.subtreeLockOwner = -1;
+//    this.fileSize = -1;
   }
 
   public INodeBase(int id, int parentId, String name, int partitionId, boolean isDir, int userID,

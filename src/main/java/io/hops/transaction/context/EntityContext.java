@@ -207,7 +207,7 @@ public abstract class EntityContext<T> {
     log(opName, CacheHitState.NA, params);
   }
 
-  protected static void log(FinderType finderType, CacheHitState state,
+  public static void log(FinderType finderType, CacheHitState state,
       Object... params) {
     log(getOperationMessage(finderType), state, params);
   }
