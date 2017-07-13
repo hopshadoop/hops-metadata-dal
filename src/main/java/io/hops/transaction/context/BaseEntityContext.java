@@ -88,7 +88,7 @@ abstract class BaseEntityContext<Key, Entity> extends EntityContext<Entity> {
   }
 
   private final Map<Key, ContextEntity> contextEntities =
-      new HashMap<Key, ContextEntity>();
+      new HashMap<>();
 
   private EntityContextStat contextStat;
 

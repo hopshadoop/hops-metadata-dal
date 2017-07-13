@@ -37,7 +37,7 @@ public class EntityContextStat {
     int deletedRows = 0;
 
     private EnumMap<FinderType.Annotation, HitMissCounter> annotated =
-        new EnumMap<FinderType.Annotation, HitMissCounter>(
+        new EnumMap<>(
             FinderType.Annotation.class);
 
     void hit(FinderType finderType, int hitRowsCount) {
@@ -194,7 +194,7 @@ public class EntityContextStat {
 
   public EntityContextStat(String contextName) {
     this.contextName = contextName;
-    this.operationsStats = new HashMap<FinderType, HitMissCounter>();
+    this.operationsStats = new HashMap<>();
     this.statsAggregator = new StatsAggregator();
   }
 

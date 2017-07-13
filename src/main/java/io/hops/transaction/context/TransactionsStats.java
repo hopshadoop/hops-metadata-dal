@@ -141,8 +141,8 @@ public class TransactionsStats {
 
   private TransactionsStats() {
     this.enabled = false;
-    this.transactionStats = new LinkedList<TransactionStat>();
-    this.resolvingCacheStats = new LinkedList<ResolvingCacheStat>();
+    this.transactionStats = new LinkedList<>();
+    this.resolvingCacheStats = new LinkedList<>();
   }
 
   public static TransactionsStats getInstance() {
