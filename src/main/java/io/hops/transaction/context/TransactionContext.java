@@ -35,7 +35,7 @@ public class TransactionContext {
   private static String UNKNOWN_TYPE = "Unknown type:";
   private boolean activeTxExpected = false;
   private Map<Class, EntityContext> typeContextMap;
-  private Set<EntityContext> contexts = new HashSet<EntityContext>();
+  private Set<EntityContext> contexts = new HashSet<>();
   private StorageConnector connector;
 
   public TransactionContext(StorageConnector connector,
@@ -179,7 +179,7 @@ public class TransactionContext {
   
   public Collection<EntityContextStat> collectSnapshotStat()
       throws TransactionContextException {
-    List<EntityContextStat> stats = new ArrayList<EntityContextStat>();
+    List<EntityContextStat> stats = new ArrayList<>();
     for (EntityContext context : contexts) {
       EntityContextStat stat = context.collectSnapshotStat();
       if (stat != null) {

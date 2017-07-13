@@ -30,11 +30,11 @@ public class RMNodeComps {
   private  Resource resource;
   //hopUpdatedContainerInfo are grouped by updatedContainerInfoId
   private List<UpdatedContainerInfo> updatedContainerInfo
-          = new ArrayList<UpdatedContainerInfo>();
+          = new ArrayList<>();
   private List<ContainerStatus> containersStatus
-          = new ArrayList<ContainerStatus>();
+          = new ArrayList<>();
   private Map<String, ContainerStatus> containerStatusMap
-          = new HashMap<String, ContainerStatus>();
+          = new HashMap<>();
   private int set = 0;
   
   public RMNodeComps(){  

@@ -67,19 +67,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           LOG.error("Transaction failed after " + RETRY_COUNT + " retries.", e);
           throw e;
         }
-      } catch (IOException e) {
-        rollback = true;
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Transaction failed.", e);
-        }
-        throw e;
-      } catch (RuntimeException e) {
-        rollback = true;
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Transaction failed.", e);
-        }
-        throw e;
-      } catch (Error e) {
+      } catch (IOException | Error | RuntimeException e) {
         rollback = true;
         if (LOG.isDebugEnabled()) {
           LOG.debug("Transaction failed.", e);

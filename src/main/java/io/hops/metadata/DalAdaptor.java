@@ -24,7 +24,7 @@ public abstract class DalAdaptor<HDFSClass, DALClass> {
 
   public Collection<DALClass> convertHDFStoDAL(
       Collection<HDFSClass> hdfsCollection) throws StorageException {
-    Collection<DALClass> dalCollection = new ArrayList<DALClass>();
+    Collection<DALClass> dalCollection = new ArrayList<>();
     if (hdfsCollection != null) {
       for (HDFSClass hdfsClass : hdfsCollection) {
         dalCollection.add(convertHDFStoDAL(hdfsClass));
@@ -42,9 +42,7 @@ public abstract class DalAdaptor<HDFSClass, DALClass> {
     if (dalCollection != null) {
       try {
         hdfsCollection = dalCollection.getClass().newInstance();
-      } catch (InstantiationException ex) {
-        throw new StorageException(ex);
-      } catch (IllegalAccessException ex) {
+      } catch (InstantiationException | IllegalAccessException ex) {
         throw new StorageException(ex);
       }
       for (DALClass dalClass : dalCollection) {

@@ -42,7 +42,7 @@ public final class VariablesLock extends Lock {
 
   VariablesLock() {
     this.variables =
-        new EnumMap<Variable.Finder, TransactionLockTypes.LockType>(
+        new EnumMap<>(
             Variable.Finder.class);
   }
 
