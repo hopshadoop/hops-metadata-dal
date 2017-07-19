@@ -15,7 +15,7 @@
  */
 package io.hops.exception;
 
-public class UniqueKeyConstraintViolationException extends StorageException{
+public class UniqueKeyConstraintViolationException extends TransientStorageException{
   public UniqueKeyConstraintViolationException() {
   }
 
