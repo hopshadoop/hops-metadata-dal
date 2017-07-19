@@ -24,11 +24,7 @@ public class DalDriver {
     try {
       return (DalStorageFactory) Class.forName(storageFactoryClassName)
           .newInstance();
-    } catch (ClassNotFoundException ex) {
-      throw new StorageInitializtionException(ex);
-    } catch (InstantiationException ex) {
-      throw new StorageInitializtionException(ex);
-    } catch (IllegalAccessException ex) {
+    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
       throw new StorageInitializtionException(ex);
     }
   }
@@ -37,11 +33,7 @@ public class DalDriver {
     try {
       return (DalNdbEventStreaming) Class.forName(storageFactoryClassName).
               newInstance();
-    } catch (ClassNotFoundException ex) {
-      throw new StorageInitializtionException(ex);
-    } catch (InstantiationException ex) {
-      throw new StorageInitializtionException(ex);
-    } catch (IllegalAccessException ex) {
+    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
       throw new StorageInitializtionException(ex);
     }
   }

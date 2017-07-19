@@ -39,9 +39,9 @@ public class EntityManager {
   }
 
   private static ConcurrentHashMap<Long, TransactionContext> contexts =
-      new ConcurrentHashMap<Long, TransactionContext>();
+      new ConcurrentHashMap<>();
   private static CopyOnWriteArrayList<ContextInitializer> contextInitializers =
-      new CopyOnWriteArrayList<ContextInitializer>();
+      new CopyOnWriteArrayList<>();
   private static boolean initialized = false;
 
   public static void addContextInitializer(ContextInitializer ci) {
@@ -153,7 +153,7 @@ public class EntityManager {
   
   private static TransactionContext addContext() {
     Long threadID = getThreadID();
-    Map<Class, EntityContext> storageMap = new HashMap<Class, EntityContext>();
+    Map<Class, EntityContext> storageMap = new HashMap<>();
     for (ContextInitializer initializer : contextInitializers) {
       Map<Class, EntityContext> tmp = initializer.createEntityContexts();
       for (Class clzz : tmp.keySet()) {

@@ -52,7 +52,7 @@ public abstract class EntityContext<T> {
   }
 
   public static ThreadLocal<LockMode> currentLockMode =
-      new ThreadLocal<LockMode>();
+      new ThreadLocal<>();
 
   /**
    * Defines the cache state of the request. This enum is only used for logging

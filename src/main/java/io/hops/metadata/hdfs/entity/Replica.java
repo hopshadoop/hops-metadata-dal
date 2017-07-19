@@ -60,8 +60,8 @@ public class Replica extends ReplicaBase {
       @Override
       public int compare(Replica o1, Replica o2) {
         return Integer.valueOf(o1.getStorageId()).compareTo(
-            Integer.valueOf(o2.getStorageId
-                ()));
+            o2.getStorageId
+                ());
       }
     }
   }

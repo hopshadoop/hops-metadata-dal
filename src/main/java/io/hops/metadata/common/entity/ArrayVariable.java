@@ -26,7 +26,7 @@ public class ArrayVariable extends Variable {
 
   public ArrayVariable(Finder type) {
     super(type);
-    vars = new ArrayList<Variable>();
+    vars = new ArrayList<>();
     length = 0;
   }
 
@@ -50,7 +50,7 @@ public class ArrayVariable extends Variable {
   }
 
   public List<? extends Object> getVarsValue() {
-    List<Object> vals = new ArrayList<Object>();
+    List<Object> vals = new ArrayList<>();
     for (Variable var : vars) {
       vals.add(var.getValue());
     }
