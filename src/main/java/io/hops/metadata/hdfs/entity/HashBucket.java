@@ -17,12 +17,15 @@
  */
 package io.hops.metadata.hdfs.entity;
 
+import io.hops.exception.StorageException;
+import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.FinderType;
+import io.hops.transaction.EntityManager;
 
 public class HashBucket {
   
   public enum Finder implements FinderType<HashBucket> {
-    ByBucketIdAndStorageId;
+    ByStorageIdAndBucketId;
   
     @Override
     public Class getType() {
@@ -32,7 +35,7 @@ public class HashBucket {
     @Override
     public Annotation getAnnotated() {
       switch (this){
-        case ByBucketIdAndStorageId:
+        case ByStorageIdAndBucketId:
           return Annotation.PrimaryKey;
         default:
           throw new IllegalStateException();
@@ -40,13 +43,13 @@ public class HashBucket {
     }
   }
   
-  private int bucketId;
   private int storageId;
+  private int bucketId;
   private long hash;
   
-  public HashBucket(int bucketId, int storageId, long hash) {
-    this.bucketId = bucketId;
+  public HashBucket(int storageId, int bucketId, long hash) {
     this.storageId = storageId;
+    this.bucketId = bucketId;
     this.hash = hash;
   }
   
@@ -62,17 +65,19 @@ public class HashBucket {
     return hash;
   }
   
-  public void setHash(long hash) {
+  public void setHash(long hash)
+      throws TransactionContextException, StorageException {
     this.hash = hash;
+    EntityManager.update(this);
   }
   
   public static class PrimaryKey {
     private int bucketId;
     private int storageId;
     
-    public PrimaryKey(int bucketId, int storageId) {
-      this.bucketId = bucketId;
+    public PrimaryKey(int storageId, int bucketId) {
       this.storageId = storageId;
+      this.bucketId = bucketId;
     }
     
     public int getBucketId() {

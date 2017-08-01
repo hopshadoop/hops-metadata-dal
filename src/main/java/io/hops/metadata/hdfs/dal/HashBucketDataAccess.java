@@ -24,7 +24,7 @@ import java.util.Collection;
 
 public interface HashBucketDataAccess<T> extends EntityDataAccess {
 
-  T findBucket(int bucketId, int storageId) throws StorageException;
+  T findBucket(int storageId, int bucketId) throws StorageException;
 
   Collection<T> findBucketsByStorageId(int storageId) throws StorageException;
   
