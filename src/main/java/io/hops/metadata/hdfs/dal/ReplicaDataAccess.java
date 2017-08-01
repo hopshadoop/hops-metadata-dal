@@ -31,7 +31,7 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   List<T> findReplicasByINodeIds(int[] inodeIds) throws StorageException;
   
   Map<Long, Integer> findBlockAndInodeIdsByStorageId(int storageId) throws StorageException;
-
+  
   Map<Long, Integer> findBlockAndInodeIdsByStorageIdAndBucketId(int
       storageId, int bucketId) throws StorageException;
   
@@ -39,4 +39,7 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
+  
+  Map<Long,Integer> findBlockAndInodeIdsByStorageIdAndBucketIds (int sId,
+      List<Integer> mismatchedBuckets) throws StorageException;
 }
