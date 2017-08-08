@@ -23,6 +23,27 @@ public class TablesDef {
     public static final String RMNODEID = "rmnodeid";
   }
 
+  public static interface ContainerToSignalTableDef {
+
+    public static final String TABLE_NAME = "yarn_container_to_signal";
+    public static final String CONTAINERID = "containerid";
+    public static final String RMNODEID = "rmnodeid";
+    public static final String COMMAND = "command";
+  }
+  
+  public static interface ContainerToDecreaseTableDef {
+
+    public static final String TABLE_NAME = "yarn_container_to_decrease";
+    public static final String CONTAINERID = "containerid";
+    public static final String RMNODEID = "rmnodeid";
+    public static final String HTTPADDRESS = "http_address";
+    public static final String PRIORITY = "priority";
+    public static final String MEMSIZE = "memory_size";
+    public static final String VIRTUALCORES = "virtual_cores";
+    public static final String GPUS = "gpus";
+    public static final String VERSION = "version";
+  }
+  
   public static interface ContainerStatusTableDef {
 
     public static final String TABLE_NAME = "yarn_containerstatus";
@@ -41,9 +62,10 @@ public class TablesDef {
 
   public static interface FinishedApplicationsTableDef {
 
-    public static final String TABLE_NAME = "yarn_rmnode_finishedapplications";
+    public static final String TABLE_NAME = "yarn_rmnode_applications";
     public static final String RMNODEID = "rmnodeid";
     public static final String APPLICATIONID = "applicationid";
+    public static final String STATUS = "status";
   }
 
   public static interface NextHeartbeatTableDef {
@@ -187,5 +209,13 @@ public class TablesDef {
     public static final String TABLE_NAME = "yarn_price_multiplicator";
     public static final String ID = "id";
     public static final String MULTIPLICATOR = "multiplicator";
+  }
+  
+   public static interface ReservationStateTableDef {
+
+    public static final String TABLE_NAME = "yarn_reservation_state";
+    public static final String PLANNAME = "plan_name";
+    public static final String RESERVATIONIDNAME = "reservation_id_name";
+    public static final String RESERVATIONSTATE = "state";
   }
 }

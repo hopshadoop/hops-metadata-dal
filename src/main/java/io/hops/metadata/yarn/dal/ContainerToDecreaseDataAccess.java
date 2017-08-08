@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops;
+package io.hops.metadata.yarn.dal;
 
-/**
- *
- * @author sri
- */
-public interface DalNdbEventStreaming {
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
 
-  public void init(String connectionString, String databaseName);
-  
-  public void startHopsNdbEvetAPISession(boolean isLeader);
+import java.util.Collection;
 
-  public void closeHopsNdbEventAPISession();
+public interface ContainerToDecreaseDataAccess<T> extends EntityDataAccess {
 
-  public boolean isNativeCodeLoaded();
+  public void addAll(Collection<T> containers) throws StorageException;
+
+  public void removeAll(Collection<T> containers) throws StorageException;
 
 }
