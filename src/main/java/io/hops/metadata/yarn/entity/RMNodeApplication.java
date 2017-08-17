@@ -18,14 +18,20 @@ package io.hops.metadata.yarn.entity;
 /**
  * Pojo for RMNode.finishedApplications list.
  */
-public class FinishedApplications implements Comparable<FinishedApplications>{
+public class RMNodeApplication implements Comparable<RMNodeApplication>{
 
+  public enum RMNodeApplicationStatus{
+    FINISHED, RUNNING;
+  }
+  
   private final String rmnodeid;
   private final String applicationId;
-
-  public FinishedApplications(String rmnodeid, String applicationId) {
+  private final RMNodeApplicationStatus status;
+  
+  public RMNodeApplication(String rmnodeid, String applicationId, RMNodeApplicationStatus status) {
     this.rmnodeid = rmnodeid;
     this.applicationId = applicationId;
+    this.status = status;
   }
 
   public String getRMNodeID() {
@@ -36,31 +42,38 @@ public class FinishedApplications implements Comparable<FinishedApplications>{
     return applicationId;
   }
 
+  public RMNodeApplicationStatus getStatus() {
+    return status;
+  }
+
   @Override
   public String toString() {
     return "HopFinishedApplications{" + "rmnodeid=" + rmnodeid +
-        ", applicationId=" + applicationId + '}';
+        ", applicationId=" + applicationId + ", status=" + status +'}';
   }
 
-  public int compareTo(FinishedApplications f) {
+  public int compareTo(RMNodeApplication f) {
     if (this.rmnodeid.compareTo(f.rmnodeid) != 0) {
       return this.rmnodeid.compareTo(f.rmnodeid);
+    } else if (this.applicationId.compareTo(f.applicationId) != 0) {
+      return this.applicationId.compareTo(f.applicationId);
+    } else {
+      return this.status.compareTo(f.status);
     }
-    return this.applicationId.compareTo(f.applicationId);
   }
 
   @Override
   public int hashCode() {
-    return rmnodeid.hashCode() + 100 * applicationId.hashCode();
+    return rmnodeid.hashCode() + 100 * applicationId.hashCode() + status.hashCode();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof FinishedApplications)) {
+    if (!(obj instanceof RMNodeApplication)) {
       return false;
     }
-    FinishedApplications other = (FinishedApplications) obj;
+    RMNodeApplication other = (RMNodeApplication) obj;
     return (applicationId.equals(other.applicationId) && rmnodeid.equals(
-            other.applicationId));
+            other.applicationId) && status.equals(other.status));
   }
 }
