@@ -66,7 +66,8 @@ public abstract class Lock implements Comparable<Lock> {
     EncodingStatus,
     BlockChecksum,
     SubTreePath, 
-    Test
+    Test,
+    HashBucket
   }
 
   protected Lock() {
