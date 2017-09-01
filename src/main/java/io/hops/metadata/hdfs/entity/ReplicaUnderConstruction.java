@@ -18,11 +18,13 @@ package io.hops.metadata.hdfs.entity;
 public class ReplicaUnderConstruction extends ReplicaBase{
 
   private int state;
+  private int bucketId;
 
   public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId) {
+      int inodeId, int bucketId) {
     super(storageId, blockId, inodeId);
     this.state = state;
+    this.bucketId = bucketId;
   }
 
   public int getState() {
@@ -31,5 +33,13 @@ public class ReplicaUnderConstruction extends ReplicaBase{
 
   public void setState(int state) {
     this.state = state;
+  }
+  
+  public int getBucketId() {
+    return bucketId;
+  }
+  
+  public void setBucketId(int bucketId) {
+    this.bucketId = bucketId;
   }
 }

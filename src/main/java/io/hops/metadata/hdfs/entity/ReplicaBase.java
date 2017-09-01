@@ -57,6 +57,14 @@ public abstract class ReplicaBase implements Comparable<ReplicaBase> {
     this.blockId = blockId;
   }
 
+  public int getInodeId() {
+    return inodeId;
+  }
+
+  public void setInodeId(int inodeId) {
+    this.inodeId = inodeId;
+  }
+
   @Override
   public int hashCode() {
     int hash = 7;
@@ -81,14 +89,6 @@ public abstract class ReplicaBase implements Comparable<ReplicaBase> {
       return false;
     }
     return true;
-  }
-
-  public int getInodeId() {
-    return inodeId;
-  }
-
-  public void setInodeId(int inodeId) {
-    this.inodeId = inodeId;
   }
 
   @Override
