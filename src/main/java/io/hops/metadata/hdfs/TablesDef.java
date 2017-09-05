@@ -72,6 +72,7 @@ public class TablesDef {
   public interface FileInodeLargeDiskData {
     String TABLE_NAME = "hdfs_ondisk_large_file_inode_data";
     String ID = "inode_id";
+    String INDEX = "dindex";
     String DATA = "data";
   }
 

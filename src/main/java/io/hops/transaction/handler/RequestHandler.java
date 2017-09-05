@@ -16,6 +16,7 @@
 package io.hops.transaction.handler;
 
 import io.hops.StorageConnector;
+import io.hops.log.NDCWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import java.util.Random;

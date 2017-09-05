@@ -19,8 +19,8 @@ public class TablesDef {
   public abstract static interface LeDescriptorTableDef {
     public static final String ID = "id";
     public static final String COUNTER = "counter";
-    public static final String HOSTNAME = "hostname";
-    public static final String HTTP_ADDRESS = "httpAddress";
+    public static final String RPC_ADDRESSES = "rpc_addresses";
+    public static final String HTTP_ADDRESS = "http_address";
     public static final String PARTITION_VAL = "partition_val";
   }
 
