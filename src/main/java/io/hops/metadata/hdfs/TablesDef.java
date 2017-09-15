@@ -49,6 +49,7 @@ public class TablesDef {
     String META_ENABLED = "meta_enabled";
     String SIZE = "size";
     String FILE_STORED_IN_DB = "file_stored_in_db";
+    String LOGICAL_TIME = "logical_time";
   }
 
   public interface FileInodeInMemoryData {
@@ -274,7 +275,7 @@ public class TablesDef {
     String LOOKUP_TABLE_NAME = "hdfs_inode_dataset_lookup";
     String DATASET_ID = "dataset_id";
     String INODE_ID = "inode_id";
-    String TIMESTAMP = "timestamp";
+    String Logical_TIME = "logical_time";
     String INODE_PARTITION_ID = "inode_partition_id";
     String INODE_PARENT_ID = "inode_parent_id";
     String INODE_NAME = "inode_name";

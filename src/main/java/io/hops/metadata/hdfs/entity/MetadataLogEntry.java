@@ -21,7 +21,7 @@ public class MetadataLogEntry {
   private final int inodePartitionId;
   private final int inodeParentId;
   private final String inodeName;
-  private long timestamp;
+  private int logicalTime;
   private final Operation operation;
 
   public enum Operation {
@@ -30,22 +30,14 @@ public class MetadataLogEntry {
   }
 
   public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
-      int inodeParentId, String inodeName, Operation
-      operation) {
-    this(datasetId, inodeId, inodePartitionId, inodeParentId, inodeName, 0,
-        operation);
-    this.timestamp = System.currentTimeMillis();
-  }
-
-  public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,
-      int inodeParentId, String inodeName, long timestamp, Operation
+      int inodeParentId, String inodeName, int logicalTime, Operation
       operation) {
     this.datasetId = datasetId;
     this.inodeId = inodeId;
     this.inodePartitionId = inodePartitionId;
     this.inodeParentId = inodeParentId;
     this.inodeName = inodeName;
-    this.timestamp = timestamp;
+    this.logicalTime = logicalTime;
     this.operation = operation;
   }
 
@@ -57,12 +49,8 @@ public class MetadataLogEntry {
     return inodeId;
   }
 
-  public long getTimestamp() {
-    return timestamp;
-  }
-
-  public long updateTimestamp() {
-    return ++timestamp;
+  public int getLogicalTime() {
+    return logicalTime;
   }
 
   public Operation getOperation() {
@@ -93,7 +81,7 @@ public class MetadataLogEntry {
         ", inodePartitionId=" + inodePartitionId +
         ", inodeParentId=" + inodeParentId +
         ", inodeName='" + inodeName + '\'' +
-        ", timestamp=" + timestamp +
+        ", logicalTime=" + logicalTime +
         ", operation=" + operation +
         '}';
   }
