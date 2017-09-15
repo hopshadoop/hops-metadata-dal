@@ -18,6 +18,7 @@ package io.hops.metadata.hdfs.dal;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.hdfs.entity.INodeIdentifier;
+import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.metadata.hdfs.entity.ProjectedINode;
 
 import java.util.Collection;
@@ -65,4 +66,6 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
   boolean hasChildren(int parentId, boolean areChildrenRandomlyPartitioned) throws StorageException;
   
   List<T> allINodes() throws StorageException; // only for testing
+
+  void updateLogicalTime(Collection<MetadataLogEntry> logEntries) throws StorageException;
 }

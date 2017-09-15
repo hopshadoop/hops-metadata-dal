@@ -19,12 +19,13 @@ public class ProjectedINode extends INodeBase implements
     Comparable<ProjectedINode> {
   private boolean symlink;
 
-  public ProjectedINode(int id, int parentId, String name, int partitionId, boolean isDir, short permission,
-      int userID, int groupID, long header, boolean symlink, boolean
-      dirWithQuota, boolean
-      underConstruction, boolean subtreeLocked, long subtreeLockOwner, long fileSize) {
+  public ProjectedINode(int id, int parentId, String name, int partitionId,
+      boolean isDir, short permission, int userID, int groupID, long header,
+      boolean symlink, boolean dirWithQuota, boolean underConstruction,
+      boolean subtreeLocked, long subtreeLockOwner, long fileSize, int logicalTime) {
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
-        dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner, fileSize);
+        dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
+        fileSize, logicalTime);
     this.symlink = symlink;
   }
 
@@ -62,6 +63,10 @@ public class ProjectedINode extends INodeBase implements
     }
 
     return true;
+  }
+
+  public void incrementLogicalTime(){
+    logicalTime++;
   }
 
   @Override

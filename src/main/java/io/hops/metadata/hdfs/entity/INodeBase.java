@@ -33,6 +33,7 @@ public class INodeBase {
   protected long subtreeLockOwner;
   protected long fileSize;
   protected boolean isDir;
+  protected int logicalTime;
 
   public INodeBase(){
 //    this.id = -1;
@@ -51,7 +52,8 @@ public class INodeBase {
 
   public INodeBase(int id, int parentId, String name, int partitionId, boolean isDir, int userID,
       int groupID, short permission, long header, boolean dirWithQuota,
-      boolean underConstruction, boolean subtreeLocked, long subtreeLockOwner, long fileSize) {
+      boolean underConstruction, boolean subtreeLocked, long
+      subtreeLockOwner, long fileSize, int logicalTime) {
     this.id = id;
     this.parentId = parentId;
     this.isDir = isDir;
@@ -66,6 +68,7 @@ public class INodeBase {
     this.subtreeLocked = subtreeLocked;
     this.subtreeLockOwner = subtreeLockOwner;
     this.fileSize = fileSize;
+    this.logicalTime = logicalTime;
   }
 
   public int getId() {
@@ -194,5 +197,13 @@ public class INodeBase {
 
   public void setFileSize(long fileSize) {
     this.fileSize = fileSize;
+  }
+
+  public int getLogicalTime() {
+    return logicalTime;
+  }
+
+  public void setLogicalTime(int logicalTime) {
+    this.logicalTime = logicalTime;
   }
 }
