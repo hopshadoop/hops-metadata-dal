@@ -19,7 +19,7 @@ import org.apache.log4j.NDC;
 
 public class NDCWrapper {
 
-  private static boolean NDCEnabled = true;
+  private static boolean NDCEnabled = false;
 
   public static void enableNDC(boolean NDCEnamble) {
     NDCEnabled = NDCEnamble;
@@ -56,5 +56,9 @@ public class NDCWrapper {
       return "";
     }
 
+  }
+
+  public static boolean NDCEnabled(){
+    return NDCEnabled;
   }
 }

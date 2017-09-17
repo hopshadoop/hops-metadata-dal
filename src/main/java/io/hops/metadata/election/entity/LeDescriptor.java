@@ -42,18 +42,18 @@ public abstract class LeDescriptor
   public static final int DEFAULT_PARTITION_VALUE = 0;
   private long id;
   private long counter;
-  private String hostName;
+  private String rpcAddresses;
   private String httpAddress;
   private final int partitionVal = 0;
 
   protected LeDescriptor() {
   }
 
-  protected LeDescriptor(long id, long counter, String hostName,
+  protected LeDescriptor(long id, long counter, String rpcAddresses,
       String httpAddress) {
     this.id = id;
     this.counter = counter;
-    this.hostName = hostName;
+    this.rpcAddresses = rpcAddresses;
     this.httpAddress = httpAddress;
   }
 
@@ -73,12 +73,12 @@ public abstract class LeDescriptor
     this.counter = counter;
   }
 
-  public String getHostName() {
-    return hostName;
+  public String getRpcAddresses() {
+    return rpcAddresses;
   }
 
-  public void setHostName(String hostName) {
-    this.hostName = hostName;
+  public void setRpcAddresses(String rpcAddresses) {
+    this.rpcAddresses = rpcAddresses;
   }
 
   public String getHttpAddress() {
@@ -114,7 +114,7 @@ public abstract class LeDescriptor
       LeDescriptor l = (LeDescriptor) obj;
       //both are equal if all the fields match
       if (this.id == l.getId() && this.counter == l.getCounter() &&
-          this.hostName.equals(l.getHostName())) {
+          this.rpcAddresses.equals(l.getRpcAddresses())) {
         return true;
       } else {
         return false;
@@ -128,7 +128,7 @@ public abstract class LeDescriptor
   @Override
   public int hashCode() {
     int hash = 1;
-    hash = hash * 31 + this.hostName.hashCode();
+    hash = hash * 31 + this.rpcAddresses.hashCode();
     hash = hash * 31 + (new Long(id)).hashCode();
     hash = hash * 31 + (new Long(counter)).hashCode();
     return hash;
@@ -136,7 +136,7 @@ public abstract class LeDescriptor
 
   @Override
   public String toString() {
-    return this.id + ", " + hostName + ", " + counter;
+    return this.id + ", " + rpcAddresses + ", " + counter;
   }
 
   public static class YarnLeDescriptor extends LeDescriptor {
@@ -195,9 +195,9 @@ public abstract class LeDescriptor
       }
     }
 
-    public HdfsLeDescriptor(long id, long counter, String hostName,
+    public HdfsLeDescriptor(long id, long counter, String rpcAddresses,
         String httpAddress) {
-      super(id, counter, hostName, httpAddress);
+      super(id, counter,  rpcAddresses, httpAddress);
     }
   }
 }
