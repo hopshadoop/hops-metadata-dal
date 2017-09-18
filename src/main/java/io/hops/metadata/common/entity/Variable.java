@@ -57,7 +57,8 @@ public abstract class Variable {
     GenericLong,
     GenericString,
     GenericByteArray,
-    GenericArray;
+    GenericArray,
+    Seed;
 
     public int getId() {
       return this.ordinal();
@@ -159,6 +160,8 @@ public abstract class Variable {
         return new IntVariable(varType);
       case QuotaTicksCounter:
         return new LongVariable(varType);
+      case Seed:
+        return new ByteArrayVariable(varType);
     }
     return null;
   }
