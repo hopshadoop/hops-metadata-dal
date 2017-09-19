@@ -216,6 +216,7 @@ public class TablesDef {
     String STORAGE_ID = "storage_id";
     String INODE_ID = "inode_id";
     String REPLICA_INDEX = "replica_index";
+    String HASH_BUCKET = "bucket_id";
   }
 
   public interface QuotaUpdateTableDef {
@@ -235,6 +236,7 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String STATE = "state";
     String REPLICA_INDEX = "replica_index";
+    String HASH_BUCKET = "bucket_id";
   }
 
   public interface SafeBlocksTableDef {
@@ -279,17 +281,15 @@ public class TablesDef {
     String OPERATION = "operation";
   }
 
-  public interface EncodingJobsTableDef {
 
+  public interface EncodingJobsTableDef {
     String TABLE_NAME = "hdfs_encoding_jobs";
     String JT_IDENTIFIER = "jt_identifier";
     String JOB_ID = "job_id";
     String PATH = "path";
     String JOB_DIR = "job_dir";
   }
-
   public interface RepairJobsTableDef {
-
     String TABLE_NAME = "hdfs_repair_jobs";
     String JT_IDENTIFIER = "jt_identifier";
     String JOB_ID = "job_id";
@@ -297,14 +297,20 @@ public class TablesDef {
     String IN_DIR = "in_dir";
     String OUT_DIR = "out_dir";
   }
-
+  
   public interface OnGoingSubTreeOpsDef {
-
     String TABLE_NAME = "hdfs_on_going_sub_tree_ops";
     String PATH = "path";
     String NAME_NODE_ID = "namenode_id";
     String OP_NAME = "op_name";
     String PARTITION_ID = "partition_id";
     int LIMIT = 2;
+  }
+
+  public interface HashBucketsTableDef {
+    String TABLE_NAME = "hdfs_hash_buckets";
+    String BUCKET_ID = "bucket_id";
+    String STORAGE_ID = "storage_id";
+    String HASH = "hash";
   }
 }
