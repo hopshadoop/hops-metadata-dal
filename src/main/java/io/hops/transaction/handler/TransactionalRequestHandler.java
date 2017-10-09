@@ -128,7 +128,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
         totalTime = (System.currentTimeMillis() - txStartTime);
         if(LOG.isInfoEnabled()) {
-          LOG.info(!NDCWrapper.NDCEnabled()?opType+" ":""+"TX Finished. TX Stats: Try Count: " + tryCount +
+          String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
+          LOG.info(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
                   " Stepup: " + setupTime + " ms, Begin Tx:" +
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
                   "ms, In Memory Processing: " + inMemoryProcessingTime +
@@ -145,7 +146,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (TransientStorageException e) {
         rollback = true;
         if (tryCount <= RETRY_COUNT) {
-          LOG.error(!NDCWrapper.NDCEnabled()?opType+" ":""+"TX Failed. total tx time " +
+          String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
+          LOG.error(opName+"TX Failed. total tx time " +
               (System.currentTimeMillis() - txStartTime) +
               " msec. TotalRetryCount(" + RETRY_COUNT +
               ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
