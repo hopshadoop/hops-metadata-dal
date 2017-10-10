@@ -29,6 +29,9 @@ public interface InvalidateBlockDataAccess<T> extends EntityDataAccess {
   List<T> findInvalidatedBlockByStorageId(int storageId)
       throws StorageException;
 
+  Map<Long,Long> findInvalidatedBlockAndGenStampByStorageId(int storageId)
+          throws StorageException;
+
   Map<Long,Long> findInvalidatedBlockByStorageIdUsingMySQLServer(int storageId)
       throws StorageException;
 
