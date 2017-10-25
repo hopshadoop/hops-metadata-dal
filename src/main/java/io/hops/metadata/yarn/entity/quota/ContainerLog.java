@@ -23,16 +23,17 @@ public class ContainerLog implements Comparable<ContainerLog> {
   private int exitStatus;
   private float multiplicator;
   private final int nbVcores;
-  private final int memoryUsed;
+  private final long memoryUsed;
+  private final int gpuUsed;
 
   public ContainerLog(String containerId, long start, int exitStatus,
-          float multiplicator, int nbVcores, int memoryUsed) {
+          float multiplicator, int nbVcores, long memoryUsed, int gpuUsed) {
     this(containerId, start, 0, exitStatus, multiplicator, nbVcores,
-            memoryUsed);
+            memoryUsed, gpuUsed);
   }
   
   public ContainerLog(String containerId, long start, long stop, int exitStatus,
-          float multiplicator, int nbVcores, int memoryUsed) {
+          float multiplicator, int nbVcores, long memoryUsed, int gpuUsed) {
     this.containerId = containerId;
     this.start = start;
     this.stop = stop;
@@ -40,6 +41,7 @@ public class ContainerLog implements Comparable<ContainerLog> {
     this.multiplicator = multiplicator;
     this.nbVcores = nbVcores;
     this.memoryUsed=memoryUsed;
+    this.gpuUsed = gpuUsed;
   }
 
   public void setPrice(float price) {
@@ -90,8 +92,12 @@ public class ContainerLog implements Comparable<ContainerLog> {
     return nbVcores;
   }
 
-  public int getMemoryUsed() {
+  public long getMemoryUsed() {
     return memoryUsed;
+  }
+
+  public int getGpuUsed() {
+    return gpuUsed;
   }
 
   @Override

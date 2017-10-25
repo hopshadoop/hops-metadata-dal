@@ -21,7 +21,7 @@ public class PriceMultiplicator {
   private final float price;
 
   public enum MultiplicatorType{
-    VARIABLE;
+    GENERAL, GPU;
   }
   public PriceMultiplicator(MultiplicatorType type, float price) {
     this.type = type;
