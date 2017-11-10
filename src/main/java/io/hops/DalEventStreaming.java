@@ -19,13 +19,13 @@ package io.hops;
  *
  * @author sri
  */
-public interface DalNdbEventStreaming {
+public interface DalEventStreaming {
 
   public void init(String connectionString, String databaseName);
   
-  public void startHopsNdbEvetAPISession(boolean isLeader);
+  public void startHopsEvetAPISession(boolean isLeader);
 
-  public void closeHopsNdbEventAPISession();
+  public void closeHopsEventAPISession();
 
   public boolean isNativeCodeLoaded();
 
