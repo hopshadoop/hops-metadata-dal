@@ -15,20 +15,28 @@
  */
 package io.hops.metadata.yarn.entity.quota;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ProjectDailyCost {
 
   private String projectName;
   private String projectUser;
   private long day;
   private float creditsUsed;
-
+  private Set<String> appIds = new HashSet<>();
+  
   public ProjectDailyCost(String projectName, String projectUser, long day,
-          float creditsUsed) {
+          float creditsUsed, String appIds) {
     this.projectName = projectName;
     this.projectUser = projectUser;
     this.day = day;
     this.creditsUsed = creditsUsed;
-
+    for(String appId:appIds.split(",")){
+      if(!appId.isEmpty()){
+        this.appIds.add(appId);
+      }
+    }
   }
 
   @Override
@@ -37,8 +45,9 @@ public class ProjectDailyCost {
             + projectUser + ", day=" + day + ", credit=" + creditsUsed + " }";
   }
   
-  public void incrementCharge(float inc){
+  public void incrementCharge(float inc, String appId){
     creditsUsed+=inc;
+    appIds.add(appId);
   }
 
   /**
@@ -96,5 +105,9 @@ public class ProjectDailyCost {
   public void setCreditsUsed(float creditsUsed) {
     this.creditsUsed = creditsUsed;
   }
+
+    public Set<String> getAppIds() {
+        return appIds;
+    }
 
 }
