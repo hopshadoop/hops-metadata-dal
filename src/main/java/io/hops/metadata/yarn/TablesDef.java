@@ -202,6 +202,7 @@ public class TablesDef {
     public static final String USER = "user";
     public static final String DAY = "day";
     public static final String CREDITS_USED = "credits_used";
+    public static final String APP_IDS = "app_ids";
   }
 
   public static interface PriceMultiplicatorTableDef {
