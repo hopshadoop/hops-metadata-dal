@@ -23,7 +23,7 @@ import io.hops.metadata.common.FinderType;
 import io.hops.transaction.EntityManager;
 
 public class HashBucket {
-  
+
   public enum Finder implements FinderType<HashBucket> {
     ByStorageIdAndBucketId;
   
@@ -70,7 +70,7 @@ public class HashBucket {
     this.hash = hash;
     EntityManager.update(this);
   }
-  
+
   public static class PrimaryKey {
     private int bucketId;
     private int storageId;
@@ -97,12 +97,21 @@ public class HashBucket {
       }
       return false;
     }
-  
+
     @Override
     public int hashCode() {
       //TODO: Do we need to implement stronger hash code?
       //Collisions not dangerous, only used for HashMap key.
       return bucketId * storageId;
     }
+  }
+
+  @Override
+  public String toString() {
+    return "HashBucket{" +
+            "storageId=" + storageId +
+            ", bucketId=" + bucketId +
+            ", hash=" + hash +
+            '}';
   }
 }
