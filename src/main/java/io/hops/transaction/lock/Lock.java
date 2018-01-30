@@ -68,6 +68,7 @@ public abstract class Lock implements Comparable<Lock> {
     SubTreePath, 
     Test,
     HashBucket,
+    Ace,
     retryCachEntry
   }
 
