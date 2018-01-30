@@ -52,11 +52,11 @@ public class INode extends INodeBase implements Comparable<INode> {
       String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
-      long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy, int childrenNum) {
+      long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy, int childrenNum, int numAces) {
 
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
-        size, logicalTime, storagePolicy);
+        size, logicalTime, storagePolicy, numAces);
 
     this.modificationTime = modificationTime;
     this.accessTime = accessTime;
@@ -137,7 +137,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   public boolean isFileStoredInDB(){ return isFileStoredInDB; }
 
   public void setFileStoredInDB(boolean isFileStoredInDB){ this.isFileStoredInDB = isFileStoredInDB; }
-
+  
   @Override
   public final int compareTo(INode other) {
     String left = name == null ? "" : name;

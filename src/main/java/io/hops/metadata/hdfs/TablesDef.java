@@ -59,6 +59,7 @@ public class TablesDef {
     String LOGICAL_TIME = "logical_time";
     String STORAGE_POLICY = "storage_policy";
     String CHILDREN_NUM = "children_num";
+    String NUM_ACES = "num_aces";
   }
 
   public interface FileInodeInMemoryData {
@@ -322,6 +323,16 @@ public class TablesDef {
     String BUCKET_ID = "bucket_id";
     String STORAGE_ID = "storage_id";
     String HASH = "hash";
+  }
+  
+  public interface AcesTableDef {
+    String TABLE_NAME = "hdfs_aces";
+    String INODE_ID = "inode_id";
+    String INDEX = "index";
+    String SUBJECT = "subject";
+    String TYPE = "type";
+    String IS_DEFAULT = "is_default";
+    String PERMISSION = "permission";
   }
   
   public interface RetryCacheEntryTableDef {
