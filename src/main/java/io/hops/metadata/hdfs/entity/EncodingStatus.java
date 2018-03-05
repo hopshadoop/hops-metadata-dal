@@ -117,6 +117,7 @@ public class EncodingStatus {
   }
 
   private Integer inodeId;
+  private boolean inTree;
   private Integer parityInodeId;
   private Status status;
   private ParityStatus parityStatus;
@@ -175,7 +176,13 @@ public class EncodingStatus {
    */
   public EncodingStatus(Integer inodeId, Status status,
       EncodingPolicy encodingPolicy, Long statusModificationTime) {
+    this(inodeId, true, status, encodingPolicy, statusModificationTime);
+  }
+  
+  public EncodingStatus(Integer inodeId, boolean inTree, Status status,
+      EncodingPolicy encodingPolicy, Long statusModificationTime) {
     this.inodeId = inodeId;
+    this.inTree = inTree;
     this.status = status;
     this.encodingPolicy = encodingPolicy;
     this.statusModificationTime = statusModificationTime;
@@ -212,7 +219,17 @@ public class EncodingStatus {
       Long statusModificationTime, Long parityStatusModificationTime,
       String parityFileName, Integer lostBlocks, Integer lostParityBlocks,
       Boolean revoked) {
+    this(inodeId, true, parityInodeId, status, parityStatus, encodingPolicy, statusModificationTime,
+        parityStatusModificationTime, parityFileName, lostBlocks, lostParityBlocks, revoked);
+  }
+  
+  public EncodingStatus(Integer inodeId, boolean inTree, Integer parityInodeId, Status status,
+      ParityStatus parityStatus, EncodingPolicy encodingPolicy,
+      Long statusModificationTime, Long parityStatusModificationTime,
+      String parityFileName, Integer lostBlocks, Integer lostParityBlocks,
+      Boolean revoked) {
     this.inodeId = inodeId;
+    this.inTree = inTree;
     this.parityInodeId = parityInodeId;
     this.status = status;
     this.parityStatus = parityStatus;
@@ -227,6 +244,7 @@ public class EncodingStatus {
 
   public EncodingStatus(EncodingStatus other) {
     this.inodeId = other.inodeId;
+    this.inTree = other.inTree;
     this.parityInodeId = other.parityInodeId;
     this.status = other.status;
     this.parityStatus = other.parityStatus;
@@ -249,6 +267,10 @@ public class EncodingStatus {
     return inodeId;
   }
 
+  public boolean isInTree(){
+    return inTree;
+  }
+  
   /**
    * Set the inode id of the file
    *
@@ -256,7 +278,12 @@ public class EncodingStatus {
    *    the inode id of the file
    */
   public void setInodeId(Integer inodeId) {
+    setInodeId(inodeId, true);
+  }
+  
+  public void setInodeId(Integer inodeId, boolean inTree) {
     this.inodeId = inodeId;
+    this.inTree = inTree;
   }
 
   /**

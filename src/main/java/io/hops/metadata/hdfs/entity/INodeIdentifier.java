@@ -38,6 +38,10 @@ public class INodeIdentifier {
   Integer partitionId;
   Short   depth;
 
+  public INodeIdentifier() {
+    this(-1, null, null, null);
+  }
+  
   public INodeIdentifier(Integer inodeID) {
     this(inodeID, null, null, null);
   }
