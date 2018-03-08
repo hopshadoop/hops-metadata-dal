@@ -246,6 +246,7 @@ public class TablesDef {
     String STATE = "state";
     String REPLICA_INDEX = "replica_index";
     String HASH_BUCKET = "bucket_id";
+    String CHOSEN_AS_PRIMARY = "chosen_as_primary";
   }
 
   public interface SafeBlocksTableDef {
