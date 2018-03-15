@@ -58,6 +58,7 @@ public class TablesDef {
     String FILE_STORED_IN_DB = "file_stored_in_db";
     String LOGICAL_TIME = "logical_time";
     String STORAGE_POLICY = "storage_policy";
+    String CHILDREN_NUM = "children_num";
   }
 
   public interface FileInodeInMemoryData {
