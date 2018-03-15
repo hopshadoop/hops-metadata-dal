@@ -32,6 +32,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   private String symlink;
   private boolean metaEnabled;
   private boolean isFileStoredInDB;
+  private int childrenNum = 0;
 
   public INode() {
 //    this.modificationTime = -1;
@@ -51,7 +52,7 @@ public class INode extends INodeBase implements Comparable<INode> {
       String clientMachine,
       String clientNode, int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
-      long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy) {
+      long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy, int childrenNum) {
 
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
@@ -66,6 +67,7 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.symlink = symlink;
     this.metaEnabled = metaEnabled;
     this.isFileStoredInDB = isFileStoredInDB;
+    this.childrenNum = childrenNum;
   }
 
   public long getModificationTime() {
@@ -183,5 +185,13 @@ public class INode extends INodeBase implements Comparable<INode> {
     public Comparator descending() {
       return Collections.reverseOrder(this);
     }
+  }
+  
+  public int getChildrenNum() {
+    return childrenNum;
+  }
+
+  public void setChildrenNum(int childrenNum) {
+    this.childrenNum = childrenNum;
   }
 }
