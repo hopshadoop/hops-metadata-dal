@@ -324,4 +324,13 @@ public class TablesDef {
     String STORAGE_ID = "storage_id";
     String HASH = "hash";
   }
+  
+  public interface RetryCacheEntryTableDef {
+    String TABLE_NAME = "hdfs_retry_cache_entry";
+    String CLIENTID = "client_id";
+    String CALLID = "call_id";
+    String PAYLOAD = "payload";
+    String EXPIRATION_TIME = "expiration_time";
+    String STATE = "state";
+  }
 }
