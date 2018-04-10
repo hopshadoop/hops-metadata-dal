@@ -137,7 +137,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   public boolean isFileStoredInDB(){ return isFileStoredInDB; }
 
   public void setFileStoredInDB(boolean isFileStoredInDB){ this.isFileStoredInDB = isFileStoredInDB; }
-
+  
   @Override
   public final int compareTo(INode other) {
     String left = name == null ? "" : name;

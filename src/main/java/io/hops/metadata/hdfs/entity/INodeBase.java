@@ -35,6 +35,7 @@ public class INodeBase {
   protected boolean isDir;
   protected int logicalTime;
   protected byte storagePolicy;
+  protected int numAces;
 
   public INodeBase(){}
 
@@ -202,5 +203,13 @@ public class INodeBase {
 
   public void setStoragePolicy(byte storagePolicy) {
     this.storagePolicy = storagePolicy;
+  }
+  
+  public int getNumAces() {
+    return numAces;
+  }
+  
+  public void setNumAces(int numAces) {
+    this.numAces = numAces;
   }
 }
