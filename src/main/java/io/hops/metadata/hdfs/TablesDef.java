@@ -215,8 +215,7 @@ public class TablesDef {
     String BLOCK_ID = "block_id";
     String INODE_ID = "inode_id";
     String TIME_STAMP = "time_stamp";
-    String NUM_REPLICAS_IN_PROGRESS =
-        "num_replicas_in_progress";
+    String TARGET = "target";
   }
 
   public interface ReplicaTableDef {
