@@ -17,6 +17,7 @@ package io.hops.transaction.handler;
 
 import io.hops.exception.TransientStorageException;
 import io.hops.log.NDCWrapper;
+import io.hops.transaction.context.EntityContext;
 
 import java.io.IOException;
 
@@ -32,13 +33,19 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
     long totalTime = 0;
 
     while (tryCount <= RETRY_COUNT) {
-      boolean rollback = false;
+      boolean commited = false;
+      boolean doRetry = true;
       exponentialBackoff();
       tryCount++;
       try {
         NDCWrapper.push(opType
             .toString()); // Defines a context for every operation to track them in the logs easily.
 
+        //we should not roleback or retry if the LightWeightRequestHandler is called within
+        //a TransactionalRequestHandler
+        if (connector.isTransactionActive()) {
+          doRetry = false;
+        }
         //In a tx if the lock level is set to write, does
         //it mean that all the operations after seting the lock will use write lcok?
         //Light weight tx handler is sometimes called inside a bigger tx.
@@ -48,50 +55,28 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         connector.readCommitted();
         totalTime = System.currentTimeMillis();
         Object ret = performTask();
+        commited = true;
         totalTime = System.currentTimeMillis() - totalTime;
         if(LOG.isDebugEnabled()) {
           LOG.debug(opType+" TX Finished. Total time taken. Time " +
               totalTime + " ms");
         }
         return ret;
-      } catch (TransientStorageException e) {
-        rollback = true;
-        if (tryCount <= RETRY_COUNT) {
-          totalTime = System.currentTimeMillis() - totalTime;
-          if(LOG.isDebugEnabled()) {
-            LOG.debug("Tx Failed. total tx time " + " TotalRetryCount(" +
-                RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
-                ") TX Stats: ms, Total Time: " + totalTime + "ms", e);
-          }
-        } else {
-          LOG.error("Transaction failed after " + RETRY_COUNT + " retries.", e);
-          throw e;
+      } catch (Throwable t) {
+        LOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
+            - tryCount) + ") TX Stats: ms, Total Time: " + totalTime + "ms", t);
+        if (!(t instanceof TransientStorageException) || tryCount > RETRY_COUNT || !doRetry) {
+          throw t;
         }
-      } catch (IOException | Error | RuntimeException e) {
-        rollback = true;
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Transaction failed.", e);
-        }
-        throw e;
       } finally {
-        if (rollback && connector.isTransactionActive()) {
-          if(LOG.isDebugEnabled()) {
+        if (!commited && connector.isTransactionActive() && !doRetry) {
+          if (LOG.isDebugEnabled()) {
             LOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
           }
           connector.rollback();
         }
         NDCWrapper.pop();
         NDCWrapper.remove();
-        if (rollback) {
-          try {
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("Rollback the TX");
-            }
-            connector.rollback();
-          } catch (Exception e) {
-            LOG.error("Could not rollback transaction", e);
-          }
-        }
       }
     }
 
