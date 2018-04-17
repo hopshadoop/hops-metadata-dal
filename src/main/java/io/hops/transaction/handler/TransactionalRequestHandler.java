@@ -36,8 +36,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
   @Override
   protected Object execute(Object info) throws IOException {
-    boolean rollback;
-    boolean committed;
+    boolean committed = false;
     int tryCount = 0;
     IOException ignoredException;
     Object txRetValue = null;
@@ -55,7 +54,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       long totalTime = -1;
       TransactionLockAcquirer locksAcquirer = null;
 
-      rollback = false;
       tryCount++;
       ignoredException = null;
       committed = false;
@@ -127,9 +125,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           LOG.debug("TX committed. Time " + commitTime + " ms");
         }
         totalTime = (System.currentTimeMillis() - txStartTime);
-        if(LOG.isInfoEnabled()) {
+        if(LOG.isDebugEnabled()) {
           String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
-          LOG.info(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
+          LOG.debug(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
                   " Stepup: " + setupTime + " ms, Begin Tx:" +
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
                   "ms, In Memory Processing: " + inMemoryProcessingTime +
@@ -143,44 +141,20 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           ((TransactionInfo) info).performPostTransactionAction();
         }
         return txRetValue;
-      } catch (TransientStorageException e) {
-        rollback = true;
-        if (tryCount <= RETRY_COUNT) {
-          String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
-          LOG.error(opName+"TX Failed. total tx time " +
-              (System.currentTimeMillis() - txStartTime) +
-              " msec. TotalRetryCount(" + RETRY_COUNT +
-              ") RemainingRetries(" + (RETRY_COUNT - tryCount) +
-              ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " +
-              acquireLockTime +
-              "ms, In Memory Processing: " + inMemoryProcessingTime +
-              "ms, Commit Time: " + commitTime +
-              "ms, Total Time: " + totalTime + "ms. "+ getINodeLockInfo(locksAcquirer.getLocks()), e);
-        } else {
-          if(LOG.isDebugEnabled()) {
-            LOG.debug("Transaction failed after " + RETRY_COUNT + " retries.", e);
-          }
-          throw e;
+      } catch (Throwable t) {
+        String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
+        LOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
+            + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
+            + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
+            + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
+            + "ms, Total Time: " + totalTime + "ms. " + locksAcquirer != null ? getINodeLockInfo(locksAcquirer.
+                    getLocks()) : "", t);
+        if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
+          throw t;
         }
-      } catch (IOException e) {
-        rollback = true;
-        if (committed) {
-          LOG.error("Exception in Post Tx Stage.", e);
-        } else {
-          LOG.error("Transaction failed", e);
-        }
-        throw e;
-      } catch (RuntimeException e) {
-        rollback = true;
-        LOG.error("Transaction handler received a runtime exception", e);
-        throw e;
-      } catch (Error e) {
-        rollback = true;
-        LOG.error("Transaction handler received an error", e);
-        throw e;
       } finally {
         removeNDC();
-        if (rollback) {
+        if (!committed) {
           try {
             LOG.error("Rollback the TX");
             EntityManager.rollback(locksAcquirer.getLocks());
@@ -188,6 +162,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
             LOG.warn("Could not rollback transaction", e);
           }
         }
+        //make sure that the context has been removed
+        EntityManager.removeContext();
         // If the code is about to return but the exception was caught
         if (ignoredException != null) {
           throw ignoredException;
