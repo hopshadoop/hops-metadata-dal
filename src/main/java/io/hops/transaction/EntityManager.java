@@ -30,7 +30,6 @@ import io.hops.transaction.lock.TransactionLocks;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EntityManager {
@@ -38,8 +37,7 @@ public class EntityManager {
   private EntityManager() {
   }
 
-  private static ConcurrentHashMap<Long, TransactionContext> contexts =
-      new ConcurrentHashMap<>();
+  private static ThreadLocal<TransactionContext> threadContext = new ThreadLocal();
   private static CopyOnWriteArrayList<ContextInitializer> contextInitializers =
       new CopyOnWriteArrayList<>();
   private static boolean initialized = false;
@@ -53,8 +51,7 @@ public class EntityManager {
   }
   
   private static TransactionContext context() {
-    Long threadID = getThreadID();
-    TransactionContext context = contexts.get(threadID);
+    TransactionContext context = threadContext.get();
     if (context == null) {
       context = addContext();
     }
@@ -146,13 +143,8 @@ public class EntityManager {
       throws TransactionContextException {
     return context().collectSnapshotStat();
   }
-  
-  private static Long getThreadID() {
-    return Thread.currentThread().getId();
-  }
-  
+    
   private static TransactionContext addContext() {
-    Long threadID = getThreadID();
     Map<Class, EntityContext> storageMap = new HashMap<>();
     for (ContextInitializer initializer : contextInitializers) {
       Map<Class, EntityContext> tmp = initializer.createEntityContexts();
@@ -163,12 +155,11 @@ public class EntityManager {
     TransactionContext context =
         new TransactionContext(contextInitializers.get(0).getConnector(),
             storageMap);
-    contexts.put(threadID, context);
+    threadContext.set(context);
     return context;
   }
   
-  private static void removeContext() {
-    Long threadID = getThreadID();
-    contexts.remove(threadID);
+  public static void removeContext() {
+    threadContext.remove();
   }
 }
