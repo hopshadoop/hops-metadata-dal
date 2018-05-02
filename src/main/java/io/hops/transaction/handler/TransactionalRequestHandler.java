@@ -147,14 +147,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
             + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
             + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
             + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
-            + "ms, Total Time: " + totalTime + "ms. " + locksAcquirer != null ? getINodeLockInfo(locksAcquirer.
-                    getLocks()) : "", t);
+            + "ms, Total Time: " + totalTime + "ms. ", t);
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
           throw t;
         }
       } finally {
         removeNDC();
-        if (!committed) {
+        if (!committed && locksAcquirer!=null) {
           try {
             LOG.error("Rollback the TX");
             EntityManager.rollback(locksAcquirer.getLocks());
