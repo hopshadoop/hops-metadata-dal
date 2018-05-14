@@ -120,6 +120,7 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String STORAGE_ID = "storage_id";
     String TIMESTAMP = "timestamp";
+    String REASON = "reason";
   }
 
   public interface INodeAttributesTableDef {
@@ -248,6 +249,7 @@ public class TablesDef {
     String REPLICA_INDEX = "replica_index";
     String HASH_BUCKET = "bucket_id";
     String CHOSEN_AS_PRIMARY = "chosen_as_primary";
+    String GENERATION_STAMP = "generation_stamp";
   }
 
   public interface SafeBlocksTableDef {
