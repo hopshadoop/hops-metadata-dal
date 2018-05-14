@@ -20,13 +20,15 @@ public class ReplicaUnderConstruction extends ReplicaBase {
   private int state;
   private int bucketId;
   private boolean chosenAsPrimary;
+  private long generationStamp;
 
   public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId, int bucketId, boolean chosenAsPrimary) {
+      int inodeId, int bucketId, boolean chosenAsPrimary, long generationStamp) {
     super(storageId, blockId, inodeId);
     this.state = state;
     this.bucketId = bucketId;
     this.chosenAsPrimary = chosenAsPrimary;
+    this.generationStamp = generationStamp;
   }
 
   public int getState() {
@@ -52,5 +54,12 @@ public class ReplicaUnderConstruction extends ReplicaBase {
   public void setChosenAsPrimary(boolean chosenAsPrimary) {
     this.chosenAsPrimary = chosenAsPrimary;
   }
-  
+
+  public long getGenerationStamp() {
+    return generationStamp;
+  }
+
+  public void setGenerationStamp(long generationStamp) {
+    this.generationStamp = generationStamp;
+  }
 }

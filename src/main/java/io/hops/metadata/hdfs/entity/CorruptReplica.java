@@ -44,8 +44,15 @@ public class CorruptReplica extends ReplicaBase {
       }
     }
   }
+  
+  private String reason;
 
-  public CorruptReplica(int sid, long blockId, int inodeId) {
+  public CorruptReplica(int sid, long blockId, int inodeId, String reason) {
     super(sid, blockId, inodeId);
+    this.reason = reason;
+  }
+
+  public String getReason() {
+    return reason;
   }
 }
