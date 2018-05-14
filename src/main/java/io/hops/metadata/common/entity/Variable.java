@@ -42,7 +42,6 @@ public abstract class Variable {
     BTNextKey,
     BTSimpleKey,
     SIdCounter,
-    StorageMap, // TODO do we need this?
     HdfsLeParams,
     YarnLeParams,
     MisReplicatedFilesIndex,
@@ -59,7 +58,8 @@ public abstract class Variable {
     GenericString,
     GenericByteArray,
     GenericArray,
-    Seed;
+    Seed,
+    StorageMap; // TODO do we need this?
 
     public int getId() {
       return this.ordinal();
