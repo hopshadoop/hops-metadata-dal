@@ -20,6 +20,7 @@ import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.hdfs.entity.INodeIdentifier;
 import io.hops.metadata.hdfs.entity.MetadataLogEntry;
 import io.hops.metadata.hdfs.entity.ProjectedINode;
+import io.hops.transaction.context.EntityContext;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,10 +33,10 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   List<T> findInodesByParentIdAndPartitionIdPPIS(int parentId, int partitionId) throws StorageException;
 
-  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLockPPIS(int parentId, int partitionId)
+  List<ProjectedINode> findInodesPPISTx(int parentId, int partitionId, EntityContext.LockMode lock)
       throws StorageException;
 
-  List<ProjectedINode> findInodesForSubtreeOperationsWithWriteLockFTIS(int parentId)
+  List<ProjectedINode> findInodesFTISTx(int parentId, EntityContext.LockMode lock)
       throws StorageException;
 
   T findInodeByNameParentIdAndPartitionIdPK(String name, int parentId, int partitionId)
@@ -43,6 +44,9 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   List<T> getINodesPkBatched(String[] names, int[] parentIds, int[] partitionIds)
       throws StorageException;
+
+  List<T> lockInodesUsingPkBatchTx(String[] names, int[] parentIds, int[] partitionIds, EntityContext.LockMode lock)
+          throws StorageException;
 
   List<INodeIdentifier> getAllINodeFiles(long startId, long endId)
       throws StorageException;
