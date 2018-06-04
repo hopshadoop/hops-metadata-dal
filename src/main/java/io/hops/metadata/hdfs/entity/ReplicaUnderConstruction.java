@@ -18,15 +18,13 @@ package io.hops.metadata.hdfs.entity;
 public class ReplicaUnderConstruction extends ReplicaBase {
 
   private int state;
-  private int bucketId;
   private boolean chosenAsPrimary;
   private long generationStamp;
 
   public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId, int bucketId, boolean chosenAsPrimary, long generationStamp) {
+      int inodeId, boolean chosenAsPrimary, long generationStamp) {
     super(storageId, blockId, inodeId);
     this.state = state;
-    this.bucketId = bucketId;
     this.chosenAsPrimary = chosenAsPrimary;
     this.generationStamp = generationStamp;
   }
@@ -37,14 +35,6 @@ public class ReplicaUnderConstruction extends ReplicaBase {
 
   public void setState(int state) {
     this.state = state;
-  }
-  
-  public int getBucketId() {
-    return bucketId;
-  }
-  
-  public void setBucketId(int bucketId) {
-    this.bucketId = bucketId;
   }
   
   public boolean getChosenAsPrimary(){
