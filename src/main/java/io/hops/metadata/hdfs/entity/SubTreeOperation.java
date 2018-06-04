@@ -19,14 +19,14 @@ import io.hops.metadata.common.FinderType;
 
 public class SubTreeOperation implements Comparable<SubTreeOperation> {
 
-  public static enum StoOperationType {
+  public static enum Type {
     RENAME_STO, //STO = Sub Tree Operation
     DELETE_STO,
-    CONTENT_SUMMARY,
+    CONTENT_SUMMARY_STO,
     QUOTA_STO,
     SET_PERMISSION_STO,
     SET_OWNER_STO,
-    META_ENABLE,
+    META_ENABLE_STO,
     NA;
   }
   public static enum Finder implements FinderType<SubTreeOperation> {
@@ -51,7 +51,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
 
   private long nameNodeId;
   private String path;
-  private StoOperationType opType;
+  private Type opType;
 
   public SubTreeOperation(String path){
     this.path = path;
@@ -59,7 +59,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     this.opType = opType.NA; 
   }
           
-  public SubTreeOperation(String path, long nameNodeId, StoOperationType opType) {
+  public SubTreeOperation(String path, long nameNodeId, Type opType) {
     this.path = path;
     this.nameNodeId = nameNodeId;
     this.opType = opType; 
@@ -99,7 +99,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
    * 
    * @return returns the operation type
    */
-  public StoOperationType getOpType() {
+  public Type getOpType() {
     return opType;
   }
 
@@ -107,7 +107,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
    * 
    * @param opType  set the operation type
    */
-  public void setOpType(StoOperationType opType) {
+  public void setOpType(Type opType) {
     this.opType = opType;
   }
   

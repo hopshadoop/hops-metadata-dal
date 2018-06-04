@@ -317,7 +317,6 @@ public class TablesDef {
     String NAME_NODE_ID = "namenode_id";
     String OP_NAME = "op_name";
     String PARTITION_ID = "partition_id";
-    int LIMIT = 2;
   }
 
   public interface HashBucketsTableDef {
