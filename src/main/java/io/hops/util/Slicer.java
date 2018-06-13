@@ -15,6 +15,14 @@
  */
 package io.hops.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 public class Slicer {
 
   public interface OperationHandler {
@@ -22,8 +30,8 @@ public class Slicer {
     public void handle(int startIndex, int endIndex) throws Exception;
   }
 
-  public static void slice(final int total, final int sliceSize,
-      OperationHandler op) throws Exception {
+  public static void slice(final int total, final int sliceSize, final int nbThreads, OperationHandler op) throws
+      Exception {
     if (total == 0) {
       return;
     }
@@ -33,10 +41,42 @@ public class Slicer {
     } else {
       numOfSlices = (int) Math.ceil(((double) total) / sliceSize);
     }
+
+    ExecutorService executor = Executors.newFixedThreadPool(nbThreads);
+    List<Future<Object>> futures = new ArrayList<>();
+    
     for (int slice = 0; slice < numOfSlices; slice++) {
       int startIndex = slice * sliceSize;
       int endIndex = Math.min((slice + 1) * sliceSize, total);
+      futures.add(executor.submit(new SliceRunner(op, startIndex, endIndex)));
+    }
+
+    for(Future<Object> futur: futures){
+      futur.get();
+    }
+    
+    executor.shutdown();
+
+    executor.awaitTermination(10, TimeUnit.SECONDS);
+
+  }
+
+  private static class SliceRunner implements Callable<Object> {
+
+    final OperationHandler op;
+    final int startIndex;
+    final int endIndex;
+
+    public SliceRunner(OperationHandler op, int startIndex, int endIndex) {
+      this.op = op;
+      this.startIndex = startIndex;
+      this.endIndex = endIndex;
+    }
+
+    @Override
+    public Object call() throws Exception{
       op.handle(startIndex, endIndex);
+      return null;
     }
   }
 }
