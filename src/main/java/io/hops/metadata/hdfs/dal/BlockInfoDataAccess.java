@@ -49,7 +49,7 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
   
   List<T> findByIds(long[] blockIds, int[] inodeIds) throws StorageException;
 
-  boolean existsOnAnyStorage(long blockId, List<Integer> sids) throws StorageException;
+  boolean existsOnAnyStorage(int inodeId, long blockId, List<Integer> sids) throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
