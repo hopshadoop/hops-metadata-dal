@@ -69,7 +69,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           throw t;
         }
       } finally {
-        if (!commited && connector.isTransactionActive() && !doRetry) {
+        if (!commited && connector.isTransactionActive() && doRetry) {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
           }
