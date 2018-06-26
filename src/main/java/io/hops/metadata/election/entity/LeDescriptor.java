@@ -49,6 +49,13 @@ public abstract class LeDescriptor
   protected LeDescriptor() {
   }
 
+  protected LeDescriptor(LeDescriptor descriptor) {
+    this.id = descriptor.id;
+    this.counter = descriptor.counter;
+    this.rpcAddresses = descriptor.rpcAddresses;
+    this.httpAddress = descriptor.httpAddress;
+  }
+
   protected LeDescriptor(long id, long counter, String rpcAddresses,
       String httpAddress) {
     this.id = id;
@@ -199,5 +206,18 @@ public abstract class LeDescriptor
         String httpAddress) {
       super(id, counter,  rpcAddresses, httpAddress);
     }
+  }
+
+  public static class FailedNodeLeDescriptor extends LeDescriptor {
+    final long failTime;
+    public FailedNodeLeDescriptor(LeDescriptor descriptor) {
+      super(descriptor);
+      failTime = System.currentTimeMillis();
+    }
+
+    public long getFailTime(){
+      return failTime;
+    }
+
   }
 }
