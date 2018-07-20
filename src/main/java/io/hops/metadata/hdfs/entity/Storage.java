@@ -19,11 +19,13 @@ public class Storage {
   private final int storage_id;
   private final String host_id;
   private final int storage_type;
-
-  public Storage(int storage_id, String host_id, int storage_type) {
+  private final String state;
+  
+  public Storage(int storage_id, String host_id, int storage_type, String state) {
     this.storage_id = storage_id;
     this.host_id = host_id;
     this.storage_type = storage_type;
+    this.state = state;
   }
 
   public int getStorageID() {
@@ -36,5 +38,9 @@ public class Storage {
 
   public int getStorageType() {
     return storage_type;
+  }
+  
+  public String getState() {
+    return state;
   }
 }

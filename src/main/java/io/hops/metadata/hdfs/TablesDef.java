@@ -28,6 +28,7 @@ public class TablesDef {
     String STORAGE_ID="storage_id";
     String HOST_ID="host_id";
     String STORAGE_TYPE="storage_type";
+    String STATE = "state";
   }
   
   public interface INodeTableDef {
