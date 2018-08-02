@@ -66,17 +66,7 @@ public class Replica extends ReplicaBase {
     }
   }
 
-  private int bucketId;
-
-  /**
-   * @return the hash bucket this block is assigned to
-   */
-  public int getBucketId(){
-    return bucketId;
-  }
-
-  public Replica(int storageId, long blockId, int inodeId, int bucketId) {
+  public Replica(int storageId, long blockId, int inodeId) {
     super(storageId, blockId, inodeId);
-    this.bucketId = bucketId;
   }
 }

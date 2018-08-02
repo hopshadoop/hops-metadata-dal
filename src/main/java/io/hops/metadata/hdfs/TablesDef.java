@@ -228,7 +228,6 @@ public class TablesDef {
     String STORAGE_ID = "storage_id";
     String INODE_ID = "inode_id";
     String REPLICA_INDEX = "replica_index";
-    String HASH_BUCKET = "bucket_id";
   }
 
   public interface QuotaUpdateTableDef {
@@ -248,7 +247,6 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String STATE = "state";
     String REPLICA_INDEX = "replica_index";
-    String HASH_BUCKET = "bucket_id";
     String CHOSEN_AS_PRIMARY = "chosen_as_primary";
     String GENERATION_STAMP = "generation_stamp";
   }

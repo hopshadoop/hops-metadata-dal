@@ -39,7 +39,4 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
-  
-  Map<Long,Integer> findBlockAndInodeIdsByStorageIdAndBucketIds (int sId,
-      List<Integer> mismatchedBuckets) throws StorageException;
 }
