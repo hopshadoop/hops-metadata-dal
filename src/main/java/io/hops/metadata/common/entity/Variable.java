@@ -59,7 +59,9 @@ public abstract class Variable {
     GenericByteArray,
     GenericArray,
     Seed,
-    StorageMap; // TODO do we need this?
+    StorageMap,  // TODO do we need this?
+    CacheDirectiveID,
+    NeedRescan;
 
     public int getId() {
       return this.ordinal();
@@ -163,6 +165,10 @@ public abstract class Variable {
         return new LongVariable(varType);
       case Seed:
         return new ByteArrayVariable(varType);
+      case CacheDirectiveID:
+        return new LongVariable(varType);
+      case NeedRescan:
+        return new IntVariable(varType);
     }
     return null;
   }

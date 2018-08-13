@@ -52,6 +52,7 @@ public abstract class Lock implements Comparable<Lock> {
     NameNodeLease,
     Lease,
     LeasePath,
+    AllCachedBlock,
     Block,
     Variable,
     LeDescriptor,
@@ -69,7 +70,10 @@ public abstract class Lock implements Comparable<Lock> {
     Test,
     HashBucket,
     Ace,
-    retryCachEntry
+    retryCachEntry,
+    cacheDirective,
+    cachePool,
+    CachedBlock
   }
 
   protected Lock() {
