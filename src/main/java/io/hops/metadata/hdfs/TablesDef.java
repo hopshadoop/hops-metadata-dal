@@ -345,4 +345,46 @@ public class TablesDef {
     String EXPIRATION_TIME = "expiration_time";
     String STATE = "state";
   }
+  
+  public interface CacheDirectiveTableDef {
+    String TABLE_NAME = "hdfs_cache_directive";
+    String ID = "id";
+    String REPLICATION = "replication";
+    String EXPIRYTIME = "expirytime";
+    String BYTES_NEEDED = "bytes_needed";
+    String BYTES_CACHED = "bytes_cached";
+    String FILES_NEEDED = "files_needed";
+    String FILES_CACHED = "files_cached";
+    String POOL = "pool";
+  }
+
+  public interface CacheDirectivePathTableDef {
+    String TABLE_NAME = "hdfs_cache_directive_path";
+    String ID = "id";
+    String INDEX = "index";
+    String VALUE = "value";
+  }
+
+  public interface CachePoolTableDef {
+    String TABLE_NAME = "hdfs_cache_pool";
+    String POOL_NAME = "pool_name";
+    String OWNER_NAME = "owner_name";
+    String GROUP_NAME = "group_name";
+    String MODE = "mode";
+    String LIMIT = "limit";
+    String MAX_RELATIVE_EXPIRY_MS = "max_relative_expiry_ms";
+    String BYTES_NEEDED = "bytes_needed";
+    String BYTES_CACHED = "bytes_cached";
+    String FILES_NEEDED = "files_needed";
+    String FILES_CACHED = "files_cached";
+  }
+  
+  public interface CachedBlockTableDef {
+    String TABLE_NAME = "hdfs_cached_block";
+    String BLOCK_ID = "block_id";
+    String INODE_ID = "inode_id";
+    String DATANODE_ID = "datanode_id";
+    String STATUS = "status";
+    String REPLICATION_AND_MARK = "replication_and_mark";
+  }
 }

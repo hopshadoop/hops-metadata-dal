@@ -17,10 +17,7 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-import io.hops.exception.StorageException;
 import io.hops.metadata.common.FinderType;
-import io.hops.metadata.hdfs.dal.RetryCacheEntryDataAccess;
-import io.hops.transaction.handler.LightWeightRequestHandler;
 import java.util.Arrays;
 
 
