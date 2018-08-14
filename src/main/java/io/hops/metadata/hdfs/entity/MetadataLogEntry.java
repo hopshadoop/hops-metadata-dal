@@ -26,7 +26,10 @@ public class MetadataLogEntry {
 
   public enum Operation {
     ADD,
-    DELETE
+    DELETE,
+    UPDATE,
+    RENAME,
+    CHANGEDATASET
   }
 
   public MetadataLogEntry(int datasetId, int inodeId, int inodePartitionId,

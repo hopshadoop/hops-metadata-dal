@@ -66,8 +66,8 @@ public class ProjectedINode extends INodeBase implements
     return true;
   }
 
-  public void incrementLogicalTime(){
-    logicalTime++;
+  public int incrementLogicalTime(){
+    return ++logicalTime;
   }
 
   @Override
