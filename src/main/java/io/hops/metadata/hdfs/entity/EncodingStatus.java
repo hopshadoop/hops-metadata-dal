@@ -94,8 +94,10 @@ public class EncodingStatus {
   public static enum Finder implements FinderType<EncodingStatus> {
     /** Use the file id to find the status */
     ByInodeId,
+    ByInodeIds,
     /** Use the parity file id to find the status */
-    ByParityInodeId;
+    ByParityInodeId,
+    ByParityInodeIds;
 
     @Override
     public Class getType() {
@@ -107,7 +109,11 @@ public class EncodingStatus {
       switch (this) {
         case ByInodeId:
           return Annotation.PrimaryKey;
+        case ByInodeIds:
+          return Annotation.Batched;
         case ByParityInodeId:
+          return Annotation.IndexScan;
+        case ByParityInodeIds:
           return Annotation.IndexScan;
         default:
           throw new IllegalStateException();
