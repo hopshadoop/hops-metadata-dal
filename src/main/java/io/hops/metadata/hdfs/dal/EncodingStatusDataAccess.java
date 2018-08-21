@@ -19,6 +19,7 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
@@ -30,8 +31,12 @@ public interface EncodingStatusDataAccess<T> extends EntityDataAccess {
 
   T findByInodeId(int inodeId) throws StorageException;
 
+  Collection<T> findByInodeIds(Collection<Integer> inodeIds) throws StorageException;
+  
   T findByParityInodeId(int inodeId) throws StorageException;
 
+  Collection<T> findByParityInodeIds(List<Integer> inodeIds) throws StorageException;
+  
   Collection<T> findRequestedEncodings(int limit) throws StorageException;
 
   int countRequestedEncodings() throws StorageException;
