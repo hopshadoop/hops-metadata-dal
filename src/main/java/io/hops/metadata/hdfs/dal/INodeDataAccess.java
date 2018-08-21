@@ -29,6 +29,8 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
   
   T findInodeByIdFTIS(int inodeId) throws StorageException;
 
+  Collection<T> findInodesByIdsFTIS(int[] inodeId) throws StorageException;
+  
   List<T> findInodesByParentIdFTIS(int parentId) throws StorageException;
 
   List<T> findInodesByParentIdAndPartitionIdPPIS(int parentId, int partitionId) throws StorageException;
