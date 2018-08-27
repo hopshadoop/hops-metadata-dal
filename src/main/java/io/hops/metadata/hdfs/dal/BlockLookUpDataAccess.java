@@ -19,6 +19,8 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public interface BlockLookUpDataAccess<T> extends EntityDataAccess {
   
@@ -28,4 +30,6 @@ public interface BlockLookUpDataAccess<T> extends EntityDataAccess {
   
   void prepare(Collection<T> modified, Collection<T> removed)
       throws StorageException;
+  
+  Map<Integer, List<Long>> getINodeIdsForBlockIds(final long[] blockIds) throws StorageException;
 }
