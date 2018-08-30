@@ -61,7 +61,8 @@ public abstract class Variable {
     Seed,
     StorageMap,  // TODO do we need this?
     CacheDirectiveID,
-    NeedRescan;
+    NeedRescan,
+    RollingUpgradeInfo;
 
     public int getId() {
       return this.ordinal();
@@ -169,6 +170,8 @@ public abstract class Variable {
         return new LongVariable(varType);
       case NeedRescan:
         return new IntVariable(varType);
+      case RollingUpgradeInfo:
+        return new ByteArrayVariable(varType);
     }
     return null;
   }
