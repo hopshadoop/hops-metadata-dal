@@ -209,7 +209,8 @@ public class TablesDef {
   public interface MisReplicatedRangeQueueTableDef {
 
     String TABLE_NAME = "hdfs_misreplicated_range_queue";
-    String RANGE = "range";
+    String NNID = "nn_id";
+    String START_INDEX = "start_index";
   }
 
   public interface PendingBlockTableDef {

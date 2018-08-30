@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.hdfs.dal;
+package io.hops.metadata.hdfs.entity;
 
-import io.hops.exception.StorageException;
-import io.hops.metadata.common.EntityDataAccess;
-import io.hops.metadata.hdfs.entity.MisReplicatedRange;
-import java.util.List;
 
-public interface MisReplicatedRangeQueueDataAccess extends EntityDataAccess {
+public class MisReplicatedRange {
+  final long nnId;
+  final long startIndex;
+
+  public MisReplicatedRange(long nnId, long startIndex) {
+    this.nnId = nnId;
+    this.startIndex = startIndex;
+  }
+
+  public long getNnId() {
+    return nnId;
+  }
+
+  public long getStartIndex() {
+    return startIndex;
+  }
   
-  void insert(MisReplicatedRange range) throws StorageException;
-
-  void remove(MisReplicatedRange range) throws StorageException;
-  
-  void remove(List<MisReplicatedRange> range) throws StorageException;
-
-  List<MisReplicatedRange> getAll() throws StorageException;
-  
-  int countAll() throws StorageException;
 }
