@@ -15,9 +15,9 @@
  */
 package io.hops.transaction.handler;
 
+import io.hops.exception.LockUpgradeException;
 import io.hops.exception.StorageException;
 import io.hops.exception.TransientStorageException;
-import io.hops.exception.TupleAlreadyExistedException;
 import io.hops.log.NDCWrapper;
 import io.hops.transaction.EntityManager;
 import io.hops.transaction.TransactionInfo;
@@ -143,11 +143,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         return txRetValue;
       } catch (Throwable t) {
         String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
-        LOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
-            + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
-            + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
-            + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
-            + "ms, Total Time: " + totalTime + "ms. ", t);
+        if (!(opName.equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException)) {
+          LOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
+              + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
+              + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
+              + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
+              + "ms, Total Time: " + totalTime + "ms. ", t);
+        }
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
           throw t;
         }
