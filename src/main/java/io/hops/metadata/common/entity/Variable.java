@@ -45,7 +45,7 @@ public abstract class Variable {
     HdfsLeParams,
     YarnLeParams,
     MisReplicatedFilesIndex,
-    ClusterInSafeMode,
+    SafeModeReached,
     BrLbMaxBlkPerTW,
     RMStateStoreVersion,
     RMStateStoreEpoch,
@@ -62,7 +62,12 @@ public abstract class Variable {
     StorageMap,  // TODO do we need this?
     CacheDirectiveID,
     NeedRescan,
-    RollingUpgradeInfo;
+    RollingUpgradeInfo,
+    SafeModeInfo,
+    GenericDouble,
+    BlockTotal,
+    BlockThreshold,
+    BlockReplicationQueueThreshold;
 
     public int getId() {
       return this.ordinal();
@@ -150,8 +155,8 @@ public abstract class Variable {
         return new StringVariable(varType);
       case MisReplicatedFilesIndex:
         return new LongVariable(varType);
-      case ClusterInSafeMode:
-        return new IntVariable(varType);
+      case SafeModeReached:
+        return new LongVariable(varType);
       case BrLbMaxBlkPerTW:
         return new LongVariable(varType);
       case RMStateStoreVersion:
@@ -172,6 +177,15 @@ public abstract class Variable {
         return new IntVariable(varType);
       case RollingUpgradeInfo:
         return new ByteArrayVariable(varType);
+      case SafeModeInfo:
+        return new ArrayVariable(varType);
+      case GenericDouble:
+        return new DoubleVariable(varType);
+      case BlockTotal:
+      case BlockThreshold:
+      case BlockReplicationQueueThreshold:
+        return new IntVariable(varType);
+        
     }
     return null;
   }

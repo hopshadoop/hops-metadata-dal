@@ -106,6 +106,8 @@ public class ArrayVariable extends Variable {
         addVariable(new LongVariable((Long) item));
       } else if (itemClass == String.class) {
         addVariable(new StringVariable((String) item));
+      } else if (itemClass == Double.class) {
+        addVariable(new DoubleVariable((Double) item));
       } else {
         if (item instanceof byte[]) {
           addVariable(new ByteArrayVariable((byte[]) item));
