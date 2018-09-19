@@ -40,4 +40,6 @@ public interface ExcessReplicaDataAccess<T> extends EntityDataAccess {
       Collection<T> modified) throws StorageException;
 
   void removeAll() throws StorageException;
+  
+  int countAllUniqueBlk() throws StorageException;
 }
