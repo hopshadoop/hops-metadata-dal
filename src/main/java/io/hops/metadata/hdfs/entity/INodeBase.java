@@ -17,10 +17,10 @@ package io.hops.metadata.hdfs.entity;
 
 public class INodeBase {
 
-  protected int id;
-  protected int parentId;
+  protected long id;
+  protected long parentId;
   protected String name;
-  protected int partitionId;
+  protected long partitionId;
   protected int userID;
   protected int groupID;
   protected String userName;
@@ -39,7 +39,7 @@ public class INodeBase {
 
   public INodeBase(){}
 
-  public INodeBase(int id, int parentId, String name, int partitionId, boolean isDir, int userID,
+  public INodeBase(long id, long parentId, String name, long partitionId, boolean isDir, int userID,
       int groupID, short permission, long header, boolean dirWithQuota,
       boolean underConstruction, boolean subtreeLocked, long
       subtreeLockOwner, long fileSize, int logicalTime, byte storagePolicy, int numAces) {
@@ -62,19 +62,19 @@ public class INodeBase {
     this.numAces = numAces;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
-  public int getParentId() {
+  public long getParentId() {
     return parentId;
   }
 
-  public void setParentId(int parentId) {
+  public void setParentId(long parentId) {
     this.parentId = parentId;
   }
 
@@ -94,11 +94,11 @@ public class INodeBase {
     this.name = name;
   }
 
-  public int getPartitionId(){
+  public long getPartitionId(){
     return partitionId;
   }
 
-  public void setPartitionId(int partitionId){
+  public void setPartitionId(long partitionId){
     this.partitionId = partitionId;
   }
 

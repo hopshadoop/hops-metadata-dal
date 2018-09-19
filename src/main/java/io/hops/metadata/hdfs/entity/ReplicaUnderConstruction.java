@@ -23,7 +23,7 @@ public class ReplicaUnderConstruction extends ReplicaBase {
   private long generationStamp;
 
   public ReplicaUnderConstruction(int state, int storageId, long blockId,
-      int inodeId, int bucketId, boolean chosenAsPrimary, long generationStamp) {
+      long inodeId, int bucketId, boolean chosenAsPrimary, long generationStamp) {
     super(storageId, blockId, inodeId);
     this.state = state;
     this.bucketId = bucketId;

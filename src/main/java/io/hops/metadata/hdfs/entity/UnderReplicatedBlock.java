@@ -76,9 +76,9 @@ public class UnderReplicatedBlock {
 
   int level;
   long blockId;
-  int inodeId;
+  long inodeId;
 
-  public UnderReplicatedBlock(int level, long blockId, int inodeId) {
+  public UnderReplicatedBlock(int level, long blockId, long inodeId) {
     this.level = level;
     this.blockId = blockId;
     this.inodeId = inodeId;
@@ -96,7 +96,7 @@ public class UnderReplicatedBlock {
     this.level = level;
   }
   
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 
@@ -104,7 +104,7 @@ public class UnderReplicatedBlock {
     this.blockId = blockId;
   }
 
-  public void setInodeId(int inodeId) {
+  public void setInodeId(long inodeId) {
     this.inodeId = inodeId;
   }
   

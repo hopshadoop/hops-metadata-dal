@@ -23,19 +23,19 @@ import java.util.Collection;
 public interface BlockChecksumDataAccess<T> extends EntityDataAccess {
 
   public static class KeyTuple {
-    private int inodeId;
+    private long inodeId;
     private int blockIndex;
 
-    public KeyTuple(int inodeId, int blockIndex) {
+    public KeyTuple(long inodeId, int blockIndex) {
       this.inodeId = inodeId;
       this.blockIndex = blockIndex;
     }
 
-    public int getInodeId() {
+    public long getInodeId() {
       return inodeId;
     }
 
-    public void setInodeId(int inodeId) {
+    public void setInodeId(long inodeId) {
       this.inodeId = inodeId;
     }
 
@@ -70,7 +70,7 @@ public interface BlockChecksumDataAccess<T> extends EntityDataAccess {
 
     @Override
     public int hashCode() {
-      int result = inodeId;
+      int result = Long.hashCode(inodeId);
       result = 31 * result + blockIndex;
       return result;
     }
@@ -90,9 +90,9 @@ public interface BlockChecksumDataAccess<T> extends EntityDataAccess {
 
   void delete(T blockChecksum) throws StorageException;
 
-  T find(int inodeId, int blockIndex) throws StorageException;
+  T find(long inodeId, int blockIndex) throws StorageException;
 
-  Collection<T> findAll(int inodeId) throws StorageException;
+  Collection<T> findAll(long inodeId) throws StorageException;
 
-  void deleteAll(int inodeId) throws StorageException;
+  void deleteAll(long inodeId) throws StorageException;
 }

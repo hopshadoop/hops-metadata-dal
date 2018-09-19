@@ -25,6 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface AceDataAccess<T> extends EntityDataAccess{
-  List<T> getAcesByPKBatched(int inodeId, int[] ids) throws StorageException;
+  List<T> getAcesByPKBatched(long inodeId, int[] ids) throws StorageException;
   void prepare(Collection<T> removed, Collection<T> newed, Collection<T> modified) throws StorageException;
 }

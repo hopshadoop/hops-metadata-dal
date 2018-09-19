@@ -24,15 +24,15 @@ public interface CachedBlockDataAccess<T> extends EntityDataAccess {
 
   void prepare(Collection<T> removed, Collection<T> newed, Collection<T> modified) throws StorageException;
 
-  T find(long blockId, int inodeId, String datanodeId) throws StorageException;
+  T find(long blockId, long inodeId, String datanodeId) throws StorageException;
   
   List<T> findCachedBlockById(long blockId) throws StorageException;
   
-  List<T> findCachedBlockByINodeId(int inodeId) throws StorageException;
+  List<T> findCachedBlockByINodeId(long inodeId) throws StorageException;
   
-  List<T> findCachedBlockByINodeIds(int[] inodeIds) throws StorageException;
+  List<T> findCachedBlockByINodeIds(long[] inodeIds) throws StorageException;
   
-  List<T> findByIds(long[] blockIds, int[] inodeIds, String datanodeId) throws StorageException;
+  List<T> findByIds(long[] blockIds, long[] inodeIds, String datanodeId) throws StorageException;
   
   List<T> findCachedBlockByDatanodeId(String datanodeId) throws StorageException;
   

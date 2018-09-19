@@ -57,12 +57,12 @@ public class InvalidatedBlock extends ReplicaBase {
   private long generationStamp;
   private long numBytes;
 
-  public InvalidatedBlock(int sid, long blockId, int inodeId) {
+  public InvalidatedBlock(int sid, long blockId, long inodeId) {
     super(sid, blockId, inodeId);
   }
 
   public InvalidatedBlock(int sid, long blockId,
-      long  generationStamp, long numBytes, int inodeId) {
+      long  generationStamp, long numBytes, long inodeId) {
     super(sid, blockId, inodeId);
     this.generationStamp = generationStamp;
     this.numBytes = numBytes;

@@ -83,10 +83,10 @@ public class Ace {
   }
   
   public static class PrimaryKey{
-    public final int inodeId;
+    public final long inodeId;
     public final int index;
     
-    public PrimaryKey(int inodeId, int index){
+    public PrimaryKey(long inodeId, int index){
       this.index = index;
       this.inodeId = inodeId;
     }
@@ -94,7 +94,7 @@ public class Ace {
     @Override
     public int hashCode() {
       //todo what is the go to hash mechanism that is consistent with equals?
-      return index * inodeId;
+      return index * Long.hashCode(inodeId);
     }
   
     @Override
@@ -107,19 +107,19 @@ public class Ace {
     }
   }
   
-  private int inodeId;
+  private long inodeId;
   private int index;
   private String subject;
   private AceType type;
   private boolean isDefault;
   private int permission;
   
-  public Ace(int inodeId, int index){
+  public Ace(long inodeId, int index){
     this.inodeId = inodeId;
     this.index = index;
   }
   
-  public Ace(int inodeId, int index, String subject, AceType type, boolean isDefault, int permission) {
+  public Ace(long inodeId, int index, String subject, AceType type, boolean isDefault, int permission) {
     this.inodeId = inodeId;
     this.index = index;
     this.subject = subject;
@@ -129,11 +129,11 @@ public class Ace {
   }
   
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
   
-  public void setInodeId(int inodeId){
+  public void setInodeId(long inodeId){
     this.inodeId = inodeId;
   }
   

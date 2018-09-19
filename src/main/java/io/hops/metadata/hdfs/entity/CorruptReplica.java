@@ -47,7 +47,7 @@ public class CorruptReplica extends ReplicaBase {
   
   private String reason;
 
-  public CorruptReplica(int sid, long blockId, int inodeId, String reason) {
+  public CorruptReplica(int sid, long blockId, long inodeId, String reason) {
     super(sid, blockId, inodeId);
     this.reason = reason;
   }

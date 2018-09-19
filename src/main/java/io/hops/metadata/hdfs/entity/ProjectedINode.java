@@ -19,7 +19,7 @@ public class ProjectedINode extends INodeBase implements
     Comparable<ProjectedINode> {
   private boolean symlink;
 
-  public ProjectedINode(int id, int parentId, String name, int partitionId,
+  public ProjectedINode(long id, long parentId, String name, long partitionId,
       boolean isDir, short permission, int userID, int groupID, long header,
       boolean symlink, boolean dirWithQuota, boolean underConstruction,
       boolean subtreeLocked, long subtreeLockOwner, long fileSize, int logicalTime,
@@ -72,8 +72,8 @@ public class ProjectedINode extends INodeBase implements
 
   @Override
   public int hashCode() {
-    int result = id;
-    result = 31 * result + parentId;
+    int result = Long.hashCode(id);
+    result = 31 * result + Long.hashCode(parentId);
     result = 31 * result + name.hashCode();
     return result;
   }

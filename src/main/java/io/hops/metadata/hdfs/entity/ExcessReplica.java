@@ -19,7 +19,7 @@ import io.hops.metadata.common.FinderType;
 
 public class ExcessReplica extends ReplicaBase {
   
-  public ExcessReplica(int sid, long blockId, int inodeId) {
+  public ExcessReplica(int sid, long blockId, long inodeId) {
     super(sid, blockId, inodeId);
   }
   

@@ -75,7 +75,7 @@ public class Replica extends ReplicaBase {
     return bucketId;
   }
 
-  public Replica(int storageId, long blockId, int inodeId, int bucketId) {
+  public Replica(int storageId, long blockId, long inodeId, int bucketId) {
     super(storageId, blockId, inodeId);
     this.bucketId = bucketId;
   }

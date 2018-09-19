@@ -26,10 +26,10 @@ public interface BlockLookUpDataAccess<T> extends EntityDataAccess {
   
   T findByBlockId(long blockId) throws StorageException;
   
-  int[] findINodeIdsByBlockIds(long[] blockIds) throws StorageException;
+  long[] findINodeIdsByBlockIds(long[] blockIds) throws StorageException;
   
   void prepare(Collection<T> modified, Collection<T> removed)
       throws StorageException;
   
-  Map<Integer, List<Long>> getINodeIdsForBlockIds(final long[] blockIds) throws StorageException;
+  Map<Long, List<Long>> getINodeIdsForBlockIds(final long[] blockIds) throws StorageException;
 }

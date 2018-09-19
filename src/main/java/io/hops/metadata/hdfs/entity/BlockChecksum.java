@@ -18,7 +18,7 @@ package io.hops.metadata.hdfs.entity;
 import io.hops.metadata.common.FinderType;
 
 public class BlockChecksum {
-  private int inodeId;
+  private long inodeId;
   private int blockIndex;
   private long checksum;
 
@@ -49,13 +49,13 @@ public class BlockChecksum {
 
   }
 
-  public BlockChecksum(int inodeId, int blockIndex, long checksum) {
+  public BlockChecksum(long inodeId, int blockIndex, long checksum) {
     this.inodeId = inodeId;
     this.blockIndex = blockIndex;
     this.checksum = checksum;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 
@@ -105,7 +105,7 @@ public class BlockChecksum {
 
   @Override
   public int hashCode() {
-    int result = inodeId;
+    int result = Long.hashCode(inodeId);
     result = 31 * result + blockIndex;
     result = 31 * result + (int) (checksum ^ (checksum >>> 32));
     return result;

@@ -62,12 +62,12 @@ public class CachedBlock {
   }
 
   private final long blockId;
-  private final int inodeId;
+  private final long inodeId;
   private final String datanodeId;
   private final String status;
   private final short replicationAndMark;
 
-  public CachedBlock(long blockId, int inodeId, String datanodeId, String status, short replicationAndMark) {
+  public CachedBlock(long blockId, long inodeId, String datanodeId, String status, short replicationAndMark) {
     this.blockId = blockId;
     this.inodeId = inodeId;
     this.datanodeId = datanodeId;
@@ -79,7 +79,7 @@ public class CachedBlock {
     return blockId;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 

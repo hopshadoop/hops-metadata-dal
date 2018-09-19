@@ -30,5 +30,5 @@ public interface MetadataLogDataAccess<T> extends EntityDataAccess {
   Collection<T> readExisting(Collection<T> logEntries) throws StorageException;
 
   @VisibleForTesting
-  Collection<T> find(int fileId) throws StorageException;
+  Collection<T> find(long fileId) throws StorageException;
 }

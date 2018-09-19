@@ -46,7 +46,7 @@ public class INode extends INodeBase implements Comparable<INode> {
 //    this.isFileStoredInDB = false;
   }
 
-  public INode(int id, String name, int parentId, int partitionId, boolean isDir, boolean dirWithQuota,
+  public INode(long id, String name, long parentId, long partitionId, boolean isDir, boolean dirWithQuota,
       long modificationTime, long accessTime, int userID, int
       groupID, short permission, boolean underConstruction, String clientName,
       String clientMachine,
