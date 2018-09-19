@@ -23,11 +23,11 @@ import java.util.List;
 
 public interface UnderReplicatedBlockDataAccess<T> extends EntityDataAccess {
 
-  T findByPk(long blockId, int inodeId) throws StorageException;
+  T findByPk(long blockId, long inodeId) throws StorageException;
 
-  List<T> findByINodeId(int inodeId) throws StorageException;
+  List<T> findByINodeId(long inodeId) throws StorageException;
   
-  List<T> findByINodeIds(int[] inodeIds) throws StorageException;
+  List<T> findByINodeIds(long[] inodeIds) throws StorageException;
   
   List<T> findAll() throws StorageException;
   

@@ -24,18 +24,18 @@ import java.util.List;
 public interface ReplicaUnderConstructionDataAccess<T>
     extends EntityDataAccess {
 
-  List<T> findReplicaUnderConstructionByBlockId(long blockId, int inodeId)
+  List<T> findReplicaUnderConstructionByBlockId(long blockId, long inodeId)
       throws StorageException;
 
-  List<T> findReplicaUnderConstructionByINodeId(int inodeId)
+  List<T> findReplicaUnderConstructionByINodeId(long inodeId)
       throws StorageException;
   
-  List<T> findReplicaUnderConstructionByINodeIds(int[] inodeIds)
+  List<T> findReplicaUnderConstructionByINodeIds(long[] inodeIds)
       throws StorageException;
   
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
 
-  void removeByBlockIdAndInodeId(long blockId, int inodeId) throws
+  void removeByBlockIdAndInodeId(long blockId, long inodeId) throws
       StorageException;
 }

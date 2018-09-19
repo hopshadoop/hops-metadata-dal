@@ -135,7 +135,7 @@ public abstract class Variable {
       case BlockID:
         return new LongVariable(varType);
       case INodeID:
-        return new IntVariable(varType);
+        return new LongVariable(varType);
       case QuotaUpdateID:
         return new IntVariable(varType);
       case ReplicationIndex:

@@ -27,27 +27,27 @@ import java.util.List;
 
 public interface INodeDataAccess<T> extends EntityDataAccess {
   
-  T findInodeByIdFTIS(int inodeId) throws StorageException;
+  T findInodeByIdFTIS(long inodeId) throws StorageException;
 
-  Collection<T> findInodesByIdsFTIS(int[] inodeId) throws StorageException;
+  Collection<T> findInodesByIdsFTIS(long[] inodeId) throws StorageException;
   
-  List<T> findInodesByParentIdFTIS(int parentId) throws StorageException;
+  List<T> findInodesByParentIdFTIS(long parentId) throws StorageException;
 
-  List<T> findInodesByParentIdAndPartitionIdPPIS(int parentId, int partitionId) throws StorageException;
+  List<T> findInodesByParentIdAndPartitionIdPPIS(long parentId, long partitionId) throws StorageException;
 
-  List<ProjectedINode> findInodesPPISTx(int parentId, int partitionId, EntityContext.LockMode lock)
+  List<ProjectedINode> findInodesPPISTx(long parentId, long partitionId, EntityContext.LockMode lock)
       throws StorageException;
 
-  List<ProjectedINode> findInodesFTISTx(int parentId, EntityContext.LockMode lock)
+  List<ProjectedINode> findInodesFTISTx(long parentId, EntityContext.LockMode lock)
       throws StorageException;
 
-  T findInodeByNameParentIdAndPartitionIdPK(String name, int parentId, int partitionId)
+  T findInodeByNameParentIdAndPartitionIdPK(String name, long parentId, long partitionId)
       throws StorageException;
 
-  List<T> getINodesPkBatched(String[] names, int[] parentIds, int[] partitionIds)
+  List<T> getINodesPkBatched(String[] names, long[] parentIds, long[] partitionIds)
       throws StorageException;
 
-  List<T> lockInodesUsingPkBatchTx(String[] names, int[] parentIds, int[] partitionIds, EntityContext.LockMode lock)
+  List<T> lockInodesUsingPkBatchTx(String[] names, long[] parentIds, long[] partitionIds, EntityContext.LockMode lock)
           throws StorageException;
 
   List<INodeIdentifier> getAllINodeFiles(long startId, long endId)
@@ -69,7 +69,7 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   int countAll() throws StorageException;
   
-  boolean hasChildren(int parentId, boolean areChildrenRandomlyPartitioned) throws StorageException;
+  boolean hasChildren(long parentId, boolean areChildrenRandomlyPartitioned) throws StorageException;
   
   List<T> allINodes() throws StorageException; // only for testing
 

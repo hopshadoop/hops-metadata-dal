@@ -9,7 +9,7 @@ import io.hops.metadata.common.EntityDataAccess;
   public interface DBFileDataAccess<T> extends EntityDataAccess {
     void add(T fileInodeData) throws StorageException;
 
-    T get(int inodeId) throws StorageException;
+    T get(long inodeId) throws StorageException;
 
     void delete(T fileInodeData) throws StorageException;
 

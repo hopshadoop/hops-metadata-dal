@@ -24,15 +24,15 @@ import java.util.Map;
 
 public interface ReplicaDataAccess<T> extends EntityDataAccess {
 
-  List<T> findReplicasById(long blockId, int inodeId) throws StorageException;
+  List<T> findReplicasById(long blockId, long inodeId) throws StorageException;
   
-  List<T> findReplicasByINodeId(int inodeId) throws StorageException;
+  List<T> findReplicasByINodeId(long inodeId) throws StorageException;
   
-  List<T> findReplicasByINodeIds(int[] inodeIds) throws StorageException;
+  List<T> findReplicasByINodeIds(long[] inodeIds) throws StorageException;
   
-  Map<Long, Integer> findBlockAndInodeIdsByStorageId(int storageId) throws StorageException;
+  Map<Long, Long> findBlockAndInodeIdsByStorageId(int storageId) throws StorageException;
   
-  Map<Long, Integer> findBlockAndInodeIdsByStorageIdAndBucketId(int
+  Map<Long, Long> findBlockAndInodeIdsByStorageIdAndBucketId(int
       storageId, int bucketId) throws StorageException;
   
   boolean hasBlocksWithIdGreaterThan(int storageId, long from) throws StorageException;
@@ -42,6 +42,6 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
   
-  Map<Long,Integer> findBlockAndInodeIdsByStorageIdAndBucketIds (int sId,
+  Map<Long,Long> findBlockAndInodeIdsByStorageIdAndBucketIds (int sId,
       List<Integer> mismatchedBuckets) throws StorageException;
 }

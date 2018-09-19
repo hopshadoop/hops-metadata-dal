@@ -28,11 +28,11 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
   
   int countAllCompleteBlocks() throws StorageException;
 
-  T findById(long blockId, int inodeId) throws StorageException;
+  T findById(long blockId, long inodeId) throws StorageException;
 
-  List<T> findByInodeId(int inodeId) throws StorageException;
+  List<T> findByInodeId(long inodeId) throws StorageException;
   
-  List<T> findByInodeIds(int[] inodeIds) throws StorageException;
+  List<T> findByInodeIds(long[] inodeIds) throws StorageException;
   
   List<T> findAllBlocks() throws StorageException;
 
@@ -49,9 +49,9 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
 
   Set<Long> findINodeIdsByStorageId(int storageId) throws StorageException;
   
-  List<T> findByIds(long[] blockIds, int[] inodeIds) throws StorageException;
+  List<T> findByIds(long[] blockIds, long[] inodeIds) throws StorageException;
 
-  boolean existsOnAnyStorage(int inodeId, long blockId, List<Integer> sids) throws StorageException;
+  boolean existsOnAnyStorage(long inodeId, long blockId, List<Integer> sids) throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;

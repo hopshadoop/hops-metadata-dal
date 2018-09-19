@@ -18,17 +18,17 @@ package io.hops.metadata.hdfs.entity;
 public class INodeCandidatePrimaryKey
     implements Comparable<INodeCandidatePrimaryKey> {
 
-  int inodeId;
+  long inodeId;
 
-  public INodeCandidatePrimaryKey(int inodeId) {
+  public INodeCandidatePrimaryKey(long inodeId) {
     this.inodeId = inodeId;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 
-  public void setInodeId(int inodeId) {
+  public void setInodeId(long inodeId) {
     this.inodeId = inodeId;
   }
 
@@ -53,7 +53,7 @@ public class INodeCandidatePrimaryKey
   @Override
   public int hashCode() {
     int hash = 7;
-    hash = 59 * hash + this.inodeId;
+    hash = 59 * hash + Long.hashCode(this.inodeId);
     return hash;
   }
 

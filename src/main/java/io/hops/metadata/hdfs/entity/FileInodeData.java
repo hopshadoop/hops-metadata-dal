@@ -9,12 +9,12 @@ public class FileInodeData {
         InmemoryFile
     }
 
-    private final int inodeId;
+    private final long inodeId;
     private final byte[] inodeData;
     private final Type type;
     private final int  size;
 
-    public FileInodeData(int inodeId, byte[] inodeData, int size, Type type ) {
+    public FileInodeData(long inodeId, byte[] inodeData, int size, Type type ) {
         this.inodeId = inodeId;
         this.inodeData = inodeData;
         this.type = type;
@@ -25,7 +25,7 @@ public class FileInodeData {
         return type;
     }
 
-    public int getInodeId() {
+    public long getInodeId() {
         return inodeId;
     }
 

@@ -19,7 +19,7 @@ public class BlockInfo {
 
   private long blockId;
   private int blockIndex;
-  private int inodeId;
+  private long inodeId;
   private long numBytes;
   private long generationStamp;
   private int blockUCState;
@@ -27,7 +27,7 @@ public class BlockInfo {
   private int primaryNodeIndex;
   private long blockRecoveryId;
 
-  public BlockInfo(long blockId, int blockIndex, int inodeId, long numBytes,
+  public BlockInfo(long blockId, int blockIndex, long inodeId, long numBytes,
       long generationStamp, int blockUnderConstructionState, long timeStamp) {
     this.blockId = blockId;
     this.blockIndex = blockIndex;
@@ -38,7 +38,7 @@ public class BlockInfo {
     this.timeStamp = timeStamp;
   }
 
-  public BlockInfo(long blockId, int blockIndex, int inodeId, long numBytes,
+  public BlockInfo(long blockId, int blockIndex, long inodeId, long numBytes,
       long generationStamp, int blockUnderConstructionState, long timeStamp,
       int primaryNodeIndex, long blockRecoveryId) {
     this(blockId, blockIndex, inodeId, numBytes, generationStamp,
@@ -55,7 +55,7 @@ public class BlockInfo {
     return blockIndex;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 

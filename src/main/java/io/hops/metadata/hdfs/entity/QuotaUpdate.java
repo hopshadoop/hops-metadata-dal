@@ -19,7 +19,7 @@ import io.hops.metadata.common.FinderType;
 
 public class QuotaUpdate {
   private int id;
-  private int inodeId;
+  private long inodeId;
   private long namespaceDelta;
   private long diskspaceDelta;
 
@@ -37,7 +37,7 @@ public class QuotaUpdate {
     }
   }
 
-  public QuotaUpdate(int id, int inodeId, long namespaceDelta,
+  public QuotaUpdate(int id, long inodeId, long namespaceDelta,
       long diskspaceDelta) {
     this.id = id;
     this.inodeId = inodeId;
@@ -53,11 +53,11 @@ public class QuotaUpdate {
     this.id = id;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 
-  public void setInodeId(int inodeId) {
+  public void setInodeId(long inodeId) {
     this.inodeId = inodeId;
   }
 

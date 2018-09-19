@@ -19,9 +19,9 @@ public abstract class ReplicaBase implements Comparable<ReplicaBase> {
 
   protected int storageId;
   protected long blockId;
-  private int inodeId;
+  private long inodeId;
 
-  public ReplicaBase(int storageId, long blockId, int inodeId) {
+  public ReplicaBase(int storageId, long blockId, long inodeId) {
     this.storageId = storageId;
     this.blockId = blockId;
     this.inodeId = inodeId;
@@ -57,7 +57,7 @@ public abstract class ReplicaBase implements Comparable<ReplicaBase> {
     this.blockId = blockId;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inodeId;
   }
 

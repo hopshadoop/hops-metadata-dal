@@ -32,17 +32,17 @@ public interface InvalidateBlockDataAccess<T> extends EntityDataAccess {
   Map<Long,Long> findInvalidatedBlockBySidUsingMySQLServer(int sid)
       throws StorageException;
 
-  List<T> findInvalidatedBlocksByBlockId(long bid, int inodeId) throws StorageException;
+  List<T> findInvalidatedBlocksByBlockId(long bid, long inodeId) throws StorageException;
   
-  List<T> findInvalidatedBlocksByINodeId(int inodeId) throws StorageException;
+  List<T> findInvalidatedBlocksByINodeId(long inodeId) throws StorageException;
 
-  List<T> findInvalidatedBlocksByINodeIds(int[] inodeIds) throws StorageException;
+  List<T> findInvalidatedBlocksByINodeIds(long[] inodeIds) throws StorageException;
   
   List<T> findAllInvalidatedBlocks() throws StorageException;
 
-  List<T> findInvalidatedBlocksbyPKS(long[] blockIds, int[] inodesIds, int[] storageIds) throws StorageException;
+  List<T> findInvalidatedBlocksbyPKS(long[] blockIds, long[] inodesIds, int[] storageIds) throws StorageException;
 
-  T findInvBlockByPkey(long blockId, int sid, int inodeId) throws StorageException;
+  T findInvBlockByPkey(long blockId, int sid, long inodeId) throws StorageException;
 
   void prepare(Collection<T> removed, Collection<T> newed, Collection<T> modified) throws StorageException;
 

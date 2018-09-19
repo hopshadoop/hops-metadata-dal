@@ -18,9 +18,9 @@ package io.hops.metadata.hdfs.entity;
 public class BlockLookUp implements Comparable<BlockLookUp> {
 
   private long block_id;
-  private int inode_id;
+  private long inode_id;
 
-  public BlockLookUp(long block_id, int inode_id) {
+  public BlockLookUp(long block_id, long inode_id) {
     this.block_id = block_id;
     this.inode_id = inode_id;
   }
@@ -29,7 +29,7 @@ public class BlockLookUp implements Comparable<BlockLookUp> {
     return block_id;
   }
 
-  public int getInodeId() {
+  public long getInodeId() {
     return inode_id;
   }
 
@@ -60,7 +60,7 @@ public class BlockLookUp implements Comparable<BlockLookUp> {
   @Override
   public int hashCode() {
     int hash = 7;
-    hash = 59 * hash + this.inode_id;
+    hash = 59 * hash + Long.hashCode(this.inode_id);
     hash = 59 * hash + (int) (this.block_id ^ (this.block_id >>> 32));
     return hash;
   }

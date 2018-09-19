@@ -32,21 +32,21 @@ package io.hops.metadata.hdfs.entity;
 
 public class INodeIdentifier {
 
-  Integer inodeID;
-  Integer pid;
+  Long inodeID;
+  Long pid;
   String  name;
-  Integer partitionId;
+  Long partitionId;
   Short   depth;
 
   public INodeIdentifier() {
-    this(-1, null, null, null);
+    this(-1L, null, null, null);
   }
   
-  public INodeIdentifier(Integer inodeID) {
+  public INodeIdentifier(Long inodeID) {
     this(inodeID, null, null, null);
   }
 
-  public INodeIdentifier(Integer inodeID, Integer parentId, String name, Integer partitionId) {
+  public INodeIdentifier(Long inodeID, Long parentId, String name, Long partitionId) {
     this.inodeID = inodeID;
     this.pid = parentId;
     this.name = name;
@@ -62,11 +62,11 @@ public class INodeIdentifier {
     this.depth = depth;
   }
 
-  public Integer getInodeId() {
+  public Long getInodeId() {
     return inodeID;
   }
 
-  public Integer getPid() {
+  public Long getPid() {
     return pid;
   }
 
@@ -74,7 +74,7 @@ public class INodeIdentifier {
     return name;
   }
 
-  public void setPid(Integer pid) {
+  public void setPid(Long pid) {
     this.pid = pid;
   }
 
@@ -82,11 +82,11 @@ public class INodeIdentifier {
     this.name = name;
   }
 
-  public void setPartitionId(Integer partitionId){
+  public void setPartitionId(Long partitionId){
     this.partitionId = partitionId;
   }
 
-  public Integer getPartitionId(){
+  public Long getPartitionId(){
     return partitionId;
   }
 

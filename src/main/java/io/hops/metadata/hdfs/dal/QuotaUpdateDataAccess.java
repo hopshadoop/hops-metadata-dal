@@ -29,7 +29,7 @@ public interface QuotaUpdateDataAccess<T> extends EntityDataAccess {
 
   public List<QuotaUpdate> findLimited(int limit) throws StorageException;
 
-  public List<QuotaUpdate> findByInodeId(int inodeId) throws StorageException;
+  public List<QuotaUpdate> findByInodeId(long inodeId) throws StorageException;
 
   public int getCount() throws StorageException;
 }
