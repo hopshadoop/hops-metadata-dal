@@ -46,7 +46,7 @@ public abstract class Variable {
     YarnLeParams,
     MisReplicatedFilesIndex,
     SafeModeReached,
-    BrLbMaxBlkPerTW,
+    BrLbMaxConcurrentBRs,
     RMStateStoreVersion,
     RMStateStoreEpoch,
     AMRMToken,
@@ -157,7 +157,7 @@ public abstract class Variable {
         return new LongVariable(varType);
       case SafeModeReached:
         return new LongVariable(varType);
-      case BrLbMaxBlkPerTW:
+      case BrLbMaxConcurrentBRs:
         return new LongVariable(varType);
       case RMStateStoreVersion:
         return new ByteArrayVariable(varType);
