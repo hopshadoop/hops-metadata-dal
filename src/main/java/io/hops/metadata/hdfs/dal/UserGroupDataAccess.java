@@ -27,4 +27,5 @@ public interface UserGroupDataAccess<U,G> extends EntityDataAccess{
       StorageException;
   List<G> getGroupsForUser(U user) throws StorageException;
   List<G> getGroupsForUser(int userId) throws StorageException;
+  void removeUserFromGroup(int userId, int groupId) throws StorageException;
 }
