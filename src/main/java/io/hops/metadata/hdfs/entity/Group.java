@@ -31,4 +31,12 @@ public final class Group {
   public String getName() {
     return name;
   }
+  
+  @Override
+  public String toString() {
+    return "Group{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        '}';
+  }
 }
