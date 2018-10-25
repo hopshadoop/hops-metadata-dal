@@ -61,8 +61,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       EntityManager.preventStorageCall(false);
       try {
         setNDC(info);
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("Pretransaction phase started");
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("Pretransaction phase started");
         }
         preTransactionSetup();
         //sometimes in setup we call light weight request handler that messes up with the NDC
@@ -70,13 +70,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         setNDC(info);
         setupTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("Pretransaction phase finished. Time " + setupTime + " ms");
         }
         setRandomPartitioningKey();
         EntityManager.begin();
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("TX Started");
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("TX Started");
         }
         beginTxTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -88,8 +88,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(requestHandlerLOG.isDebugEnabled()){
-          requestHandlerLOG.debug("All Locks Acquired. Time " + acquireLockTime + " ms");
+        if(requestHandlerLOG.isTraceEnabled()){
+          requestHandlerLOG.trace("All Locks Acquired. Time " + acquireLockTime + " ms");
         }
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
@@ -106,8 +106,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
         inMemoryProcessingTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("In Memory Processing Finished. Time " + inMemoryProcessingTime + " ms");
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("In Memory Processing Finished. Time " + inMemoryProcessingTime + " ms");
         }
 
         TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
@@ -121,13 +121,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           stat.setTimes(acquireLockTime, inMemoryProcessingTime, commitTime);
         }
 
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("TX committed. Time " + commitTime + " ms");
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("TX committed. Time " + commitTime + " ms");
         }
         totalTime = (System.currentTimeMillis() - txStartTime);
-        if(requestHandlerLOG.isDebugEnabled()) {
+        if(requestHandlerLOG.isTraceEnabled()) {
           String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
-          requestHandlerLOG.debug(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
+          requestHandlerLOG.trace(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
                   " Stepup: " + setupTime + " ms, Begin Tx:" +
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
                   "ms, In Memory Processing: " + inMemoryProcessingTime +

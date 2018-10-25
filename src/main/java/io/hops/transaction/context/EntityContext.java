@@ -155,13 +155,13 @@ public abstract class EntityContext<T> {
     throw new UnsupportedOperationException("Please Implement Me");
   }
 
-  protected boolean isLogDebugEnabled(){
-    return LOG.isDebugEnabled();
+  protected boolean isLogTraceEnabled(){
+    return LOG.isTraceEnabled();
   }
 
   private static void log(String opName, CacheHitState state,
       Object... params) {
-    if (!LOG.isDebugEnabled()) {
+    if (!LOG.isTraceEnabled()) {
       return;
     }
     StringBuilder message = new StringBuilder();
@@ -192,7 +192,7 @@ public abstract class EntityContext<T> {
         message.append("=").append(params[i + 1]);
       }
     }
-    LOG.debug(message.toString());
+    LOG.trace(message.toString());
   }
 
   protected void logError(String msg) {
