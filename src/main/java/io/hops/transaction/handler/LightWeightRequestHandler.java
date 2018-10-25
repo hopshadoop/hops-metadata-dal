@@ -57,8 +57,8 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         Object ret = performTask();
         commited = true;
         totalTime = System.currentTimeMillis() - totalTime;
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug(opType+" TX Finished. Total time taken. Time " +
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace(opType+" TX Finished. Total time taken. Time " +
               totalTime + " ms");
         }
         return ret;
@@ -70,8 +70,8 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
       } finally {
         if (!commited && connector.isTransactionActive() && doRetry) {
-          if (requestHandlerLOG.isDebugEnabled()) {
-            requestHandlerLOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
+          if (requestHandlerLOG.isTraceEnabled()) {
+            requestHandlerLOG.trace("Transaction rollback. retries:" + RETRY_COUNT);
           }
           connector.rollback();
         }

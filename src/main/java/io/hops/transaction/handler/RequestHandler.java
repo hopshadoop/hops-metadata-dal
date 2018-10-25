@@ -81,8 +81,8 @@ public abstract class RequestHandler {
   protected long exponentialBackoff() {
     try {
       if (waitTime > 0) {
-        if(requestHandlerLOG.isDebugEnabled()) {
-          requestHandlerLOG.debug("TX is being retried. Waiting for " + waitTime +
+        if(requestHandlerLOG.isTraceEnabled()) {
+          requestHandlerLOG.trace("TX is being retried. Waiting for " + waitTime +
                   " ms before retry. TX name " + opType);
         }
         Thread.sleep(waitTime);
