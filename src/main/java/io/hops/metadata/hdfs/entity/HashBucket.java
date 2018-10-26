@@ -25,7 +25,8 @@ import io.hops.transaction.EntityManager;
 public class HashBucket {
 
   public enum Finder implements FinderType<HashBucket> {
-    ByStorageIdAndBucketId;
+    ByStorageIdAndBucketId,
+    ByStorageId;
   
     @Override
     public Class getType() {
@@ -37,6 +38,8 @@ public class HashBucket {
       switch (this){
         case ByStorageIdAndBucketId:
           return Annotation.PrimaryKey;
+        case ByStorageId:
+          return Annotation.IndexScan;
         default:
           throw new IllegalStateException();
       }
