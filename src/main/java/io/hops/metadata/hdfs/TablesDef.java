@@ -46,7 +46,6 @@ public class TablesDef {
     String PERMISSION = "permission";
     String CLIENT_NAME = "client_name";
     String CLIENT_MACHINE = "client_machine";
-    String CLIENT_NODE = "client_node";
     String GENERATION_STAMP = "generation_stamp";
     String HEADER = "header";
     String SYMLINK = "symlink";

@@ -27,7 +27,6 @@ public class INode extends INodeBase implements Comparable<INode> {
   private long accessTime;
   private String clientName;
   private String clientMachine;
-  private String clientNode;
   private int generationStamp;
   private String symlink;
   private boolean metaEnabled;
@@ -50,7 +49,7 @@ public class INode extends INodeBase implements Comparable<INode> {
       long modificationTime, long accessTime, int userID, int
       groupID, short permission, boolean underConstruction, String clientName,
       String clientMachine,
-      String clientNode, int generationStamp, long header, String symlink,
+      int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
       long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy, int childrenNum, int numAces) {
 
@@ -62,7 +61,6 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.accessTime = accessTime;
     this.clientName = clientName;
     this.clientMachine = clientMachine;
-    this.clientNode = clientNode;
     this.generationStamp = generationStamp;
     this.symlink = symlink;
     this.metaEnabled = metaEnabled;
@@ -100,14 +98,6 @@ public class INode extends INodeBase implements Comparable<INode> {
 
   public void setClientMachine(String clientMachine) {
     this.clientMachine = clientMachine;
-  }
-
-  public String getClientNode() {
-    return clientNode;
-  }
-
-  public void setClientNode(String clientNode) {
-    this.clientNode = clientNode;
   }
 
   public int getGenerationStamp() {
