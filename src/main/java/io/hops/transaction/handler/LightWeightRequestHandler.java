@@ -57,21 +57,21 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         Object ret = performTask();
         commited = true;
         totalTime = System.currentTimeMillis() - totalTime;
-        if(LOG.isDebugEnabled()) {
-          LOG.debug(opType+" TX Finished. Total time taken. Time " +
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug(opType+" TX Finished. Total time taken. Time " +
               totalTime + " ms");
         }
         return ret;
       } catch (Throwable t) {
-        LOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
+        requestHandlerLOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
             - tryCount) + ") TX Stats: ms, Total Time: " + totalTime + "ms", t);
         if (!(t instanceof TransientStorageException) || tryCount > RETRY_COUNT || !doRetry) {
           throw t;
         }
       } finally {
         if (!commited && connector.isTransactionActive() && doRetry) {
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
+          if (requestHandlerLOG.isDebugEnabled()) {
+            requestHandlerLOG.debug("Transaction rollback. retries:" + RETRY_COUNT);
           }
           connector.rollback();
         }
