@@ -61,8 +61,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       EntityManager.preventStorageCall(false);
       try {
         setNDC(info);
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Pretransaction phase started");
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("Pretransaction phase started");
         }
         preTransactionSetup();
         //sometimes in setup we call light weight request handler that messes up with the NDC
@@ -70,13 +70,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         setNDC(info);
         setupTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("Pretransaction phase finished. Time " + setupTime + " ms");
         }
         setRandomPartitioningKey();
         EntityManager.begin();
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("TX Started");
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("TX Started");
         }
         beginTxTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
@@ -88,8 +88,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
         acquireLockTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(LOG.isDebugEnabled()){
-          LOG.debug("All Locks Acquired. Time " + acquireLockTime + " ms");
+        if(requestHandlerLOG.isDebugEnabled()){
+          requestHandlerLOG.debug("All Locks Acquired. Time " + acquireLockTime + " ms");
         }
         //sometimes in setup we call light weight request handler that messes up with the NDC
         removeNDC();
@@ -106,8 +106,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
         inMemoryProcessingTime = (System.currentTimeMillis() - oldTime);
         oldTime = System.currentTimeMillis();
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("In Memory Processing Finished. Time " + inMemoryProcessingTime + " ms");
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("In Memory Processing Finished. Time " + inMemoryProcessingTime + " ms");
         }
 
         TransactionsStats.TransactionStat stat = TransactionsStats.getInstance()
@@ -121,13 +121,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           stat.setTimes(acquireLockTime, inMemoryProcessingTime, commitTime);
         }
 
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("TX committed. Time " + commitTime + " ms");
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("TX committed. Time " + commitTime + " ms");
         }
         totalTime = (System.currentTimeMillis() - txStartTime);
-        if(LOG.isDebugEnabled()) {
+        if(requestHandlerLOG.isDebugEnabled()) {
           String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
-          LOG.debug(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
+          requestHandlerLOG.debug(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
                   " Stepup: " + setupTime + " ms, Begin Tx:" +
                   beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
                   "ms, In Memory Processing: " + inMemoryProcessingTime +
@@ -144,7 +144,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       } catch (Throwable t) {
         String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
         if (!(opName.equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException)) {
-          LOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
+          requestHandlerLOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
               + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
               + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
               + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
@@ -157,10 +157,10 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         removeNDC();
         if (!committed && locksAcquirer!=null) {
           try {
-            LOG.error("Rollback the TX");
+            requestHandlerLOG.error("Rollback the TX");
             EntityManager.rollback(locksAcquirer.getLocks());
           } catch (Exception e) {
-            LOG.warn("Could not rollback transaction", e);
+            requestHandlerLOG.warn("Could not rollback transaction", e);
           }
         }
         //make sure that the context has been removed

@@ -29,7 +29,7 @@ public abstract class RequestHandler {
   public interface OperationType {
   }
 
-  protected static Log LOG = LogFactory.getLog(RequestHandler.class);
+  protected static Log requestHandlerLOG = LogFactory.getLog(RequestHandler.class);
   protected Object[] params = null;
   // TODO These should be in a config file
   protected static int RETRY_COUNT = 5;
@@ -44,12 +44,12 @@ public abstract class RequestHandler {
 
   public static void setRetryCount(final int retryCount){
     RETRY_COUNT = retryCount;
-    LOG.info("Transaction Retry Count is: "+RETRY_COUNT);
+    requestHandlerLOG.info("Transaction Retry Count is: "+RETRY_COUNT);
   }
 
   public static void setRetryBaseWaitTime(final int baseWaitTime){
     BASE_WAIT_TIME = baseWaitTime;
-    LOG.info("Trasaction wait time before retry is: "+BASE_WAIT_TIME);
+    requestHandlerLOG.info("Trasaction wait time before retry is: "+BASE_WAIT_TIME);
   }
 
   public RequestHandler(OperationType opType) {
@@ -81,8 +81,8 @@ public abstract class RequestHandler {
   protected long exponentialBackoff() {
     try {
       if (waitTime > 0) {
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("TX is being retried. Waiting for " + waitTime +
+        if(requestHandlerLOG.isDebugEnabled()) {
+          requestHandlerLOG.debug("TX is being retried. Waiting for " + waitTime +
                   " ms before retry. TX name " + opType);
         }
         Thread.sleep(waitTime);
@@ -94,7 +94,7 @@ public abstract class RequestHandler {
       }
       return waitTime;
     } catch (InterruptedException ex) {
-      LOG.warn(ex);
+      requestHandlerLOG.warn(ex);
     }
     return 0;
   }

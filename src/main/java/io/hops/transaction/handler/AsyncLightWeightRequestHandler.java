@@ -19,7 +19,7 @@ public abstract class AsyncLightWeightRequestHandler extends LightWeightRequestH
                         try {
                             AsyncLightWeightRequestHandler.super.handle();
                         } catch (IOException ex) {
-                            LOG.error(ex, ex);
+                            requestHandlerLOG.error(ex, ex);
                         }
                     }
                 });
