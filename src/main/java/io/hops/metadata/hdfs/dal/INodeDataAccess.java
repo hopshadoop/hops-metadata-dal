@@ -78,4 +78,6 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
   void updateLogicalTime(Collection<MetadataLogEntry> logEntries) throws StorageException;
 
   int countSubtreeLockedInodes() throws StorageException; // only for testing
+  
+  public long getMaxId() throws StorageException;
 }
