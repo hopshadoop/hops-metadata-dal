@@ -15,6 +15,7 @@
  */
 package io.hops;
 
+import io.hops.exception.StorageException;
 import io.hops.exception.StorageInitializtionException;
 import io.hops.metadata.common.EntityDataAccess;
 
@@ -28,4 +29,7 @@ public interface DalStorageFactory {
   public StorageConnector getConnector();
 
   public EntityDataAccess getDataAccess(Class type);
+  
+  public boolean hasResources(double threshold) throws StorageException;
+  
 }
