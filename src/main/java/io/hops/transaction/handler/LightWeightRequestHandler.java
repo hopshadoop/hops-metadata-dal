@@ -17,7 +17,6 @@ package io.hops.transaction.handler;
 
 import io.hops.exception.TransientStorageException;
 import io.hops.log.NDCWrapper;
-import io.hops.transaction.context.EntityContext;
 
 import java.io.IOException;
 
@@ -63,7 +62,9 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
         return ret;
       } catch (Throwable t) {
-        requestHandlerLOG.error("Tx Failed. total tx time " + " TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
+        String msgPrepend = !NDCWrapper.NDCEnabled() ? opType + " " : "";
+        requestHandlerLOG.error(msgPrepend+"Tx Failed. total tx time " + " TotalRetryCount("
+                + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
             - tryCount) + ") TX Stats: ms, Total Time: " + totalTime + "ms", t);
         if (!(t instanceof TransientStorageException) || tryCount > RETRY_COUNT || !newTransaction) {
           throw t;
@@ -75,11 +76,15 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           }
           connector.rollback();
         }
+
         if(newTransaction){
           connector.returnSession(false);
         }
+
         NDCWrapper.pop();
-        NDCWrapper.remove();
+        if (NDCWrapper.peek() == "") {
+          NDCWrapper.remove();
+        }
       }
     }
 
