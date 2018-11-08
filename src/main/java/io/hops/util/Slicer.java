@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 public class Slicer {
@@ -30,7 +30,8 @@ public class Slicer {
     public void handle(int startIndex, int endIndex) throws Exception;
   }
 
-  public static void slice(final int total, final int sliceSize, final int nbThreads, OperationHandler op) throws
+  public static void slice(final int total, final int sliceSize, final int nbThreads, ExecutorService executor,
+      OperationHandler op) throws
       Exception {
     if (total == 0) {
       return;
@@ -42,23 +43,20 @@ public class Slicer {
       numOfSlices = (int) Math.ceil(((double) total) / sliceSize);
     }
 
-    ExecutorService executor = Executors.newFixedThreadPool(nbThreads);
+    Semaphore semaphore = new Semaphore(nbThreads);
+    
     List<Future<Object>> futures = new ArrayList<>();
     
     for (int slice = 0; slice < numOfSlices; slice++) {
       int startIndex = slice * sliceSize;
       int endIndex = Math.min((slice + 1) * sliceSize, total);
-      futures.add(executor.submit(new SliceRunner(op, startIndex, endIndex)));
+      semaphore.acquire();
+      futures.add(executor.submit(new SliceRunner(op, startIndex, endIndex, semaphore)));
     }
 
     for(Future<Object> futur: futures){
       futur.get();
     }
-    
-    executor.shutdown();
-
-    executor.awaitTermination(10, TimeUnit.SECONDS);
-
   }
 
   private static class SliceRunner implements Callable<Object> {
@@ -66,17 +64,23 @@ public class Slicer {
     final OperationHandler op;
     final int startIndex;
     final int endIndex;
-
-    public SliceRunner(OperationHandler op, int startIndex, int endIndex) {
+    final Semaphore semaphore;
+    
+    public SliceRunner(OperationHandler op, int startIndex, int endIndex, Semaphore semaphore) {
       this.op = op;
       this.startIndex = startIndex;
       this.endIndex = endIndex;
+      this.semaphore = semaphore;
     }
 
     @Override
     public Object call() throws Exception{
-      op.handle(startIndex, endIndex);
-      return null;
+      try {
+        op.handle(startIndex, endIndex);
+        return null;
+      }finally{
+        semaphore.release();
+      }
     }
   }
 }
