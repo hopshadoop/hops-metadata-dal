@@ -67,4 +67,6 @@ public interface StorageConnector<T> {
    public String getClusterConnectString();
 
   public String getDatabaseName();
+  
+  public void returnSession(boolean error) throws StorageException;
 }
