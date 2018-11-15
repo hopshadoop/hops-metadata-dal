@@ -18,6 +18,7 @@ package io.hops.metadata.hdfs.entity;
 import io.hops.metadata.common.FinderType;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * This class holds the information of one replica of a block in one datanode.
@@ -78,5 +79,31 @@ public class Replica extends ReplicaBase {
   public Replica(int storageId, long blockId, long inodeId, int bucketId) {
     super(storageId, blockId, inodeId);
     this.bucketId = bucketId;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(storageId,inodeId,blockId,bucketId);
+  }
+
+  @Override
+  public int compareTo(ReplicaBase t) {
+    if (t == null) {
+      return 1;
+    }
+
+    int compVal = super.compareTo(t);
+    if(compVal != 0){
+      return compVal;
+    }
+
+    if ( t instanceof  Replica){
+      compVal = new Integer(bucketId).compareTo(((Replica)t).bucketId);
+      if(compVal != 0){
+        return  compVal;
+      }
+    }
+
+    return 0;
   }
 }
