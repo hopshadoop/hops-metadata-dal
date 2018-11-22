@@ -15,7 +15,7 @@
  */
 package io.hops.exception;
 
-public class OutOfDBExtentsException extends TransientStorageException{
+public class OutOfDBExtentsException extends StorageException{
   public OutOfDBExtentsException() {
   }
 
