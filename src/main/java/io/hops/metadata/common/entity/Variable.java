@@ -61,13 +61,15 @@ public abstract class Variable {
     Seed,
     StorageMap,  // TODO do we need this?
     CacheDirectiveID,
-    NeedRescan,
+    neededScanCount,
     RollingUpgradeInfo,
     SafeModeInfo,
     GenericDouble,
     BlockTotal,
     BlockThreshold,
-    BlockReplicationQueueThreshold;
+    BlockReplicationQueueThreshold,
+    completedScanCount,
+    curScanCount;
 
     public int getId() {
       return this.ordinal();
@@ -173,7 +175,11 @@ public abstract class Variable {
         return new ByteArrayVariable(varType);
       case CacheDirectiveID:
         return new LongVariable(varType);
-      case NeedRescan:
+      case neededScanCount:
+        return new IntVariable(varType);
+      case completedScanCount:
+        return new IntVariable(varType);
+      case curScanCount:
         return new IntVariable(varType);
       case RollingUpgradeInfo:
         return new ByteArrayVariable(varType);
