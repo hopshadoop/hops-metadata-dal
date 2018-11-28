@@ -82,7 +82,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
 
         NDCWrapper.pop();
-        if (NDCWrapper.peek() == "") {
+        if (NDCWrapper.peek().equals("")) {
           NDCWrapper.remove();
         }
       }
