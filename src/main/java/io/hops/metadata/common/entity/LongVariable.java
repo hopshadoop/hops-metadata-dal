@@ -42,6 +42,11 @@ public class LongVariable extends Variable {
   @Override
   public void setValue(byte[] val) {
     if (val.length != getLength()) {
+      //it sometime (updates) happen that we want to convert a int to a long
+      if(val.length == 4){
+        ByteBuffer buf = ByteBuffer.wrap(val);
+        value = new Long(buf.getInt());
+      }
       return;
     }
     ByteBuffer buf = ByteBuffer.wrap(val);
