@@ -45,4 +45,6 @@ public interface UnderReplicatedBlockDataAccess<T> extends EntityDataAccess {
   int countByLevel(int level) throws StorageException;
 
   int countLessThanALevel(int level) throws StorageException;
+  
+  int countReplOneBlocks(int level) throws StorageException;
 }

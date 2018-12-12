@@ -272,6 +272,7 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String LEVEL = "level";
     String TIMESTAMP = "timestamp";
+    String EXPECTEDREPLICAS = "expected_replicas";
   }
 
   public interface VariableTableDef {
