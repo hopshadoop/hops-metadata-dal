@@ -44,12 +44,12 @@ public abstract class RequestHandler {
 
   public static void setRetryCount(final int retryCount){
     RETRY_COUNT = retryCount;
-    requestHandlerLOG.info("Transaction Retry Count is: "+RETRY_COUNT);
+    requestHandlerLOG.debug("Transaction Retry Count is: "+RETRY_COUNT);
   }
 
   public static void setRetryBaseWaitTime(final int baseWaitTime){
     BASE_WAIT_TIME = baseWaitTime;
-    requestHandlerLOG.info("Trasaction wait time before retry is: "+BASE_WAIT_TIME);
+    requestHandlerLOG.debug("Trasaction wait time before retry is: "+BASE_WAIT_TIME);
   }
 
   public RequestHandler(OperationType opType) {
