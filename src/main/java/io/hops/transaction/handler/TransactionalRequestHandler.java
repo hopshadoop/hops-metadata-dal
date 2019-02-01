@@ -143,7 +143,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         return txRetValue;
       } catch (Throwable t) {
         String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
-        if (!(opName.equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException)) {
+        if (!(opType.toString().equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException)) {
           requestHandlerLOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
               + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
               + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
