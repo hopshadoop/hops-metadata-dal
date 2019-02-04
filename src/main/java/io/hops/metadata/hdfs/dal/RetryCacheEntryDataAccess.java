@@ -27,4 +27,6 @@ public interface RetryCacheEntryDataAccess extends EntityDataAccess {
   void prepare(Collection<RetryCacheEntry> removed, Collection<RetryCacheEntry> modified) throws StorageException;
   
   void removeOlds(long time) throws StorageException;
+  
+  void removeAll() throws StorageException;
 }
