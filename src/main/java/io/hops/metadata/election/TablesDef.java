@@ -22,6 +22,7 @@ public class TablesDef {
     public static final String RPC_ADDRESSES = "rpc_addresses";
     public static final String HTTP_ADDRESS = "http_address";
     public static final String PARTITION_VAL = "partition_val";
+    public static final String LOCATION_DOMAIN_ID = "location_domain_id";
   }
 
   public static interface HdfsLeaderTableDef extends LeDescriptorTableDef {

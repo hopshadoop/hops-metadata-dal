@@ -40,12 +40,14 @@ public abstract class LeDescriptor
   }
 
   public static final int DEFAULT_PARTITION_VALUE = 0;
+  public static final byte DEFAULT_LOCATION_DOMAIN_ID = 0;
   private long id;
   private long counter;
   private String rpcAddresses;
   private String httpAddress;
   private final int partitionVal = 0;
-
+  private byte locationDomainId;
+  
   protected LeDescriptor() {
   }
 
@@ -54,16 +56,18 @@ public abstract class LeDescriptor
     this.counter = descriptor.counter;
     this.rpcAddresses = descriptor.rpcAddresses;
     this.httpAddress = descriptor.httpAddress;
+    this.locationDomainId = descriptor.locationDomainId;
   }
-
+  
   protected LeDescriptor(long id, long counter, String rpcAddresses,
-      String httpAddress) {
+      String httpAddress, byte locationDomainId) {
     this.id = id;
     this.counter = counter;
     this.rpcAddresses = rpcAddresses;
     this.httpAddress = httpAddress;
+    this.locationDomainId = locationDomainId;
   }
-
+  
   public long getId() {
     return id;
   }
@@ -99,7 +103,15 @@ public abstract class LeDescriptor
   public int getPartitionVal() {
     return partitionVal;
   }
-
+  
+  public byte getLocationDomainId() {
+    return locationDomainId;
+  }
+  
+  public void setLocationDomainId(byte locationDomainId) {
+    this.locationDomainId = locationDomainId;
+  }
+  
   @Override
   public int compareTo(LeDescriptor l) {
 
@@ -172,8 +184,8 @@ public abstract class LeDescriptor
     }
 
     public YarnLeDescriptor(long id, long counter, String hostName,
-        String httpAddress) {
-      super(id, counter, hostName, httpAddress);
+        String httpAddress, byte locationDomainId) {
+      super(id, counter, hostName, httpAddress, locationDomainId);
     }
   }
 
@@ -203,8 +215,8 @@ public abstract class LeDescriptor
     }
 
     public HdfsLeDescriptor(long id, long counter, String rpcAddresses,
-        String httpAddress) {
-      super(id, counter,  rpcAddresses, httpAddress);
+        String httpAddress, byte locationDomainId) {
+      super(id, counter,  rpcAddresses, httpAddress, locationDomainId);
     }
   }
 
