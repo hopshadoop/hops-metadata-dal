@@ -29,6 +29,6 @@ public abstract class LeDescriptorFactory {
   public abstract LeDescriptor cloneDescriptor(LeDescriptor desc);
   
   public abstract LeDescriptor getNewDescriptor(long id, long counter,
-      String hostName, String httpAddress);
+      String hostName, String httpAddress, byte locationDomainId);
   
 }
