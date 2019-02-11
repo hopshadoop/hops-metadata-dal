@@ -28,6 +28,8 @@ public interface ActiveBlockReportsDataAccess<T> extends EntityDataAccess{
   void addActiveReport(ActiveBlockReport abr) throws StorageException;
 
   void removeActiveReport(ActiveBlockReport abr) throws StorageException;
+  
+  ActiveBlockReport getActiveBlockReport(ActiveBlockReport abr) throws StorageException;
 
   List<T> getAll() throws StorageException;
 }
