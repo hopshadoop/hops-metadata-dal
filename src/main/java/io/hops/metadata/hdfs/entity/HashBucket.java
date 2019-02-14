@@ -48,9 +48,9 @@ public class HashBucket {
   
   private int storageId;
   private int bucketId;
-  private long hash;
+  private byte[] hash;
   
-  public HashBucket(int storageId, int bucketId, long hash) {
+  public HashBucket(int storageId, int bucketId, byte[] hash) {
     this.storageId = storageId;
     this.bucketId = bucketId;
     this.hash = hash;
@@ -64,11 +64,11 @@ public class HashBucket {
     return storageId;
   }
   
-  public long getHash() {
+  public byte[] getHash() {
     return hash;
   }
   
-  public void setHash(long hash)
+  public void setHash(byte[] hash)
       throws TransactionContextException, StorageException {
     this.hash = hash;
     EntityManager.update(this);
@@ -111,10 +111,14 @@ public class HashBucket {
 
   @Override
   public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (byte b : hash) {
+        sb.append(String.format("%02X ", b));
+    }
     return "HashBucket{" +
             "storageId=" + storageId +
             ", bucketId=" + bucketId +
-            ", hash=" + hash +
+            ", hash=" +  sb.toString() +
             '}';
   }
 }
