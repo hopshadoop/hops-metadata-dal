@@ -228,7 +228,7 @@ public class TablesDef {
     String STORAGE_ID = "storage_id";
     String INODE_ID = "inode_id";
     String REPLICA_INDEX = "replica_index";
-    String HASH_BUCKET = "bucket_id";
+    String BUCKET_ID = "bucket_id";
   }
 
   public interface QuotaUpdateTableDef {
