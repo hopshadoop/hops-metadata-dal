@@ -22,7 +22,7 @@ public class QuotaUpdate {
   private long inodeId;
   private long namespaceDelta;
   private long diskspaceDelta;
-
+  
   public static enum Finder implements FinderType<QuotaUpdate> {
     ByINodeId;
 

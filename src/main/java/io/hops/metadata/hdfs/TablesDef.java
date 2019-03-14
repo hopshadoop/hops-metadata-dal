@@ -156,6 +156,8 @@ public class TablesDef {
     String TIME_STAMP = "time_stamp";
     String PRIMARY_NODE_INDEX = "primary_node_index";
     String BLOCK_RECOVERY_ID = "block_recovery_id";
+    String TRUNCATE_BLOCK_NUM_BYTES = "truncate_block_num_bytes";
+    String TRUNCATE_BLOCK_GENERATION_STAMP = "truncate_block_generation_stamp";
   }
 
   public interface EncodingStatusTableDef {

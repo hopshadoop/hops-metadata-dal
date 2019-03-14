@@ -26,6 +26,8 @@ public class BlockInfo {
   private long timeStamp;
   private int primaryNodeIndex;
   private long blockRecoveryId;
+  private long truncateBlockNumBytes = -1;
+  private long truncateBlockGenerationStamp = -1;
 
   public BlockInfo(long blockId, int blockIndex, long inodeId, long numBytes,
       long generationStamp, int blockUnderConstructionState, long timeStamp) {
@@ -40,11 +42,14 @@ public class BlockInfo {
 
   public BlockInfo(long blockId, int blockIndex, long inodeId, long numBytes,
       long generationStamp, int blockUnderConstructionState, long timeStamp,
-      int primaryNodeIndex, long blockRecoveryId) {
+      int primaryNodeIndex, long blockRecoveryId, long truncateBlockNumBytes,
+      long truncateBlockGenerationStamp) {
     this(blockId, blockIndex, inodeId, numBytes, generationStamp,
         blockUnderConstructionState, timeStamp);
     this.primaryNodeIndex = primaryNodeIndex;
     this.blockRecoveryId = blockRecoveryId;
+    this.truncateBlockGenerationStamp = truncateBlockGenerationStamp;
+    this.truncateBlockNumBytes = truncateBlockNumBytes;
   }
 
   public long getBlockId() {
@@ -118,5 +123,20 @@ public class BlockInfo {
   public void setBlockRecoveryId(long blockRecoveryId) {
     this.blockRecoveryId = blockRecoveryId;
   }
-  
+
+  public long getTruncateBlockNumBytes() {
+    return truncateBlockNumBytes;
+  }
+
+  public void setTruncateBlockNumBytes(long truncateBlockNumBytes) {
+    this.truncateBlockNumBytes = truncateBlockNumBytes;
+  }
+
+  public long getTruncateBlockGenerationStamp() {
+    return truncateBlockGenerationStamp;
+  }
+
+  public void setTruncateBlockGenerationStamp(long truncateBlockGenerationStamp) {
+    this.truncateBlockGenerationStamp = truncateBlockGenerationStamp;
+  }
 }
