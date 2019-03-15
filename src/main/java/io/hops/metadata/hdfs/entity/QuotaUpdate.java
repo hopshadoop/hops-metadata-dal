@@ -16,12 +16,21 @@
 package io.hops.metadata.hdfs.entity;
 
 import io.hops.metadata.common.FinderType;
+import java.util.Map;
 
 public class QuotaUpdate {
   private int id;
   private long inodeId;
   private long namespaceDelta;
   private long diskspaceDelta;
+  private Map<StorageType, Long> typeSpaces;
+  
+  public enum StorageType {
+    DISK,
+    SSD,
+    RAID5,
+    ARCHIVE;
+  }
   
   public static enum Finder implements FinderType<QuotaUpdate> {
     ByINodeId;
@@ -38,11 +47,12 @@ public class QuotaUpdate {
   }
 
   public QuotaUpdate(int id, long inodeId, long namespaceDelta,
-      long diskspaceDelta) {
+      long diskspaceDelta, Map<StorageType, Long> typeSpaces) {
     this.id = id;
     this.inodeId = inodeId;
     this.namespaceDelta = namespaceDelta;
     this.diskspaceDelta = diskspaceDelta;
+    this.typeSpaces = typeSpaces;
   }
 
   public int getId() {
@@ -75,6 +85,14 @@ public class QuotaUpdate {
 
   public void setDiskspaceDelta(long diskspaceDelta) {
     this.diskspaceDelta = diskspaceDelta;
+  }
+
+  public Map<StorageType, Long> getTypeSpaces() {
+    return typeSpaces;
+  }
+
+  public void setTypeSpaces(Map<StorageType, Long> typeSpaces) {
+    this.typeSpaces = typeSpaces;
   }
 
   @Override
