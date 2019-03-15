@@ -22,7 +22,7 @@ import io.hops.metadata.hdfs.entity.INodeCandidatePrimaryKey;
 import java.util.Collection;
 import java.util.List;
 
-public interface INodeAttributesDataAccess<T> extends EntityDataAccess {
+public interface DirectoryWithQuotaFeatureDataAccess<T> extends EntityDataAccess {
 
   T findAttributesByPk(Long inodeId) throws StorageException;
   

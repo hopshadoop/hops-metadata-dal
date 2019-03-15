@@ -123,14 +123,22 @@ public class TablesDef {
     String REASON = "reason";
   }
 
-  public interface INodeAttributesTableDef {
+  public interface DirectoryWithQuotaFeatureTableDef {
 
-    String TABLE_NAME = "hdfs_inode_attributes";
+    String TABLE_NAME = "hdfs_directory_with_quota_feature";
     String ID = "inodeId";
     String NSQUOTA = "nsquota";
     String DSQUOTA = "dsquota";
     String NSCOUNT = "nscount";
     String DISKSPACE = "diskspace";
+    String TYPESPACE_QUOTA_DISK = "typespace_quota_disk";
+    String TYPESPACE_QUOTA_SSD = "typespace_quota_ssd";
+    String TYPESPACE_QUOTA_RAID5 = "typespace_quota_raid5";
+    String TYPESPACE_QUOTA_ARCHIVE = "typespace_quota_archive";
+    String TYPESPACE_USED_DISK = "typespace_used_disk";
+    String TYPESPACE_USED_SSD = "typespace_used_ssd";
+    String TYPESPACE_USED_RAID5 = "typespace_used_raid5";
+    String TYPESPACE_USED_ARCHIVE = "typespace_used_archive";
   }
 
   public interface ExcessReplicaTableDef {
@@ -240,6 +248,11 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String NAMESPACE_DELTA = "namespace_delta";
     String DISKSPACE_DELTA = "diskspace_delta";
+    String TYPESPACE_DELTA_DISK = "typespace_delta_disk";
+    String TYPESPACE_DELTA_SSD = "typespace_delta_ssd";
+    String TYPESPACE_DELTA_RAID5 = "typespace_delta_raid5";
+    String TYPESPACE_DELTA_ARCHIVE = "typespace_delta_archive";
+    
   }
 
   public interface ReplicaUnderConstructionTableDef {

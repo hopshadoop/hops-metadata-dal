@@ -30,26 +30,33 @@
  */
 package io.hops.metadata.hdfs.entity;
 
+import java.util.Map;
+
 
 /**
  * right now it holds quota info. later we can add more
  * information like access time ( if we want to remove locks from the parent
  * dirs )
  */
-public class INodeAttributes implements Comparable<INodeAttributes> {
+public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaFeature> {
   private Long inodeId;
   private Long nsQuota; /// NameSpace quota
-  private Long nsCount;
+  private Long nsUsed;
   private Long dsQuota; /// disk space quota
-  private Long diskspace;
+  private Long dsUsed;
+  private Map<QuotaUpdate.StorageType, Long> typeQuota;
+  private Map<QuotaUpdate.StorageType, Long> typeUsed;
 
-  public INodeAttributes(Long inodeId, Long nsQuota, Long nsCount,
-      Long dsQuota, Long diskspace) {
+  public DirectoryWithQuotaFeature(Long inodeId, Long nsQuota, Long nsCount,
+      Long dsQuota, Long dsUsed, Map<QuotaUpdate.StorageType, Long> typeQuota,
+      Map<QuotaUpdate.StorageType, Long> typeUsed) {
     this.inodeId = inodeId;
     this.nsQuota = nsQuota;
-    this.nsCount = nsCount;
+    this.nsUsed = nsCount;
     this.dsQuota = dsQuota;
-    this.diskspace = diskspace;
+    this.dsUsed = dsUsed;
+    this.typeQuota = typeQuota;
+    this.typeUsed = typeUsed;
   }
 
   public Long getInodeId() {
@@ -60,16 +67,8 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
     return nsQuota;
   }
 
-  public Long getNsCount() {
-    return nsCount;
-  }
-
   public Long getDsQuota() {
     return dsQuota;
-  }
-
-  public Long getDiskspace() {
-    return diskspace;
   }
 
   public void setInodeId(Long inodeId) {
@@ -80,19 +79,43 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
     this.nsQuota = nsQuota;
   }
 
-  public void setNsCount(Long nsCount) {
-    this.nsCount = nsCount;
-  }
-
   public void setDsQuota(Long dsQuota) {
     this.dsQuota = dsQuota;
   }
 
-  public void setDiskspace(Long diskspace) {
-    this.diskspace = diskspace;
+  public Long getNsUsed() {
+    return nsUsed;
   }
 
-  public int compareTo(INodeAttributes o) {
+  public void setNsUsed(Long nsUsed) {
+    this.nsUsed = nsUsed;
+  }
+
+  public Long getDsUsed() {
+    return dsUsed;
+  }
+
+  public void setDsUsed(Long dsUsed) {
+    this.dsUsed = dsUsed;
+  }
+
+  public Map<QuotaUpdate.StorageType, Long> getTypeQuota() {
+    return typeQuota;
+  }
+
+  public void setTypeQuota(Map<QuotaUpdate.StorageType, Long> typeQuota) {
+    this.typeQuota = typeQuota;
+  }
+
+  public Map<QuotaUpdate.StorageType, Long> getTypeUsed() {
+    return typeUsed;
+  }
+
+  public void setTypeUsed(Map<QuotaUpdate.StorageType, Long> typeUsed) {
+    this.typeUsed = typeUsed;
+  }
+  
+  public int compareTo(DirectoryWithQuotaFeature o) {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
@@ -101,9 +124,9 @@ public class INodeAttributes implements Comparable<INodeAttributes> {
     return "HopINodeAttributes{" +
         "inodeId=" + inodeId +
         ", nsQuota=" + nsQuota +
-        ", nsCount=" + nsCount +
+        ", nsCount=" + nsUsed +
         ", dsQuota=" + dsQuota +
-        ", diskspace=" + diskspace +
+        ", diskspace=" + dsUsed +
         '}';
   }
 }

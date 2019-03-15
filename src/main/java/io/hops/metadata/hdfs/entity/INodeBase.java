@@ -34,7 +34,7 @@ public class INodeBase {
   protected long fileSize;
   protected boolean isDir;
   protected int logicalTime;
-  protected byte storagePolicy;
+  protected byte storagePolicyID;
   protected int numAces;
 
   public INodeBase(){}
@@ -42,7 +42,7 @@ public class INodeBase {
   public INodeBase(long id, long parentId, String name, long partitionId, boolean isDir, int userID,
       int groupID, short permission, long header, boolean dirWithQuota,
       boolean underConstruction, boolean subtreeLocked, long
-      subtreeLockOwner, long fileSize, int logicalTime, byte storagePolicy, int numAces) {
+      subtreeLockOwner, long fileSize, int logicalTime, byte storagePolicyID, int numAces) {
     this.id = id;
     this.parentId = parentId;
     this.isDir = isDir;
@@ -58,7 +58,7 @@ public class INodeBase {
     this.subtreeLockOwner = subtreeLockOwner;
     this.fileSize = fileSize;
     this.logicalTime = logicalTime;
-    this.storagePolicy = storagePolicy;
+    this.storagePolicyID = storagePolicyID;
     this.numAces = numAces;
   }
 
@@ -198,12 +198,12 @@ public class INodeBase {
     this.logicalTime = logicalTime;
   }
 
-  public byte getStoragePolicy() {
-    return storagePolicy;
+  public byte getStoragePolicyID() {
+    return storagePolicyID;
   }
 
-  public void setStoragePolicy(byte storagePolicy) {
-    this.storagePolicy = storagePolicy;
+  public void setStoragePolicyID(byte storagePolicy) {
+    this.storagePolicyID = storagePolicy;
   }
   
   public int getNumAces() {
