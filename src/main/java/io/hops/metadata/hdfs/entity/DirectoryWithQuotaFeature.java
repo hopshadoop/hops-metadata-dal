@@ -42,19 +42,19 @@ public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaF
   private Long inodeId;
   private Long nsQuota; /// NameSpace quota
   private Long nsUsed;
-  private Long dsQuota; /// disk space quota
-  private Long dsUsed;
+  private Long ssQuota; /// disk space quota
+  private Long ssUsed;
   private Map<QuotaUpdate.StorageType, Long> typeQuota;
   private Map<QuotaUpdate.StorageType, Long> typeUsed;
 
   public DirectoryWithQuotaFeature(Long inodeId, Long nsQuota, Long nsCount,
-      Long dsQuota, Long dsUsed, Map<QuotaUpdate.StorageType, Long> typeQuota,
+      Long ssQuota, Long ssUsed, Map<QuotaUpdate.StorageType, Long> typeQuota,
       Map<QuotaUpdate.StorageType, Long> typeUsed) {
     this.inodeId = inodeId;
     this.nsQuota = nsQuota;
     this.nsUsed = nsCount;
-    this.dsQuota = dsQuota;
-    this.dsUsed = dsUsed;
+    this.ssQuota = ssQuota;
+    this.ssUsed = ssUsed;
     this.typeQuota = typeQuota;
     this.typeUsed = typeUsed;
   }
@@ -67,8 +67,8 @@ public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaF
     return nsQuota;
   }
 
-  public Long getDsQuota() {
-    return dsQuota;
+  public Long getSSQuota() {
+    return ssQuota;
   }
 
   public void setInodeId(Long inodeId) {
@@ -79,8 +79,8 @@ public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaF
     this.nsQuota = nsQuota;
   }
 
-  public void setDsQuota(Long dsQuota) {
-    this.dsQuota = dsQuota;
+  public void setSSQuota(Long dsQuota) {
+    this.ssQuota = dsQuota;
   }
 
   public Long getNsUsed() {
@@ -91,12 +91,12 @@ public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaF
     this.nsUsed = nsUsed;
   }
 
-  public Long getDsUsed() {
-    return dsUsed;
+  public Long getSSUsed() {
+    return ssUsed;
   }
 
-  public void setDsUsed(Long dsUsed) {
-    this.dsUsed = dsUsed;
+  public void setSSUsed(Long dsUsed) {
+    this.ssUsed = dsUsed;
   }
 
   public Map<QuotaUpdate.StorageType, Long> getTypeQuota() {
@@ -125,8 +125,8 @@ public class DirectoryWithQuotaFeature implements Comparable<DirectoryWithQuotaF
         "inodeId=" + inodeId +
         ", nsQuota=" + nsQuota +
         ", nsCount=" + nsUsed +
-        ", dsQuota=" + dsQuota +
-        ", diskspace=" + dsUsed +
+        ", dsQuota=" + ssQuota +
+        ", diskspace=" + ssUsed +
         '}';
   }
 }

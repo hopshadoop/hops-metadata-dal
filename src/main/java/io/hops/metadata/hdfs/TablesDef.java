@@ -128,9 +128,9 @@ public class TablesDef {
     String TABLE_NAME = "hdfs_directory_with_quota_feature";
     String ID = "inodeId";
     String NSQUOTA = "nsquota";
-    String DSQUOTA = "dsquota";
+    String SSQUOTA = "ssquota";
     String NSCOUNT = "nscount";
-    String DISKSPACE = "diskspace";
+    String STORAGESPACE = "storage_space";
     String TYPESPACE_QUOTA_DISK = "typespace_quota_disk";
     String TYPESPACE_QUOTA_SSD = "typespace_quota_ssd";
     String TYPESPACE_QUOTA_RAID5 = "typespace_quota_raid5";
@@ -247,7 +247,7 @@ public class TablesDef {
     String ID = "id";
     String INODE_ID = "inode_id";
     String NAMESPACE_DELTA = "namespace_delta";
-    String DISKSPACE_DELTA = "diskspace_delta";
+    String STORAGE_SPACE_DELTA = "storage_space_delta";
     String TYPESPACE_DELTA_DISK = "typespace_delta_disk";
     String TYPESPACE_DELTA_SSD = "typespace_delta_ssd";
     String TYPESPACE_DELTA_RAID5 = "typespace_delta_raid5";

@@ -22,7 +22,7 @@ public class QuotaUpdate {
   private int id;
   private long inodeId;
   private long namespaceDelta;
-  private long diskspaceDelta;
+  private long storageSpaceDelta;
   private Map<StorageType, Long> typeSpaces;
   
   public enum StorageType {
@@ -51,7 +51,7 @@ public class QuotaUpdate {
     this.id = id;
     this.inodeId = inodeId;
     this.namespaceDelta = namespaceDelta;
-    this.diskspaceDelta = diskspaceDelta;
+    this.storageSpaceDelta = diskspaceDelta;
     this.typeSpaces = typeSpaces;
   }
 
@@ -79,12 +79,12 @@ public class QuotaUpdate {
     this.namespaceDelta = namespaceDelta;
   }
 
-  public long getDiskspaceDelta() {
-    return diskspaceDelta;
+  public long getStorageSpaceDelta() {
+    return storageSpaceDelta;
   }
 
-  public void setDiskspaceDelta(long diskspaceDelta) {
-    this.diskspaceDelta = diskspaceDelta;
+  public void setStorageSpaceDelta(long diskspaceDelta) {
+    this.storageSpaceDelta = diskspaceDelta;
   }
 
   public Map<StorageType, Long> getTypeSpaces() {
@@ -101,7 +101,7 @@ public class QuotaUpdate {
         "id=" + id +
         ", inodeId=" + inodeId +
         ", namespaceDelta=" + namespaceDelta +
-        ", diskspaceDelta=" + diskspaceDelta +
+        ", diskspaceDelta=" + storageSpaceDelta +
         '}';
   }
 }
