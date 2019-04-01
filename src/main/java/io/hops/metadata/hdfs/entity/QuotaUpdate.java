@@ -29,7 +29,8 @@ public class QuotaUpdate {
     DISK,
     SSD,
     RAID5,
-    ARCHIVE;
+    ARCHIVE,
+    DB;
   }
   
   public static enum Finder implements FinderType<QuotaUpdate> {

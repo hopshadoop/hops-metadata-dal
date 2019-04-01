@@ -136,10 +136,12 @@ public class TablesDef {
     String TYPESPACE_QUOTA_SSD = "typespace_quota_ssd";
     String TYPESPACE_QUOTA_RAID5 = "typespace_quota_raid5";
     String TYPESPACE_QUOTA_ARCHIVE = "typespace_quota_archive";
+    String TYPESPACE_QUOTA_DB = "typespace_quota_db";
     String TYPESPACE_USED_DISK = "typespace_used_disk";
     String TYPESPACE_USED_SSD = "typespace_used_ssd";
     String TYPESPACE_USED_RAID5 = "typespace_used_raid5";
     String TYPESPACE_USED_ARCHIVE = "typespace_used_archive";
+    String TYPESPACE_USED_DB = "typespace_used_db";
   }
 
   public interface ExcessReplicaTableDef {
@@ -253,7 +255,8 @@ public class TablesDef {
     String TYPESPACE_DELTA_SSD = "typespace_delta_ssd";
     String TYPESPACE_DELTA_RAID5 = "typespace_delta_raid5";
     String TYPESPACE_DELTA_ARCHIVE = "typespace_delta_archive";
-    
+    String TYPESPACE_DELTA_DB = "typespace_delta_db";
+
   }
 
   public interface ReplicaUnderConstructionTableDef {
