@@ -20,12 +20,15 @@ package io.hops.metadata.hdfs.entity;
 public class ActiveBlockReport {
   private String dnAddress;
   private long nnId;
+  private String nnAddress;
   private long startTime;
   private long numBlocks;
 
-  public ActiveBlockReport(String dnAddress, long nnId, long startTime, long numBlocks) {
+  public ActiveBlockReport(String dnAddress, long nnId, String nnAddress,
+                           long startTime, long numBlocks) {
     this.dnAddress = dnAddress;
     this.nnId = nnId;
+    this.nnAddress = nnAddress;
     this.startTime = startTime;
     this.numBlocks = numBlocks;
   }
@@ -36,6 +39,10 @@ public class ActiveBlockReport {
 
   public long getNnId() {
     return nnId;
+  }
+
+  public String getNnAddress(){
+    return nnAddress;
   }
 
   public long getStartTime() {
@@ -52,6 +59,10 @@ public class ActiveBlockReport {
 
   public void setNnId(long nnId) {
     this.nnId = nnId;
+  }
+
+  public void setNNAddress(String nnAddress){
+    this.nnAddress = nnAddress;
   }
 
   public void setStartTime(long startTime) {

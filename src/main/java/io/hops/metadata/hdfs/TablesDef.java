@@ -409,6 +409,7 @@ public class TablesDef {
     String TABLE_NAME = "hdfs_active_block_reports";
     String DN_ADDRESS = "dn_address";
     String NN_ID = "nn_id";
+    String NN_ADDRESS = "nn_address";
     String START_TIME = "start_time";
     String NUM_BLOCKS = "num_blocks";
   }
