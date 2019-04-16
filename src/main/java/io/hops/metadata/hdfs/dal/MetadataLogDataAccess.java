@@ -26,9 +26,7 @@ public interface MetadataLogDataAccess<T> extends EntityDataAccess {
   void add(T metadataLogEntry) throws StorageException;
 
   void addAll(Collection<T> logEntries) throws StorageException;
-
-  Collection<T> readExisting(Collection<T> logEntries) throws StorageException;
-
+  
   @VisibleForTesting
   Collection<T> find(long fileId) throws StorageException;
 }
