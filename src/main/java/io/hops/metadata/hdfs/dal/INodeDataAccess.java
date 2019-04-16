@@ -18,7 +18,7 @@ package io.hops.metadata.hdfs.dal;
 import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.hdfs.entity.INodeIdentifier;
-import io.hops.metadata.hdfs.entity.MetadataLogEntry;
+import io.hops.metadata.hdfs.entity.INodeMetadataLogEntry;
 import io.hops.metadata.hdfs.entity.ProjectedINode;
 import io.hops.transaction.context.EntityContext;
 
@@ -75,7 +75,7 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
 
   void deleteInode(String name)throws StorageException; // only for testing
 
-  void updateLogicalTime(Collection<MetadataLogEntry> logEntries) throws StorageException;
+  void updateLogicalTime(Collection<INodeMetadataLogEntry> logEntries) throws StorageException;
 
   int countSubtreeLockedInodes() throws StorageException; // only for testing
   

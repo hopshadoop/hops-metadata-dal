@@ -73,7 +73,8 @@ public abstract class Lock implements Comparable<Lock> {
     retryCachEntry,
     cacheDirective,
     cachePool,
-    CachedBlock
+    CachedBlock,
+    XAttr
   }
 
   protected Lock() {

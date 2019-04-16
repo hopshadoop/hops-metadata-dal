@@ -60,6 +60,7 @@ public class TablesDef {
     String STORAGE_POLICY = "storage_policy";
     String CHILDREN_NUM = "children_num";
     String NUM_ACES = "num_aces";
+    String NUM_XATTRS = "num_xattrs";
   }
 
   public interface FileInodeInMemoryData {
@@ -305,9 +306,9 @@ public class TablesDef {
     String DATASET_ID = "dataset_id";
     String INODE_ID = "inode_id";
     String Logical_TIME = "logical_time";
-    String INODE_PARTITION_ID = "inode_partition_id";
-    String INODE_PARENT_ID = "inode_parent_id";
-    String INODE_NAME = "inode_name";
+    String PK1 = "pk1";
+    String PK2 = "pk2";
+    String PK3 = "pk3";
     String OPERATION = "operation";
   }
 
@@ -410,5 +411,13 @@ public class TablesDef {
     String NN_ID = "nn_id";
     String START_TIME = "start_time";
     String NUM_BLOCKS = "num_blocks";
+  }
+  
+  public interface XAttrTableDef {
+    String TABLE_NAME = "hdfs_xattrs";
+    String INODE_ID = "inode_id";
+    String NAMESPACE = "namespace";
+    String NAME = "name";
+    String VALUE = "value";
   }
 }

@@ -32,7 +32,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   private boolean metaEnabled;
   private boolean isFileStoredInDB;
   private int childrenNum = 0;
-
+  
   public INode() {
 //    this.modificationTime = -1;
 //    this.accessTime = -1;
@@ -51,11 +51,12 @@ public class INode extends INodeBase implements Comparable<INode> {
       String clientMachine,
       int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
-      long size, boolean isFileStoredInDB, int logicalTime, byte storagePolicy, int childrenNum, int numAces) {
+      long size, boolean isFileStoredInDB, int logicalTime,
+      byte storagePolicy, int childrenNum, int numAces, byte numXAttrs) {
 
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
-        size, logicalTime, storagePolicy, numAces);
+        size, logicalTime, storagePolicy, numAces, numXAttrs);
 
     this.modificationTime = modificationTime;
     this.accessTime = accessTime;
