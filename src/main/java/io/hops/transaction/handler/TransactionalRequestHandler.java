@@ -15,9 +15,7 @@
  */
 package io.hops.transaction.handler;
 
-import io.hops.exception.LockUpgradeException;
-import io.hops.exception.StorageException;
-import io.hops.exception.TransientStorageException;
+import io.hops.exception.*;
 import io.hops.log.NDCWrapper;
 import io.hops.transaction.EntityManager;
 import io.hops.transaction.TransactionInfo;
@@ -27,6 +25,8 @@ import io.hops.transaction.lock.TransactionLockAcquirer;
 import io.hops.transaction.lock.TransactionLocks;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class TransactionalRequestHandler extends RequestHandler {
 
@@ -40,6 +40,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     int tryCount = 0;
     IOException ignoredException;
     Object txRetValue = null;
+    List<Throwable> exceptions = new ArrayList<>();
 
     while (tryCount <= RETRY_COUNT) {
       long expWaitTime = exponentialBackoff();
@@ -127,12 +128,13 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         totalTime = (System.currentTimeMillis() - txStartTime);
         if(requestHandlerLOG.isTraceEnabled()) {
           String opName = !NDCWrapper.NDCEnabled()?opType+" ":"";
-          requestHandlerLOG.trace(opName+"TX Finished. TX Stats: Try Count: " + tryCount +
-                  " Stepup: " + setupTime + " ms, Begin Tx:" +
-                  beginTxTime + " ms, Acquire Locks: " + acquireLockTime +
-                  "ms, In Memory Processing: " + inMemoryProcessingTime +
-                  "ms, Commit Time: " + commitTime + "ms, Total Time: " + totalTime +
-                  "ms. "+ getINodeLockInfo(locksAcquirer.getLocks()));
+          requestHandlerLOG.trace(opName+"TX Finished. " +
+                  "TX Time: " + (totalTime) + " ms, " +
+                  // -1 because 'tryCount` also counts the initial attempt which is technically not a retry
+                  "RetryCount: " + (tryCount-1) + ", " +
+                  "TX Stats -- Setup: " + setupTime + "ms, AcquireLocks: " + acquireLockTime + "ms, " +
+                  "InMemoryProcessing: " + inMemoryProcessingTime + "ms, " +
+                  "CommitTime: " + commitTime + "ms. Locks: "+ getINodeLockInfo(locksAcquirer.getLocks()));
         }
         //post TX phase
         //any error in this phase will not re-start the tx
@@ -142,22 +144,31 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         }
         return txRetValue;
       } catch (Throwable t) {
-        String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
-        if (!(opType.toString().equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException)) {
-          requestHandlerLOG.error(opName + "TX Failed. total tx time " + (System.currentTimeMillis() - txStartTime)
-              + " msec. TotalRetryCount(" + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT - tryCount)
-              + ") TX Stats: Setup: " + setupTime + "ms Acquire Locks: " + acquireLockTime
-              + "ms, In Memory Processing: " + inMemoryProcessingTime + "ms, Commit Time: " + commitTime
-              + "ms, Total Time: " + totalTime + "ms. ", t);
+        boolean suppressException = suppressFailureMsg(t, tryCount);
+        if (!suppressException ) {
+          String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
+          requestHandlerLOG.warn(opName + "TX Failed. " +
+                  "TX Time: " + (System.currentTimeMillis() - txStartTime) + " ms, " +
+                  // -1 because 'tryCount` also counts the initial attempt which is technically not a retry
+                  "RetryCount: " + (tryCount-1) + ", " +
+                  "TX Stats -- Setup: " + setupTime + "ms, AcquireLocks: " + acquireLockTime + "ms, " +
+                  "InMemoryProcessing: " + inMemoryProcessingTime + "ms, " +
+                  "CommitTime: " + commitTime + "ms. " + t, t);
         }
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
+          for(Throwable oldExceptions : exceptions) {
+            requestHandlerLOG.warn("Exception caught during previous retry: "+oldExceptions, oldExceptions);
+          }
           throw t;
+        } else{
+          if(suppressException)
+            exceptions.add(t);
         }
       } finally {
         removeNDC();
         if (!committed && locksAcquirer!=null) {
           try {
-            requestHandlerLOG.error("Rollback the TX");
+            requestHandlerLOG.trace("TX Failed. Rollback TX");
             EntityManager.rollback(locksAcquirer.getLocks());
           } catch (Exception e) {
             requestHandlerLOG.warn("Could not rollback transaction", e);
@@ -172,6 +183,23 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       }
     }
     throw new RuntimeException("TransactionalRequestHandler did not execute");
+  }
+
+  private boolean suppressFailureMsg(Throwable t, int tryCount ){
+    boolean suppressFailureMsg = false;
+    if (opType.toString().equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException ) {
+      suppressFailureMsg = true;
+    } else if (opType.toString().equals("COMPLETE_FILE") && t instanceof OutOfDBExtentsException ) {
+      suppressFailureMsg = true;
+    } else if ( t instanceof TransientDeadLockException ){
+      suppressFailureMsg = true;
+    }
+
+    if( suppressFailureMsg && tryCount <= RETRY_COUNT ){
+      return true;
+    }else {
+      return false;
+    }
   }
 
   private String getINodeLockInfo(TransactionLocks locks){
