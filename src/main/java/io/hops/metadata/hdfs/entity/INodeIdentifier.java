@@ -37,6 +37,7 @@ public class INodeIdentifier {
   String  name;
   Long partitionId;
   Short   depth;
+  byte storagePolicy;
 
   public INodeIdentifier() {
     this(-1L, null, null, null);
@@ -89,6 +90,14 @@ public class INodeIdentifier {
   public Long getPartitionId(){
     return partitionId;
   }
+
+    public byte getStoragePolicy() {
+        return storagePolicy;
+    }
+
+    public void setStoragePolicy(byte storagePolicy) {
+        this.storagePolicy = storagePolicy;
+    }
 
   @Override
   public int hashCode() {
