@@ -29,5 +29,7 @@ public interface ApplicationAttemptStateDataAccess<T> extends EntityDataAccess {
   
   void removeAll() throws StorageException;
   
+  List<T> getByAppId(String appId) throws StorageException;
+  
   Map<String,List<T>> getAll() throws StorageException;
 }
