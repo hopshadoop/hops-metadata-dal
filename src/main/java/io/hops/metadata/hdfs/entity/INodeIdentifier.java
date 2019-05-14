@@ -30,7 +30,7 @@
  */
 package io.hops.metadata.hdfs.entity;
 
-public class INodeIdentifier {
+public class INodeIdentifier implements Comparable<INodeIdentifier>{
 
   Long inodeID;
   Long pid;
@@ -127,5 +127,10 @@ public class INodeIdentifier {
   public String toString() {
     return "INodeIdentifier{" + "inodeID=" + inodeID + ", pid=" + pid +
         ", name=" + name + '}';
+  }
+  
+  @Override
+  public int compareTo(INodeIdentifier other){
+    return this.inodeID.compareTo(other.inodeID);
   }
 }
