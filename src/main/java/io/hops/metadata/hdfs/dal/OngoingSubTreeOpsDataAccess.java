@@ -22,9 +22,13 @@ import java.util.Collection;
 
 public interface OngoingSubTreeOpsDataAccess<T> extends EntityDataAccess {
 
+  T findByPath(String path) throws StorageException;
+
   Collection<T> findByPathsByPrefix(String prefix) throws StorageException;
 
   Collection<T> allOpsByNN(long nnID) throws StorageException;
+
+  Collection<T> allOpsToRecoverAsync() throws StorageException;
 
   //only for testing
   Collection<T> allOps() throws StorageException;
