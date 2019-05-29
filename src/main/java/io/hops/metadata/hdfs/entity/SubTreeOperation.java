@@ -52,17 +52,35 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
   private long nameNodeId;
   private String path;
   private Type opType;
+  private long asyncLockRecoveryTime = 0;  // contains the time when async was enabled. 0 = disabled
+  private long startTime;
+  private String user;
+  private long inodeID;
 
   public SubTreeOperation(String path){
     this.path = path;
     this.nameNodeId = -1;
-    this.opType = opType.NA; 
+    this.opType = opType.NA;
+    this.asyncLockRecoveryTime = 0;
+    this.startTime = System.currentTimeMillis();
+    this.user = "";
+    this.inodeID = 0;
   }
-          
-  public SubTreeOperation(String path, long nameNodeId, Type opType) {
+
+  public SubTreeOperation(String path, long inodeID,  long nameNodeId, Type opType, long startTime,
+                          String user) {
+    this(path, inodeID, nameNodeId, opType, startTime, user, 0);
+  }
+
+  public SubTreeOperation(String path, long inodeID, long nameNodeId, Type opType,
+                          long startTime, String user, long asyncLockRecovery) {
     this.path = path;
     this.nameNodeId = nameNodeId;
-    this.opType = opType; 
+    this.opType = opType;
+    this.startTime = startTime;
+    this.user = user;
+    this.asyncLockRecoveryTime = asyncLockRecovery;
+    this.inodeID = inodeID;
   }
 
   /**
@@ -73,7 +91,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
   }
 
   /**
-   * @param name node id
+   * @param nameNodeId namenode id
    *     set the name node id
    */
   public void setHolderId(long nameNodeId) {
@@ -110,7 +128,66 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
   public void setOpType(Type opType) {
     this.opType = opType;
   }
-  
+
+  /**
+   * get async recovery start time. 0 = disabled
+   */
+  public long getAsyncLockRecoveryTime() {
+    return asyncLockRecoveryTime;
+  }
+
+  /**
+   * Enable async recovery
+   * @param asyncLockRecoveryTime
+   */
+  public void setAsyncLockRecoveryTime(long asyncLockRecoveryTime) {
+    this.asyncLockRecoveryTime = asyncLockRecoveryTime;
+  }
+
+  /**
+   * Get start time of the sub tree operation
+   */
+  public long getStartTime() {
+    return startTime;
+  }
+
+  /**
+   * Set start time of the subtree operation
+   * @param startTime start time
+   */
+  public void setStartTime(long startTime) {
+    this.startTime = startTime;
+  }
+
+  /**
+   * Get the user name that started the operation
+   */
+  public String getUser() {
+    return user;
+  }
+
+  /**
+   * Set the user name
+   * @param user
+   */
+  public void setUser(String user) {
+    this.user = user;
+  }
+
+  /**
+   * Get inode ID of the subtree root
+   */
+  public long getInodeID() {
+    return inodeID;
+  }
+
+  /**
+   * Set inode ID of the subtree root
+   * @param inodeID of subtree root
+   */
+  public void setInodeID(long inodeID) {
+    this.inodeID = inodeID;
+  }
 
   @Override
   public int compareTo(SubTreeOperation t) {
@@ -136,6 +213,13 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
 
   @Override
   public String toString() {
-    return this.path;
+    return "Path: " + this.path + ", INodeID: "+ inodeID+", NN ID: " + nameNodeId
+            + ", Operation: " + opType + ", User: " + user +
+            ", Start Time:" + (new java.util.Date(startTime)).toString() +
+            (
+                    asyncLockRecoveryTime > 0 ?
+                    ", Recovery Start Time " + (new java.util.Date(asyncLockRecoveryTime)).toString()
+                    : ""
+            );
   }
 }

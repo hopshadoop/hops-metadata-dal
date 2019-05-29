@@ -338,6 +338,10 @@ public class TablesDef {
     String NAME_NODE_ID = "namenode_id";
     String OP_NAME = "op_name";
     String PARTITION_ID = "partition_id";
+    String START_TIME = "start_time";
+    String ASYNC_LOCK_RECOVERY_TIME = "async_lock_recovery_time";
+    String USER = "user";
+    String INODE_ID = "inode_id";
   }
 
   public interface HashBucketsTableDef {
