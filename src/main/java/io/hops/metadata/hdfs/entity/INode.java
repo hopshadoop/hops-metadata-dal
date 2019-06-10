@@ -29,7 +29,7 @@ public class INode extends INodeBase implements Comparable<INode> {
   private String clientMachine;
   private int generationStamp;
   private String symlink;
-  private boolean metaEnabled;
+  private MetaStatus metaStatus = MetaStatus.DISABLED;
   private boolean isFileStoredInDB;
   private int childrenNum = 0;
   
@@ -41,7 +41,7 @@ public class INode extends INodeBase implements Comparable<INode> {
 //    this.clientNode = "";
 //    this.generationStamp = -1;
 //    this.symlink = "";
-//    this.metaEnabled = false;
+//    this.metaStatus = false;
 //    this.isFileStoredInDB = false;
   }
 
@@ -50,7 +50,7 @@ public class INode extends INodeBase implements Comparable<INode> {
       groupID, short permission, boolean underConstruction, String clientName,
       String clientMachine,
       int generationStamp, long header, String symlink,
-      boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
+      boolean subtreeLocked, long subtreeLockOwner, byte metaStatus,
       long size, boolean isFileStoredInDB, int logicalTime,
       byte storagePolicy, int childrenNum, int numAces, byte numUserXAttrs,
       byte numSysXAttrs) {
@@ -65,7 +65,7 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.clientMachine = clientMachine;
     this.generationStamp = generationStamp;
     this.symlink = symlink;
-    this.metaEnabled = metaEnabled;
+    this.metaStatus = MetaStatus.fromVal(metaStatus);
     this.isFileStoredInDB = isFileStoredInDB;
     this.childrenNum = childrenNum;
   }
@@ -118,12 +118,12 @@ public class INode extends INodeBase implements Comparable<INode> {
     this.symlink = symlink;
   }
 
-  public boolean isMetaEnabled() {
-    return metaEnabled;
+  public MetaStatus getMetaStatus() {
+    return metaStatus;
   }
 
-  public void setMetaEnabled(boolean metaEnabled) {
-    this.metaEnabled = metaEnabled;
+  public void setMetaStatus(MetaStatus metaStatus) {
+    this.metaStatus = metaStatus;
   }
 
   public boolean isFileStoredInDB(){ return isFileStoredInDB; }
