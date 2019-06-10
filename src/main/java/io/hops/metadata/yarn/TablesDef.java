@@ -93,4 +93,17 @@ public class TablesDef {
     public static final String INDEX = "index";
     public static final String CONF = "conf";
   } 
+   
+  public static interface AppProvenanceTableDef {
+
+    public static final String TABLE_NAME = "yarn_app_provenance_log";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String STATE = "state";
+    public static final String USER = "user";
+    public static final String TIMESTAMP = "timestamp";
+    public static final String SUBMIT_TIME = "submit_time";
+    public static final String START_TIME = "start_time";
+    public static final String FINISH_TIME = "finish_time";
+  }
 }
