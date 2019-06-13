@@ -26,7 +26,7 @@ public final class StoredXAttr {
   
   public static final int MAX_NUM_XATTRS_PER_INODE = 255;
   public static final int MAX_XATTR_NAME_SIZE = 255;
-  public static final int MAX_XATTR_VALUE_SIZE = 13500;
+  public static final int MAX_XATTR_VALUE_SIZE = 13730;
   
   public enum Finder implements FinderType<StoredXAttr> {
     ByPrimaryKey,
