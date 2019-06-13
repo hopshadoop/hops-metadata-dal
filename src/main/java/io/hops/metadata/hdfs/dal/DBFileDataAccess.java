@@ -14,5 +14,7 @@ import io.hops.metadata.common.EntityDataAccess;
     void delete(T fileInodeData) throws StorageException;
 
     int count() throws StorageException;
+
+    int getLength() throws StorageException;
   }
 
