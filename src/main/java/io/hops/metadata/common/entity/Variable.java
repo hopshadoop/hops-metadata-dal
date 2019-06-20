@@ -49,6 +49,7 @@ public abstract class Variable {
     BrLbMaxConcurrentBRs,
     RMStateStoreVersion,
     RMStateStoreEpoch,
+    ConfigurationStoreVersion,
     AMRMToken,
     RMDTSequenceNumber,
     QuotaTicksCounter,
@@ -69,7 +70,8 @@ public abstract class Variable {
     BlockThreshold,
     BlockReplicationQueueThreshold,
     completedScanCount,
-    curScanCount;
+    curScanCount,
+    FenceID;
 
     public int getId() {
       return this.ordinal();
@@ -165,6 +167,8 @@ public abstract class Variable {
         return new ByteArrayVariable(varType);
       case RMStateStoreEpoch:
         return new LongVariable(varType);
+      case ConfigurationStoreVersion:
+        return new ByteArrayVariable(varType);
       case AMRMToken:
         return new ByteArrayVariable(varType);
       case RMDTSequenceNumber:
@@ -191,6 +195,8 @@ public abstract class Variable {
       case BlockThreshold:
       case BlockReplicationQueueThreshold:
         return new IntVariable(varType);
+      case FenceID:
+        return new LongVariable(varType);
         
     }
     return null;

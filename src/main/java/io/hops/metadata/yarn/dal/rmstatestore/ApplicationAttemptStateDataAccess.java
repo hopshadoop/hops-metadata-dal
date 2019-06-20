@@ -31,5 +31,7 @@ public interface ApplicationAttemptStateDataAccess<T> extends EntityDataAccess {
   
   List<T> getByAppId(String appId) throws StorageException;
   
+  T get(String appId, String appAttemptId) throws StorageException;
+  
   Map<String,List<T>> getAll() throws StorageException;
 }

@@ -212,11 +212,25 @@ public class TablesDef {
     public static final String MULTIPLICATOR = "multiplicator";
   }
   
-   public static interface ReservationStateTableDef {
+  public static interface ReservationStateTableDef {
 
     public static final String TABLE_NAME = "yarn_reservation_state";
     public static final String PLANNAME = "plan_name";
     public static final String RESERVATIONIDNAME = "reservation_id_name";
     public static final String RESERVATIONSTATE = "state";
   }
+  
+   public static interface ConfMutationTableDef {
+
+    public static final String TABLE_NAME = "yarn_conf_mutation";
+    public static final String INDEX = "index";
+    public static final String MUTATION = "mutation";
+  }
+   
+  public static interface ConfTableDef {
+
+    public static final String TABLE_NAME = "yarn_conf";
+    public static final String INDEX = "index";
+    public static final String CONF = "conf";
+  } 
 }
