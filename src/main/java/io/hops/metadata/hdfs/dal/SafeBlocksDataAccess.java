@@ -29,4 +29,6 @@ public interface SafeBlocksDataAccess extends EntityDataAccess {
   int countAll() throws StorageException;
 
   void removeAll() throws StorageException;
+  
+  boolean isSafe(Long BlockId) throws StorageException;
 }
