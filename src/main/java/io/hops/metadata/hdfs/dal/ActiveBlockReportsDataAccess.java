@@ -32,4 +32,6 @@ public interface ActiveBlockReportsDataAccess<T> extends EntityDataAccess{
   ActiveBlockReport getActiveBlockReport(ActiveBlockReport abr) throws StorageException;
 
   List<T> getAll() throws StorageException;
+  
+  void removeAll() throws StorageException;
 }
