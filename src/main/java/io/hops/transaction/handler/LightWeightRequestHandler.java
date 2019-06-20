@@ -34,6 +34,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
     while (tryCount <= RETRY_COUNT) {
       boolean commited = false;
       boolean newTransaction = true;
+      boolean returnSession = false;
       exponentialBackoff();
       tryCount++;
       try {
@@ -55,6 +56,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         totalTime = System.currentTimeMillis();
         Object ret = performTask();
         commited = true;
+        returnSession = true;
         totalTime = System.currentTimeMillis() - totalTime;
         if(requestHandlerLOG.isTraceEnabled()) {
           requestHandlerLOG.trace(opType+" TX Finished. Total time taken. Time " +
@@ -62,11 +64,15 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
         return ret;
       } catch (Throwable t) {
+        if(!commited){
+          totalTime = System.currentTimeMillis() - totalTime;
+        }
         String msgPrepend = !NDCWrapper.NDCEnabled() ? opType + " " : "";
         requestHandlerLOG.error(msgPrepend+"Tx Failed. total tx time " + " TotalRetryCount("
                 + RETRY_COUNT + ") RemainingRetries(" + (RETRY_COUNT
             - tryCount) + ") TX Stats: ms, Total Time: " + totalTime + "ms", t);
         if (!(t instanceof TransientStorageException) || tryCount > RETRY_COUNT || !newTransaction) {
+          returnSession = true;
           throw t;
         }
       } finally {
@@ -77,7 +83,7 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           connector.rollback();
         }
 
-        if(newTransaction){
+        if(newTransaction && returnSession){
           connector.returnSession(false);
         }
 

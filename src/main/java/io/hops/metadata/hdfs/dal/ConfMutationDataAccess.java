@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hops.metadata.yarn.dal.util;
+package io.hops.metadata.hdfs.dal;
 
-import io.hops.transaction.handler.RequestHandler.OperationType;
+import io.hops.exception.StorageException;
+import io.hops.metadata.common.EntityDataAccess;
 
-public enum YARNOperationType implements OperationType {
-  //RMNode
+import java.util.List;
 
-  GET_RMNODE,
-  GET_LASTGIVENID,
-  // Transaction in unit tests.
-  OTHER,
-  GET_VARIABLE,
+public interface ConfMutationDataAccess<T> extends EntityDataAccess {
+
+  List<T> get() throws StorageException;
+  
+  void set(List<T> mutations) throws StorageException;
+  
 }
