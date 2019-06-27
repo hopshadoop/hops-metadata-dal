@@ -36,7 +36,7 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
       storageId, int bucketId) throws StorageException;
   
   boolean hasBlocksWithIdGreaterThan(int storageId, long from) throws StorageException;
-    
+  
   int countAllReplicasForStorageId(int sid) throws StorageException;
   
   void prepare(Collection<T> removed, Collection<T> newed,
@@ -44,4 +44,6 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
   
   Map<Long,Long> findBlockAndInodeIdsByStorageIdAndBucketIds (int sId,
       List<Integer> mismatchedBuckets) throws StorageException;
+  
+  long findBlockIdAtIndex(int storageId, long index, int maxFetchingSize) throws StorageException;
 }
