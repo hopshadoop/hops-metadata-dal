@@ -147,6 +147,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         boolean suppressException = suppressFailureMsg(t, tryCount);
         if (!suppressException ) {
           String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
+          for(String subOpName: subOpNames){
+            opName = opName + ":" + subOpName;
+          }
           requestHandlerLOG.warn(opName + "TX Failed. " +
                   "TX Time: " + (System.currentTimeMillis() - txStartTime) + " ms, " +
                   // -1 because 'tryCount` also counts the initial attempt which is technically not a retry
@@ -260,4 +263,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   }
 
   protected abstract boolean shouldAbort(Exception e);
+  
+  protected void addSubopName(String name){
+    subOpNames.add(name);
+  }
 }
