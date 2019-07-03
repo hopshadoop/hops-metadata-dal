@@ -22,6 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Random;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class RequestHandler {
   private long waitTime;
@@ -35,6 +37,7 @@ public abstract class RequestHandler {
   protected static int RETRY_COUNT = 5;
   protected static int BASE_WAIT_TIME = 2000;
   protected OperationType opType;
+  protected List<String> subOpNames = new ArrayList<>();
   protected static StorageConnector connector;
   protected static Random rand = new Random(System.currentTimeMillis());
 
