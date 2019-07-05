@@ -138,11 +138,13 @@ public class TablesDef {
     String TYPESPACE_QUOTA_RAID5 = "typespace_quota_raid5";
     String TYPESPACE_QUOTA_ARCHIVE = "typespace_quota_archive";
     String TYPESPACE_QUOTA_DB = "typespace_quota_db";
+    String TYPESPACE_QUOTA_CLOUD = "typespace_quota_cloud";
     String TYPESPACE_USED_DISK = "typespace_used_disk";
     String TYPESPACE_USED_SSD = "typespace_used_ssd";
     String TYPESPACE_USED_RAID5 = "typespace_used_raid5";
     String TYPESPACE_USED_ARCHIVE = "typespace_used_archive";
     String TYPESPACE_USED_DB = "typespace_used_db";
+    String TYPESPACE_USED_CLOUD = "typespace_used_cloud";
   }
 
   public interface ExcessReplicaTableDef {
@@ -170,6 +172,7 @@ public class TablesDef {
     String BLOCK_RECOVERY_ID = "block_recovery_id";
     String TRUNCATE_BLOCK_NUM_BYTES = "truncate_block_num_bytes";
     String TRUNCATE_BLOCK_GENERATION_STAMP = "truncate_block_generation_stamp";
+    String CLOUD_BUCKET_ID = "cloud_bucket_id";
   }
 
   public interface EncodingStatusTableDef {
@@ -217,6 +220,7 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String GENERATION_STAMP = "generation_stamp";
     String NUM_BYTES = "num_bytes";
+    String CLOUD_BUCKET_ID = "cloud_bucket_id";
   }
 
   public interface MisReplicatedRangeQueueTableDef {
@@ -245,6 +249,13 @@ public class TablesDef {
     String BUCKET_ID = "bucket_id";
   }
 
+  public interface ProvidedBlockCacheLocTabDef {
+
+    String TABLE_NAME = "hdfs_provided_block_cached_location";
+    String BLOCK_ID = "block_id";
+    String STORAGE_ID = "storage_id";
+  }
+
   public interface QuotaUpdateTableDef {
 
     String TABLE_NAME = "hdfs_quota_update";
@@ -257,6 +268,7 @@ public class TablesDef {
     String TYPESPACE_DELTA_RAID5 = "typespace_delta_raid5";
     String TYPESPACE_DELTA_ARCHIVE = "typespace_delta_archive";
     String TYPESPACE_DELTA_DB = "typespace_delta_db";
+    String TYPESPACE_DELTA_CLOUD = "typespace_delta_cloud";
 
   }
 

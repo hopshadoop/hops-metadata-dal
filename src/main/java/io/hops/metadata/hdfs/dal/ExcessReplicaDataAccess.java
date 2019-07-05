@@ -42,4 +42,6 @@ public interface ExcessReplicaDataAccess<T> extends EntityDataAccess {
   void removeAll() throws StorageException;
   
   int countAllUniqueBlk() throws StorageException;
+
+  List<T> findAll() throws StorageException;
 }

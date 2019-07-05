@@ -17,6 +17,8 @@ package io.hops.metadata.hdfs.entity;
 
 public class StorageId {
 
+  public static final int CLOUD_STORAGE_ID = -1;
+
   private final String storageId;
   private final int sId;
 

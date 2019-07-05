@@ -51,4 +51,8 @@ public interface InvalidateBlockDataAccess<T> extends EntityDataAccess {
   void removeAllByStorageId(int sid) throws StorageException;
 
   void removeByBlockIdAndStorageId(long blockId, int sid) throws StorageException;
+
+  List<T> findAll() throws  StorageException;
+
+  List<T> findInvalidatedBlockInCloudList(int cloudStorageID, int limit) throws StorageException;
 }

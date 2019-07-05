@@ -56,16 +56,18 @@ public class InvalidatedBlock extends ReplicaBase {
 
   private long generationStamp;
   private long numBytes;
+  private short cloudBucketID = -1;
 
   public InvalidatedBlock(int sid, long blockId, long inodeId) {
     super(sid, blockId, inodeId);
   }
 
   public InvalidatedBlock(int sid, long blockId,
-      long  generationStamp, long numBytes, long inodeId) {
+      long  generationStamp, short cloudBucketID, long numBytes, long inodeId) {
     super(sid, blockId, inodeId);
     this.generationStamp = generationStamp;
     this.numBytes = numBytes;
+    this.cloudBucketID = cloudBucketID;
   }
 
   /**
@@ -96,5 +98,9 @@ public class InvalidatedBlock extends ReplicaBase {
    */
   public void setNumBytes(long numBytes) {
     this.numBytes = numBytes;
+  }
+
+  public short getCloudBucketID() {
+    return cloudBucketID;
   }
 }

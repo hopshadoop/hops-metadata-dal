@@ -20,24 +20,17 @@ import io.hops.metadata.common.EntityDataAccess;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-public interface ReplicaUnderConstructionDataAccess<T>
-    extends EntityDataAccess {
-
-  List<T> findReplicaUnderConstructionByBlockId(long blockId, long inodeId)
-      throws StorageException;
-
-  List<T> findReplicaUnderConstructionByINodeId(long inodeId)
-      throws StorageException;
+public interface ProvidedBlockCacheLocDataAccess<T> extends EntityDataAccess {
   
-  List<T> findReplicaUnderConstructionByINodeIds(long[] inodeIds)
-      throws StorageException;
+  T findByBlockID(long blockId) throws StorageException;
   
-  void prepare(Collection<T> removed, Collection<T> newed,
-      Collection<T> modified) throws StorageException;
+  Map<Long, T> findByBlockIDs(long[] blockIds) throws StorageException;
+  
+  void update(Collection<T> modified) throws StorageException;
 
-  void removeByBlockIdAndInodeId(long blockId, long inodeId) throws
-      StorageException;
+  void delete(Collection<Long> deleted) throws StorageException;
 
-  List<T> findAll() throws StorageException;
+  Map<Long, T> findAll() throws StorageException;
 }
