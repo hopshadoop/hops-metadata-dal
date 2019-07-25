@@ -169,7 +169,7 @@ public class TablesDef {
   public static interface ProjectQuotaTableDef {
 
     public static final String TABLE_NAME = "yarn_projects_quota";
-    public static final String PROJECTID = "projectname";
+    public static final String PROJECT_NAME = "projectname";
     public static final String REMAINING_QUOTA = "quota_remaining";
     public static final String TOTAL_USED_QUOTA = "total";
   }
