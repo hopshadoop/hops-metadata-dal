@@ -22,6 +22,10 @@ import java.util.Map;
 
 public interface ProjectQuotaDataAccess<T> extends EntityDataAccess {
 
+  T get(String projectName) throws StorageException;
+  
+  void add(T projectQuota) throws StorageException;
+  
   Map<String, T> getAll() throws StorageException;
 
   void addAll(Collection<T> YarnProjectsQuota) throws StorageException;

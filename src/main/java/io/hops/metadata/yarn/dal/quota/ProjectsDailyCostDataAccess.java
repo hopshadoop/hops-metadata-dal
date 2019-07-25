@@ -23,6 +23,10 @@ import java.util.Map;
 
 public interface ProjectsDailyCostDataAccess<T> extends EntityDataAccess {
 
+  T get(String projectName, String user, long day) throws StorageException;
+  
+  void add(T projectQuota) throws StorageException;
+  
   //T findEntry(String projectId) throws StorageException;
   Map<ProjectDailyId, T> getAll() throws
           StorageException;
