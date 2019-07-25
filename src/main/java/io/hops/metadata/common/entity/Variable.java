@@ -18,6 +18,8 @@ package io.hops.metadata.common.entity;
 import io.hops.metadata.common.FinderType;
 
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Variable {
 
@@ -32,49 +34,55 @@ public abstract class Variable {
   public static enum Finder implements FinderType<Variable> {
 
     //Named Variables
-    BlockID,
-    INodeID,
-    QuotaUpdateID,
-    ReplicationIndex,
-    StorageInfo,
-    BlockTokenKeys,
-    BTCurrKey,
-    BTNextKey,
-    BTSimpleKey,
-    SIdCounter,
-    HdfsLeParams,
-    YarnLeParams,
-    MisReplicatedFilesIndex,
-    SafeModeReached,
-    BrLbMaxConcurrentBRs,
-    RMStateStoreVersion,
-    RMStateStoreEpoch,
-    ConfigurationStoreVersion,
-    AMRMToken,
-    RMDTSequenceNumber,
-    QuotaTicksCounter,
+    BlockID(0),
+    INodeID(1),
+    QuotaUpdateID(2),
+    ReplicationIndex(3),
+    StorageInfo(4),
+    BlockTokenKeys(5),
+    BTCurrKey(6),
+    BTNextKey(7),
+    BTSimpleKey(8),
+    SIdCounter(9),
+    HdfsLeParams(10),
+    YarnLeParams(11),
+    MisReplicatedFilesIndex(12),
+    SafeModeReached(13),
+    BrLbMaxConcurrentBRs(14),
+    RMStateStoreVersion(15),
+    RMStateStoreEpoch(16),
+    ConfigurationStoreVersion(17),
+    AMRMToken(18),
+    RMDTSequenceNumber(19),
+    QuotaTicksCounter(20),
     //Generic Variables
-    GenericInteger,
-    GenericLong,
-    GenericString,
-    GenericByteArray,
-    GenericArray,
-    Seed,
-    StorageMap,  // TODO do we need this?
-    CacheDirectiveID,
-    neededScanCount,
-    RollingUpgradeInfo,
-    SafeModeInfo,
-    GenericDouble,
-    BlockTotal,
-    BlockThreshold,
-    BlockReplicationQueueThreshold,
-    completedScanCount,
-    curScanCount,
-    FenceID;
+    GenericInteger(21),
+    GenericLong(22),
+    GenericString(23),
+    GenericByteArray(24),
+    GenericArray(25),
+    StorageMap(27),  // TODO do we need this?
+    CacheDirectiveID(28),
+    neededScanCount(29),
+    RollingUpgradeInfo(30),
+    SafeModeInfo(31),
+    GenericDouble(32),
+    BlockTotal(33),
+    BlockThreshold(34),
+    BlockReplicationQueueThreshold(35),
+    completedScanCount(36),
+    curScanCount(37),
+    FenceID(38);
+
+    private final int id;
+    private static Map<Integer, Finder> idToFinder = new HashMap<>(Finder.values().length);
+
+    private Finder(int id) {
+        this.id = id;
+    }
 
     public int getId() {
-      return this.ordinal();
+      return this.id;
     }
 
     public byte[] getDefaultValue() {
@@ -82,11 +90,18 @@ public abstract class Variable {
     }
 
     public static Finder getFinder(int varType) {
-      if (varType >= Finder.values().length) {
+      if (idToFinder.isEmpty()) {
+        Finder[] Finders = Finder.values();
+        for (Finder finder : Finders) {
+          idToFinder.put(finder.getId(), finder);
+        }
+      }
+      Finder finder = idToFinder.get(varType);
+      if (finder == null) {
         throw new IllegalArgumentException(
             "Variable Type " + varType + " doesn't exist");
       }
-      return Finder.values()[varType];
+      return finder;
     }
 
     @Override
@@ -175,8 +190,6 @@ public abstract class Variable {
         return new IntVariable(varType);
       case QuotaTicksCounter:
         return new LongVariable(varType);
-      case Seed:
-        return new ByteArrayVariable(varType);
       case CacheDirectiveID:
         return new LongVariable(varType);
       case neededScanCount:

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hops.metadata.yarn.entity;
+package io.hops.metadata.yarn.entity.rmstatestore;
 
 public class ReservationState {
 
