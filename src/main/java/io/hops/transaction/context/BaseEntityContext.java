@@ -121,19 +121,6 @@ abstract class BaseEntityContext<Key, Entity> extends EntityContext<Entity> {
     }
   }
   
-  public void forceRemove(Entity entity) throws TransactionContextException {
-    Key entityKey = getKey(entity);
-    ContextEntity contextEntity = contextEntities.get(entityKey);
-    if (contextEntity == null) {
-      contextEntity = new ContextEntity(entity, State.REMOVED);
-      contextEntities.put(entityKey, contextEntity);
-    } else {
-      contextEntity.update(entity, State.REMOVED);
-    }
-  }
-  
-  
-
   @Override
   public void clear() throws TransactionContextException {
     storageCallPrevented = false;
@@ -176,17 +163,13 @@ abstract class BaseEntityContext<Key, Entity> extends EntityContext<Entity> {
 
   }
 
-  final Collection<Entity> getRemovedForced() {
-    return filterValuesOnState(State.REMOVED);
-  }
-
   final Collection<Entity> getRemoved() {
     Collection<Entity> entities = Maps.transformValues(contextEntities,
         new Function<ContextEntity, Entity>() {
           @Override
           public Entity apply(ContextEntity input) {
             if (input.getState() == State.REMOVED &&
-                input.firstState != State.ADDED) {
+                input.firstState == State.DBREAD) {
               return input.getEntity();
             }
             return null;

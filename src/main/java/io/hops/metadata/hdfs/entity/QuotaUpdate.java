@@ -35,7 +35,7 @@ public class QuotaUpdate {
   }
   
   public static enum Finder implements FinderType<QuotaUpdate> {
-    ByINodeId;
+    ByINodeId, ByKey;
 
     @Override
     public Class getType() {
