@@ -30,7 +30,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     NA;
   }
   public static enum Finder implements FinderType<SubTreeOperation> {
-    ByPathPrefix;
+    ByPathPrefix, ByPath;
 
     @Override
     public Class getType() {
@@ -40,6 +40,8 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     @Override
     public Annotation getAnnotated() {
       switch (this) {
+        case ByPath:
+          return Annotation.PrimaryKey;
         case ByPathPrefix:
           return Annotation.IndexScan;
         default:
@@ -56,16 +58,6 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
   private long startTime;
   private String user;
   private long inodeID;
-
-  public SubTreeOperation(String path){
-    this.path = path;
-    this.nameNodeId = -1;
-    this.opType = opType.NA;
-    this.asyncLockRecoveryTime = 0;
-    this.startTime = System.currentTimeMillis();
-    this.user = "";
-    this.inodeID = 0;
-  }
 
   public SubTreeOperation(String path, long inodeID,  long nameNodeId, Type opType, long startTime,
                           String user) {
@@ -196,6 +188,9 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
 
   @Override
   public boolean equals(Object obj) {
+    if(!(obj instanceof SubTreeOperation)){
+      return false;
+    }
     SubTreeOperation other = (SubTreeOperation) obj;
     return (this.path.equals(other.getPath()) 
             && this.nameNodeId == other.getNameNodeId() && 
@@ -208,6 +203,7 @@ public class SubTreeOperation implements Comparable<SubTreeOperation> {
     int hash = 7;
     hash = 37 * hash + (this.path != null ? this.path.hashCode() : 0);
     hash = 37 * hash + (new Long(nameNodeId)).hashCode();
+    hash = 37 * hash + opType.hashCode();
     return hash;
   }
 
