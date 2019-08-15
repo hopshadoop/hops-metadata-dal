@@ -33,8 +33,10 @@ public final class StoredXAttr {
   
   public enum Finder implements FinderType<StoredXAttr> {
     ByPrimaryKey,
+    ByPrimaryKeyLocal,
     ByPrimaryKeyBatch,
-    ByInodeId;
+    ByInodeId,
+    ByInodeIdLocal;
     
     @Override
     public Class getType() {
@@ -45,10 +47,12 @@ public final class StoredXAttr {
     public Annotation getAnnotated() {
       switch (this){
         case ByPrimaryKey:
+        case ByPrimaryKeyLocal:
           return Annotation.PrimaryKey;
         case ByPrimaryKeyBatch:
           return Annotation.Batched;
         case ByInodeId:
+        case ByInodeIdLocal:
           return Annotation.PrunedIndexScan;
         default:
           throw new IllegalStateException();
