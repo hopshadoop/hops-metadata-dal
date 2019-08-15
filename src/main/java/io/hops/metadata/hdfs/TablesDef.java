@@ -429,4 +429,10 @@ public class TablesDef {
     String NAME = "name";
     String VALUE = "value";
   }
+  
+  public interface EncryptionZones {
+    String TABLE_NAME = "hdfs_encryption_zone";
+    String INODE_ID = "inode_id";
+    String ZONE_INFO = "zone_info";
+  }
 }
