@@ -36,7 +36,8 @@ public class INodeBase {
   protected int logicalTime;
   protected byte storagePolicyID;
   protected int numAces;
-  protected byte numXAttrs;
+  protected byte numUserXAttrs;
+  protected byte numSysXAttrs;
   
   public INodeBase(){}
 
@@ -44,7 +45,7 @@ public class INodeBase {
       int groupID, short permission, long header, boolean dirWithQuota,
       boolean underConstruction, boolean subtreeLocked, long
       subtreeLockOwner, long fileSize, int logicalTime, byte storagePolicyID,
-      int numAces, byte numXAttrs) {
+      int numAces, byte numUserXAttrs, byte numSysXAttrs) {
     this.id = id;
     this.parentId = parentId;
     this.isDir = isDir;
@@ -62,7 +63,8 @@ public class INodeBase {
     this.logicalTime = logicalTime;
     this.storagePolicyID = storagePolicyID;
     this.numAces = numAces;
-    this.numXAttrs = numXAttrs;
+    this.numUserXAttrs = numUserXAttrs;
+    this.numSysXAttrs = numSysXAttrs;
   }
 
   public long getId() {
@@ -217,11 +219,19 @@ public class INodeBase {
     this.numAces = numAces;
   }
   
-  public byte getNumXAttrs() {
-    return numXAttrs;
+  public byte getNumUserXAttrs() {
+    return numUserXAttrs;
   }
   
-  public void setNumXAttrs(byte numXAttrs) {
-    this.numXAttrs = numXAttrs;
+  public void setNumUserXAttrs(byte numUserXAttrs) {
+    this.numUserXAttrs = numUserXAttrs;
+  }
+  
+  public byte getNumSysXAttrs() {
+    return numSysXAttrs;
+  }
+  
+  public void setNumSysXAttrs(byte numSysXAttrs) {
+    this.numSysXAttrs = numSysXAttrs;
   }
 }

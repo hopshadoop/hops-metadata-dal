@@ -52,11 +52,12 @@ public class INode extends INodeBase implements Comparable<INode> {
       int generationStamp, long header, String symlink,
       boolean subtreeLocked, long subtreeLockOwner, boolean metaEnabled,
       long size, boolean isFileStoredInDB, int logicalTime,
-      byte storagePolicy, int childrenNum, int numAces, byte numXAttrs) {
+      byte storagePolicy, int childrenNum, int numAces, byte numUserXAttrs,
+      byte numSysXAttrs) {
 
     super(id, parentId, name, partitionId, isDir, userID, groupID, permission, header,
         dirWithQuota, underConstruction, subtreeLocked, subtreeLockOwner,
-        size, logicalTime, storagePolicy, numAces, numXAttrs);
+        size, logicalTime, storagePolicy, numAces, numUserXAttrs, numSysXAttrs);
 
     this.modificationTime = modificationTime;
     this.accessTime = accessTime;

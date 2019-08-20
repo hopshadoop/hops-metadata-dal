@@ -60,7 +60,8 @@ public class TablesDef {
     String STORAGE_POLICY = "storage_policy";
     String CHILDREN_NUM = "children_num";
     String NUM_ACES = "num_aces";
-    String NUM_XATTRS = "num_xattrs";
+    String NUM_USER_XATTRS = "num_user_xattrs";
+    String NUM_SYS_XATTRS = "num_sys_xattrs";
   }
 
   public interface FileInodeInMemoryData {
