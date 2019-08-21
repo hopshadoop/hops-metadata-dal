@@ -20,6 +20,7 @@ package io.hops.metadata.hdfs.entity;
 import com.google.common.base.Charsets;
 import io.hops.metadata.common.FinderType;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public final class StoredXAttr {
@@ -28,6 +29,7 @@ public final class StoredXAttr {
   public static final int MAX_NUM_SYS_XATTRS_PER_INODE = 127;
   public static final int MAX_XATTR_NAME_SIZE = 255;
   public static final int MAX_XATTR_VALUE_SIZE = 13500;
+  public static final byte[] NON_EXISTENT_XATRR_VALUE = getXAttrBytes("");
   
   public enum Finder implements FinderType<StoredXAttr> {
     ByPrimaryKey,
@@ -107,15 +109,11 @@ public final class StoredXAttr {
   }
   
   private final PrimaryKey primaryKey;
-  private final String value;
-  
-  public StoredXAttr(long inodeId, byte namespace, String name, String value) {
-    this.primaryKey = new PrimaryKey(inodeId, namespace, name);
-    this.value = value;
-  }
+  private final byte[] value;
   
   public StoredXAttr(long inodeId, byte namespace, String name, byte[] value) {
-    this(inodeId, namespace, name, getXAttrString(value));
+    this.primaryKey = new PrimaryKey(inodeId, namespace, name);
+    this.value = value;
   }
   
   public long getInodeId() {
@@ -130,16 +128,12 @@ public final class StoredXAttr {
     return primaryKey.getName();
   }
   
-  public String getValue() {
+  public byte[] getValue() {
     return value;
   }
   
   public PrimaryKey getPrimaryKey(){
     return primaryKey;
-  }
-  
-  public byte[] getValueBytes(){
-    return getXAttrBytes(value);
   }
   
   public final static byte[] getXAttrBytes(String val){
@@ -154,6 +148,11 @@ public final class StoredXAttr {
     return new String(val,Charsets.UTF_8);
   }
   
+  public static boolean xAttrExists(byte[] value){
+    if(value != null)
+      return !Arrays.equals(NON_EXISTENT_XATRR_VALUE, value);
+    return true;
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {
