@@ -74,6 +74,6 @@ public class RMNodeApplication implements Comparable<RMNodeApplication>{
     }
     RMNodeApplication other = (RMNodeApplication) obj;
     return (applicationId.equals(other.applicationId) && rmnodeid.equals(
-            other.applicationId) && status.equals(other.status));
+            other.rmnodeid) && status.equals(other.status));
   }
 }
