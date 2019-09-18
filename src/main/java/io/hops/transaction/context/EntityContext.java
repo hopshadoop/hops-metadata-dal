@@ -51,7 +51,7 @@ public abstract class EntityContext<T> {
     READ_COMMITTED
   }
 
-  public static ThreadLocal<LockMode> currentLockMode =
+  final protected static ThreadLocal<LockMode> currentLockMode =
       new ThreadLocal<>();
 
   /**

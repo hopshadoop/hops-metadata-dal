@@ -118,6 +118,9 @@ public class LeasePath implements Comparable<LeasePath> {
 
   @Override
   public boolean equals(Object obj) {
+    if(obj==null || !(obj instanceof LeasePath)){
+      return false;
+    }
     LeasePath other = (LeasePath) obj;
     return (this.path.equals(other.getPath()) &&
         this.holderId == other.getHolderId());

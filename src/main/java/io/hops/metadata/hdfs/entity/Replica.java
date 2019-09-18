@@ -87,6 +87,14 @@ public class Replica extends ReplicaBase {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (!super.equals(o)) return false;
+    Replica replica = (Replica) o;
+
+    return bucketId==replica.bucketId;
+  }
+  
+  @Override
   public int compareTo(ReplicaBase t) {
     if (t == null) {
       return 1;

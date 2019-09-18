@@ -41,7 +41,7 @@ public final class INodeMetadataLogEntry extends MetadataLogEntry{
           return op;
         }
       }
-      return null;
+      throw new IllegalArgumentException("invalid operatin id " + id);
     }
   }
   
@@ -78,6 +78,11 @@ public final class INodeMetadataLogEntry extends MetadataLogEntry{
   }
   
   public static boolean isValidOperation(short operationId) {
-    return Operation.valueOf(operationId) != null;
+    try{
+      Operation.valueOf(operationId);
+      return true;
+    }catch(IllegalArgumentException ex){
+      return false;
+    }
   }
 }

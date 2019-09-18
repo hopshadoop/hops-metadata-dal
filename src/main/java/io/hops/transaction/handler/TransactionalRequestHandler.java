@@ -60,6 +60,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       committed = false;
       
       EntityManager.preventStorageCall(false);
+      boolean success = false;
       try {
         setNDC(info);
         if(requestHandlerLOG.isTraceEnabled()) {
@@ -98,6 +99,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         EntityManager.preventStorageCall(true);
         try {
           txRetValue = performTask();
+          success = true;
         } catch (IOException e) {
           if (shouldAbort(e)) {
             throw e;
@@ -142,7 +144,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         if (info != null && info instanceof TransactionInfo) {
           ((TransactionInfo) info).performPostTransactionAction();
         }
-        return txRetValue;
       } catch (Throwable t) {
         boolean suppressException = suppressFailureMsg(t, tryCount);
         if (!suppressException ) {
@@ -179,11 +180,14 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           }
         }
         //make sure that the context has been removed
-        EntityManager.removeContext();
+        EntityManager.removeContext(); 
+      }
+      if(success){
         // If the code is about to return but the exception was caught
         if (ignoredException != null) {
           throw ignoredException;
         }
+        return txRetValue;
       }
     }
     throw new RuntimeException("TransactionalRequestHandler did not execute");
