@@ -91,16 +91,17 @@ public class EntityContextStat {
       if (annotated.isEmpty()) {
         return "";
       }
-      Formatter formatter = new Formatter();
-      formatter.format("Detailed Misses: ");
-      for (EnumMap.Entry<FinderType.Annotation, HitMissCounter> e : annotated
-          .entrySet()) {
-        String onlyMisses = e.getValue().onlyMisses();
-        if (!onlyMisses.isEmpty()) {
-          formatter.format("%s %s ", e.getKey().getShort(), onlyMisses);
+      try (Formatter formatter = new Formatter()) {
+        formatter.format("Detailed Misses: ");
+        for (EnumMap.Entry<FinderType.Annotation, HitMissCounter> e : annotated
+            .entrySet()) {
+          String onlyMisses = e.getValue().onlyMisses();
+          if (!onlyMisses.isEmpty()) {
+            formatter.format("%s %s ", e.getKey().getShort(), onlyMisses);
+          }
         }
+        return formatter.toString();
       }
-      return formatter.toString();
     }
 
     boolean isEmpty() {

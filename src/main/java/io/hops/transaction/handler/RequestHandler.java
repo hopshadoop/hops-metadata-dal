@@ -98,6 +98,7 @@ public abstract class RequestHandler {
       return waitTime;
     } catch (InterruptedException ex) {
       requestHandlerLOG.warn(ex);
+      Thread.currentThread().interrupt();
     }
     return 0;
   }

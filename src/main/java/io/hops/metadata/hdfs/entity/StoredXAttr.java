@@ -29,7 +29,7 @@ public final class StoredXAttr {
   public static final int MAX_NUM_SYS_XATTRS_PER_INODE = 127;
   public static final int MAX_XATTR_NAME_SIZE = 255;
   public static final int MAX_XATTR_VALUE_SIZE = 13500;
-  public static final byte[] NON_EXISTENT_XATRR_VALUE = getXAttrBytes("");
+  public static final byte[] NON_EXISTENT_XATRR_VALUE = {};
   
   public enum Finder implements FinderType<StoredXAttr> {
     ByPrimaryKey,
@@ -167,7 +167,7 @@ public final class StoredXAttr {
     }
     StoredXAttr that = (StoredXAttr) o;
     return primaryKey.equals(that.primaryKey) &&
-        getValue().equals(that.getValue());
+        Arrays.equals(getValue(), that.getValue());
   }
   
   @Override
