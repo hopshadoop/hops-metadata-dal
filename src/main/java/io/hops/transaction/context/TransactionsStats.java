@@ -168,11 +168,12 @@ public class TransactionsStats {
       this.writerThread = new Thread(new Runnable() {
         @Override
         public void run() {
-          while (true && enabled){
+          while (enabled){
             try {
-              Thread.sleep(WRITER_ROUND*1000);
+              Thread.sleep(WRITER_ROUND*1000L);
             } catch (InterruptedException e) {
               log.warn(e);
+              Thread.currentThread().interrupt();
             }
             try {
               dump();

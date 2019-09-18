@@ -41,7 +41,7 @@ public final class XAttrMetadataLogEntry extends MetadataLogEntry{
           return op;
         }
       }
-      return null;
+      throw new IllegalArgumentException("invalid operatin id " + id);
     }
   }
   

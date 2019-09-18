@@ -23,7 +23,7 @@ import java.util.Map;
 
 public abstract class Variable {
 
-  public final static EnumMap<Finder, byte[]> defaultValues =
+  protected final static EnumMap<Finder, byte[]> defaultValues =
       new EnumMap(Finder.class);
 
   public static void registerVariableDefaultValue(Finder variable,
