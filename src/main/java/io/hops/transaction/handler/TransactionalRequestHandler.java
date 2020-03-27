@@ -151,14 +151,14 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           for(String subOpName: subOpNames){
             opName = opName + ":" + subOpName;
           }
+          String inodeLocks = locksAcquirer != null ? getINodeLockInfo(locksAcquirer.getLocks()):"";
           requestHandlerLOG.warn(opName + "TX Failed. " +
                   "TX Time: " + (System.currentTimeMillis() - txStartTime) + " ms, " +
                   // -1 because 'tryCount` also counts the initial attempt which is technically not a retry
                   "RetryCount: " + (tryCount-1) + ", " +
                   "TX Stats -- Setup: " + setupTime + "ms, AcquireLocks: " + acquireLockTime + "ms, " +
                   "InMemoryProcessing: " + inMemoryProcessingTime + "ms, " +
-                  "CommitTime: " + commitTime + "ms. Locks: "+
-                  getINodeLockInfo(locksAcquirer.getLocks())+". " + t, t);
+                  "CommitTime: " + commitTime + "ms. Locks: "+inodeLocks+". " + t, t);
         }
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
           for(Throwable oldExceptions : exceptions) {
