@@ -46,6 +46,17 @@ public class TransactionLockTypes {
     WRITE
   }
 
+  public enum LeaseHolderResolveType {
+    /**
+     * All Paths
+     */
+    ALL_PATHS,
+    /**
+     * Single Path
+     */
+    SINGLE_PATH
+  }
+
   public enum INodeLockType {
     /**
      * No lock
