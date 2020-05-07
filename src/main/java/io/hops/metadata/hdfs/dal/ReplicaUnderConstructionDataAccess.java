@@ -38,4 +38,6 @@ public interface ReplicaUnderConstructionDataAccess<T>
 
   void removeByBlockIdAndInodeId(long blockId, long inodeId) throws
       StorageException;
+
+  int countAll() throws StorageException;
 }
