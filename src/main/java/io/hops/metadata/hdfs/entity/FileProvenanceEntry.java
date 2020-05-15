@@ -39,7 +39,8 @@ public class FileProvenanceEntry {
   private final int logicalTimeBatch;
   private final long timestampBatch;
   private final int dsLogicalTime;
-
+  private final short xattrNumParts;
+  
   public static enum Operation {
     CREATE,
     DELETE,
@@ -116,7 +117,8 @@ public class FileProvenanceEntry {
     String appId, int userId, String tieBreaker,
     long partitionId, long projectId, long datasetId, long parentId, 
     String inodeName, String projectName, String datasetName, String p1Name, String p2Name, String parentName,
-    String userName, String xattrName, int logicalTimeBatch, long timestampBatch, int dsLogicalTime) {
+    String userName, String xattrName, int logicalTimeBatch,
+      long timestampBatch, int dsLogicalTime, byte[] xAttrValue) {
     this.inodeId = inodeId;
     this.operation = operation;
     this.logicalTime = logicalTime;
@@ -139,6 +141,7 @@ public class FileProvenanceEntry {
     this.logicalTimeBatch = logicalTimeBatch;
     this.timestampBatch = timestampBatch;
     this.dsLogicalTime = dsLogicalTime;
+    this.xattrNumParts = StoredXAttr.getNumParts(xAttrValue);
   }
 
   public long getInodeId() {
@@ -231,6 +234,10 @@ public class FileProvenanceEntry {
   
   public int getDsLogicalTime() {
     return dsLogicalTime;
+  }
+  
+  public short getXattrNumParts() {
+    return xattrNumParts;
   }
   
   @Override

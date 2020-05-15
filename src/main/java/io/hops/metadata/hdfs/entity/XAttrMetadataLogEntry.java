@@ -47,25 +47,31 @@ public final class XAttrMetadataLogEntry extends MetadataLogEntry{
   
   private final Operation operation;
   public XAttrMetadataLogEntry(MetadataLogEntry entry){
-    this(entry.getDatasetId(), entry.getInodeId(), entry.getLogicalTime(),
-        (byte)entry.getPk2(), entry.getPk3(),
-        Operation.valueOf(entry.getOperationId()));
+    super(entry);
+    this.operation = Operation.valueOf(entry.getOperationId());
   }
   
   public XAttrMetadataLogEntry(long datasetId, long inodeId,
-      int logicalTime, byte namespace, String name, Operation operation) {
-    super(datasetId, inodeId, logicalTime, inodeId, namespace, name,
+      int logicalTime, long inodePartitionId, long inodeParentId,
+      String inodeName, byte[] value, byte namespace, String name,
+      Operation operation) {
+    super(datasetId, inodeId, logicalTime, inodePartitionId, inodeParentId,
+        inodeName, StoredXAttr.getNumParts(value), namespace, name,
         operation.getId());
     this.operation = operation;
   }
   
   public XAttrMetadataLogEntry(long datasetId, long inodeId,
-      int logicalTime) {
-    super(datasetId, inodeId, logicalTime, -1, -1, "-1",
+      int logicalTime, long inodePartitionId, long inodeParentId,
+      String inodeName) {
+    super(datasetId, inodeId, logicalTime, inodePartitionId, inodeParentId, inodeName,
         Operation.AddAll.getId());
     this.operation = Operation.AddAll;
   }
   
+  public short getNumParts(){
+    return (short) getPk1();
+  }
   public byte getNamespace(){
     return (byte) getPk2();
   }

@@ -48,29 +48,28 @@ public final class INodeMetadataLogEntry extends MetadataLogEntry{
   private final Operation operation;
   
   public INodeMetadataLogEntry(MetadataLogEntry entry){
-    this(entry.getDatasetId(), entry.getInodeId(), entry.getPk1(),
-        entry.getPk2(), entry.getPk3(), entry.getLogicalTime(),
-        Operation.valueOf(entry.getOperationId()));
+    super(entry);
+    this.operation = Operation.valueOf(entry.getOperationId());
   }
   
   public INodeMetadataLogEntry(long datasetId, long inodeId,
       long inodePartitionId, long inodeParentId, String inodeName,
       int logicalTime, Operation operation) {
     super(datasetId, inodeId, logicalTime, inodePartitionId, inodeParentId,
-        inodeName, operation.getId());
+        inodeName,  operation.getId());
     this.operation = operation;
   }
   
   public long getPartitionId(){
-    return getPk1();
+    return getInodePartitionId();
   }
   
   public long getParentId(){
-    return getPk2();
+    return getInodeParentId();
   }
   
   public String getName(){
-    return getPk3();
+    return getInodeName();
   }
   
   public Operation getOperation(){

@@ -30,4 +30,5 @@ public interface XAttrDataAccess<T, P> extends EntityDataAccess {
   int removeXAttrsByInodeId(long inodeId) throws StorageException;
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
+  int count() throws StorageException;
 }
