@@ -30,12 +30,33 @@ public class MetadataLogEntry {
   private final String pk3;
   private int logicalTime;
   private final short operation;
+  private final long inodePartitionId;
+  private final long inodeParentId;
+  private final String inodeName;
+  
+  protected MetadataLogEntry(MetadataLogEntry entry){
+    this(entry.getDatasetId(), entry.getInodeId(), entry.getLogicalTime(),
+        entry.getInodePartitionId(), entry.getInodeParentId(),
+        entry.getInodeName(), entry.getPk1(), entry.getPk2(), entry.getPk3(),
+        entry.getOperationId());
+  }
   
   protected MetadataLogEntry(long datasetId, long inodeId, int logicalTime,
+      long inodePartitionId, long inodeParentId, String inodeName, short operation) {
+    this(datasetId, inodeId, logicalTime, inodePartitionId, inodeParentId,
+        inodeName, -1, -1, "-1", operation);
+  }
+  
+  protected MetadataLogEntry(long datasetId, long inodeId, int logicalTime,
+      long inodePartitionId, long inodeParentId, String inodeName,
       long pk1, long pk2, String pk3, short operation) {
     this.datasetId = datasetId;
     this.inodeId = inodeId;
     this.logicalTime = logicalTime;
+    
+    this.inodePartitionId = inodePartitionId;
+    this.inodeParentId = inodeParentId;
+    this.inodeName = inodeName;
     
     this.pk1 = pk1;
     this.pk2 = pk2;
@@ -72,17 +93,32 @@ public class MetadataLogEntry {
     return pk3;
   }
   
+  public long getInodePartitionId() {
+    return inodePartitionId;
+  }
+  
+  public long getInodeParentId() {
+    return inodeParentId;
+  }
+  
+  public String getInodeName() {
+    return inodeName;
+  }
+  
   public static MetadataLogEntry newEntry(long datasetId, long inodeId,
-      int logicalTime, long pk1, long pk2, String pk3, short operationId)
+      int logicalTime, long inodePartitionId, long inodeParentId,
+      String inodeName, long pk1, long pk2, String pk3, short operationId)
       throws UnknownMetadataOperationType {
     if(INodeMetadataLogEntry.isValidOperation(operationId)){
       return new INodeMetadataLogEntry(new MetadataLogEntry(datasetId,
-          inodeId, logicalTime, pk1, pk2, pk3, operationId));
+          inodeId, logicalTime, inodePartitionId, inodeParentId, inodeName,
+          pk1, pk2, pk3, operationId));
     }
     
     if(XAttrMetadataLogEntry.isValidOperation(operationId)){
       return new XAttrMetadataLogEntry(new MetadataLogEntry(datasetId,
-          inodeId, logicalTime, pk1, pk2, pk3, operationId));
+          inodeId, logicalTime, inodePartitionId, inodeParentId, inodeName,
+          pk1, pk2, pk3, operationId));
     }
     
     throw new UnknownMetadataOperationType(operationId);

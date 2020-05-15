@@ -109,7 +109,14 @@ public final class FileProvXAttrBufferEntry {
   public byte[] getValue() {
     return value;
   }
-
+  
+  public short getNumParts(){
+    return StoredXAttr.getNumParts(value);
+  }
+  public byte[] getValue(short index) {
+    return StoredXAttr.getValue(value, index);
+  }
+  
   @Override
   public String toString() {
     return "FileProvXAttrBufferEntry{"

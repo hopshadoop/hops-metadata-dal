@@ -317,6 +317,9 @@ public class TablesDef {
     String PK2 = "pk2";
     String PK3 = "pk3";
     String OPERATION = "operation";
+    String INODE_PARTITION_ID = "inode_partition_id";
+    String INODE_PARENT_ID = "inode_parent_id";
+    String INODE_NAME = "inode_name";
   }
 
 
@@ -431,6 +434,8 @@ public class TablesDef {
     String NAMESPACE = "namespace";
     String NAME = "name";
     String VALUE = "value";
+    String INDEX = "index";
+    String NUM_PARTS = "num_parts";
   }
   
   public interface EncryptionZones {
@@ -464,6 +469,7 @@ public class TablesDef {
     String LOGICAL_TIME_BATCH = "io_logical_time_batch";
     String TIMESTAMP_BATCH = "io_timestamp_batch";
     String DS_LOGICAL_TIME = "ds_logical_time";
+    String XATTR_NUM_PARTS = "i_xattr_num_parts";
   }
   
   public interface FileProvXAttrBufferTableDef {
@@ -473,5 +479,7 @@ public class TablesDef {
     String NAME = "name";
     String INODE_LOGICAL_TIME = "inode_logical_time";
     String VALUE = "value";
+    String INDEX = "index";
+    String NUM_PARTS = "num_parts";
   }
 }

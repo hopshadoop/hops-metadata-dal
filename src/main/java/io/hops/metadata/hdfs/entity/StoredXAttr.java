@@ -28,8 +28,10 @@ public final class StoredXAttr {
   public static final int MAX_NUM_USER_XATTRS_PER_INODE = 127;
   public static final int MAX_NUM_SYS_XATTRS_PER_INODE = 127;
   public static final int MAX_XATTR_NAME_SIZE = 255;
-  public static final int MAX_XATTR_VALUE_SIZE = 13500;
-  public static final byte[] NON_EXISTENT_XATRR_VALUE = {};
+  public static final int MAX_XATTR_VALUE_ROW_SIZE = 13500;
+  public static final int MAX_XATTR_MAX_NUM_PARTS = 255;
+  public static final int MAX_XATTR_VALUE_SIZE =
+      MAX_XATTR_MAX_NUM_PARTS * MAX_XATTR_VALUE_ROW_SIZE;
   
   public enum Finder implements FinderType<StoredXAttr> {
     ByPrimaryKey,
@@ -114,6 +116,7 @@ public final class StoredXAttr {
   
   private final PrimaryKey primaryKey;
   private final byte[] value;
+  private short oldNumParts = -1;
   
   public StoredXAttr(long inodeId, byte namespace, String name, byte[] value) {
     this.primaryKey = new PrimaryKey(inodeId, namespace, name);
@@ -140,6 +143,12 @@ public final class StoredXAttr {
     return primaryKey;
   }
   
+  public short getOldNumParts() { return oldNumParts; }
+  
+  public void setOldNumParts(short oldNumParts){
+    this.oldNumParts = oldNumParts;
+  }
+  
   public final static byte[] getXAttrBytes(String val){
     if(val == null)
       return null;
@@ -152,11 +161,32 @@ public final class StoredXAttr {
     return new String(val,Charsets.UTF_8);
   }
   
-  public static boolean xAttrExists(byte[] value){
-    if(value != null)
-      return !Arrays.equals(NON_EXISTENT_XATRR_VALUE, value);
-    return true;
+  public short getNumParts(){
+    return getNumParts(value);
   }
+  public byte[] getValue(short index) {
+    return getValue(value, index);
+  }
+  
+  public static short getNumParts(byte[] value){
+    if(value == null || value.length == 0)
+      return 1;
+    return (short) Math.ceil(value.length / ((double) MAX_XATTR_VALUE_ROW_SIZE));
+  }
+  
+  public static byte[] getValue(byte[] value, short index){
+    if(value == null)
+      return null;
+    int byteWritten = index * MAX_XATTR_VALUE_ROW_SIZE;
+    int toWrite = value.length - byteWritten;
+    if(toWrite > MAX_XATTR_VALUE_ROW_SIZE){
+      toWrite = MAX_XATTR_VALUE_ROW_SIZE;
+    }
+    byte[] buffer = new byte[toWrite];
+    System.arraycopy(value, byteWritten, buffer, 0, toWrite);
+    return buffer;
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
