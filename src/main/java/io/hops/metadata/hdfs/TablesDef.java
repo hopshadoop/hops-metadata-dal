@@ -200,6 +200,7 @@ public class TablesDef {
     String HOLDER = "holder";
     String LAST_UPDATE = "last_update";
     String HOLDER_ID = "holder_id";
+    String COUNT = "count";
   }
 
   public interface LeasePathTableDef {
@@ -208,6 +209,11 @@ public class TablesDef {
     String PATH = "path";
     String LAST_BLOCK_ID = "last_block_id";
     String PENULTIMATE_BLOCK_ID = "penultimate_block_id";
+  }
+
+  public interface LeaseCreationLocksTableDef {
+    String TABLE_NAME = "hdfs_lease_creation_locks";
+    String ID = "id";
   }
 
   public interface InvalidatedBlockTableDef {

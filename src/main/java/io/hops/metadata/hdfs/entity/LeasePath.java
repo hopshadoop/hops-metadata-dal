@@ -15,7 +15,10 @@
  */
 package io.hops.metadata.hdfs.entity;
 
+import io.hops.exception.StorageException;
+import io.hops.exception.TransactionContextException;
 import io.hops.metadata.common.FinderType;
+import io.hops.transaction.EntityManager;
 
 public class LeasePath implements Comparable<LeasePath> {
 
@@ -136,5 +139,13 @@ public class LeasePath implements Comparable<LeasePath> {
   @Override
   public String toString() {
     return this.path;
+  }
+
+  public void deletePersistent() throws TransactionContextException, StorageException {
+    EntityManager.remove(this);
+  }
+
+  public void savePersistent() throws TransactionContextException, StorageException {
+    EntityManager.update(this);
   }
 }
