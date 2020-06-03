@@ -20,14 +20,16 @@ public final class Lease implements Comparable<Lease> {
   private String holder;
   private long lastUpdate;
   private int holderId;
+  private int count;
 
   public Lease() {
   }
 
-  public Lease(String holder, int holderId, long lastUpdate) {
+  public Lease(String holder, int holderId, long lastUpdate, int count) {
     this.holder = holder;
     this.holderId = holderId;
     this.lastUpdate = lastUpdate;
+    this.count = count;
   }
 
   public String getHolder() {
@@ -52,6 +54,14 @@ public final class Lease implements Comparable<Lease> {
 
   public void setHolderId(int holderId) {
     this.holderId = holderId;
+  }
+
+  public int getCount() {
+    return count;
+  }
+
+  public void setCount(int count) {
+    this.count = count;
   }
 
   @Override
