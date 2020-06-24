@@ -19,12 +19,17 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.hdfs.entity.RetryCacheEntry;
 import java.util.Collection;
+import java.util.List;
 
 
-public interface RetryCacheEntryDataAccess extends EntityDataAccess {
+public interface RetryCacheEntryDataAccess<T> extends EntityDataAccess {
   RetryCacheEntry find(RetryCacheEntry.PrimaryKey key) throws StorageException;
 
   void prepare(Collection<RetryCacheEntry> removed, Collection<RetryCacheEntry> modified) throws StorageException;
   
-  void removeOlds(long time) throws StorageException;
+  int removeOlds(long epoch) throws StorageException;
+
+  int count() throws StorageException;
+
+  List<T> findAll() throws StorageException;
 }

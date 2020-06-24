@@ -72,7 +72,8 @@ public abstract class Variable {
     completedScanCount(35),
     curScanCount(36),
     FenceID(37),
-    ConfigurationStoreVersion(38),;
+    ConfigurationStoreVersion(38),
+    RetryCacheCleanerEpoch(39),;
 
     private final int id;
     private static Map<Integer, Finder> idToFinder = new HashMap<>(Finder.values().length);
@@ -210,7 +211,8 @@ public abstract class Variable {
         return new IntVariable(varType);
       case FenceID:
         return new LongVariable(varType);
-        
+      case RetryCacheCleanerEpoch:
+        return new LongVariable(varType);
     }
     return null;
   }
