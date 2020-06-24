@@ -380,6 +380,7 @@ public class TablesDef {
     String CALLID = "call_id";
     String PAYLOAD = "payload";
     String EXPIRATION_TIME = "expiration_time";
+    String EPOCH = "epoch";
     String STATE = "state";
   }
   

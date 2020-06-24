@@ -18,48 +18,58 @@
 package io.hops.metadata.hdfs.entity;
 
 import io.hops.metadata.common.FinderType;
+
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class RetryCacheEntry {
+
+  public static byte SUCCESS = (byte) 1;
+  public static byte FAILED = (byte) -1;
+
    public enum Finder implements FinderType<RetryCacheEntry> {
-    ByClientIdAndCallId;
-  
+     ByPK;
+
     @Override
     public Class getType() {
       return RetryCacheEntry.class;
     }
-  
+
     @Override
     public Annotation getAnnotated() {
       switch (this){
-        case ByClientIdAndCallId:
+        case ByPK:
           return Annotation.PrimaryKey;
         default:
           throw new IllegalStateException();
       }
     }
   }
-  
+
   private byte[] clientId;
   private int callId;
   private byte[] payload;
   private long expirationTime;
+  private long epoch;
   private byte state;
-  
-  public RetryCacheEntry(byte[] clientId, int callId) {
+
+  public RetryCacheEntry(byte[] clientId, int callId, long epoch) {
     this.clientId = clientId;
     this.callId = callId;
     this.payload = null;
     this.expirationTime = 0;
     this.state = 0;
+    this.epoch = epoch;
   }
-  
-  public RetryCacheEntry(byte[] clientId, int callId, byte[] payload, long expirationTime, byte state) {
+
+  public RetryCacheEntry(byte[] clientId, int callId, byte[] payload, long expirationTime,
+                         long epoch, byte state) {
     this.clientId = clientId;
     this.callId = callId;
     this.payload = payload;
     this.expirationTime = expirationTime;
+    this.epoch = epoch;
     this.state = state;
   }
 
@@ -83,17 +93,27 @@ public class RetryCacheEntry {
     this.expirationTime = expirationTime;
   }
 
+  public long getEpoch() {
+    return epoch;
+  }
+
+  public void setEpoch(long epoch) {
+    this.epoch = epoch;
+  }
+
   public byte getState() {
     return state;
   }
-  
+
   public static class PrimaryKey {
     private byte[] clientId;
     private int callId;
-    
-    public PrimaryKey(byte[] clientId, int callId) {
+    private long epoch;
+
+    public PrimaryKey(byte[] clientId, int callId, long epoch) {
       this.clientId = clientId;
       this.callId = callId;
+      this.epoch = epoch;
     }
 
     public byte[] getClientId() {
@@ -103,22 +123,60 @@ public class RetryCacheEntry {
     public int getCallId() {
       return callId;
     }
-    
+
+    public long getEpoch() {
+      return epoch;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (o instanceof PrimaryKey) {
         PrimaryKey otherPK = (PrimaryKey) o;
-        return (clientId == otherPK.getClientId()&&
-            callId == otherPK.getCallId());
+        return (clientId == otherPK.getClientId() &&
+                callId == otherPK.getCallId() &&
+                epoch == otherPK.epoch);
       }
       return false;
     }
-  
+
     @Override
     public int hashCode() {
-      //TODO: Do we need to implement stronger hash code?
-      //Collisions not dangerous, only used for HashMap key.
-      return Arrays.hashCode(clientId) * callId;
+      return Arrays.hashCode(clientId) +
+              Integer.hashCode(callId) +
+              Long.hashCode(epoch);
     }
+  }
+
+  @Override
+  public String toString() {
+    return "RetryCacheEntry{" +
+            "clientId=" + Arrays.toString(clientId) +
+            ", callId=" + callId +
+            ", payload=" + Arrays.toString(payload) +
+            ", expirationTime=" + expirationTime +
+            ", epoch=" + epoch +
+            ", state=" + state +
+            "}";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RetryCacheEntry that = (RetryCacheEntry) o;
+    return callId == that.callId &&
+            epoch == that.epoch &&
+            Arrays.equals(clientId, that.clientId);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(callId, epoch);
+    result = 31 * result + Arrays.hashCode(clientId);
+    return result;
+  }
+
+  public boolean isSuccess() {
+    return getState() == SUCCESS;
   }
 }
