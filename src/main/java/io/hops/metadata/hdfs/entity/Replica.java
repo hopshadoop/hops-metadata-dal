@@ -100,9 +100,9 @@ public class Replica extends ReplicaBase {
       return 1;
     }
 
-    int compVal = super.compareTo(t);
+    int compVal = new Integer(storageId).compareTo(t.storageId);
     if(compVal != 0){
-      return compVal;
+      return  compVal;
     }
 
     if ( t instanceof  Replica){
@@ -112,6 +112,27 @@ public class Replica extends ReplicaBase {
       }
     }
 
+    compVal = new Long(inodeId).compareTo(t.inodeId);
+    if(compVal != 0){
+      return  compVal;
+    }
+
+    compVal = new Long(blockId).compareTo(t.blockId);
+    if(compVal != 0){
+      return  compVal;
+    }
+
     return 0;
   }
+
+  @Override
+  public String toString() {
+    return "Replica{" +
+            "storageId=" + storageId +
+            ", bucketId=" + bucketId +
+            ", inodeId=" + inodeId +
+            ", blockId=" + blockId +
+            '}';
+  }
+
 }
