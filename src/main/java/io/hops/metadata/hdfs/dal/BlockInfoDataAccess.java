@@ -55,4 +55,7 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
+
+  //only for testing
+  void deleteBlocksForFile(long inodeID) throws StorageException;
 }
