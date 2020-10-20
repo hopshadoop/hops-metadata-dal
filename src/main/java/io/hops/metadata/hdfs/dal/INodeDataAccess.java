@@ -73,6 +73,9 @@ public interface INodeDataAccess<T> extends EntityDataAccess {
   
   List<T> allINodes() throws StorageException; // only for testing
 
+  //only for testing
+  List<T> findINodes(String name) throws StorageException;
+  
   void deleteInode(String name)throws StorageException; // only for testing
 
   void updateLogicalTime(Collection<INodeMetadataLogEntry> logEntries) throws StorageException;

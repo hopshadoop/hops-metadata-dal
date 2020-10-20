@@ -35,6 +35,11 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
   List<T> findByInodeIds(long[] inodeIds) throws StorageException;
   
   List<T> findAllBlocks() throws StorageException;
+  
+  /**
+   * Returns range of blocks with IDs [StartID, endID)
+   */
+  List<T> findAllBlocks(long startID, long endID) throws StorageException;
 
   List<T> findBlockInfosByStorageId(int storageId) throws StorageException;
 
@@ -55,4 +60,7 @@ public interface BlockInfoDataAccess<T> extends EntityDataAccess {
 
   void prepare(Collection<T> removed, Collection<T> newed,
       Collection<T> modified) throws StorageException;
+  
+  //only for testing
+  void deleteBlocksForFile(long inodeID) throws StorageException;
 }
