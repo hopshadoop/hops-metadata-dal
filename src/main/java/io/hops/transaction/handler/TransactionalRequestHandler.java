@@ -195,11 +195,14 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
   private boolean suppressFailureMsg(Throwable t, int tryCount ){
     boolean suppressFailureMsg = false;
-    if (opType.toString().equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException ) {
+    if (opType.toString().equals("GET_BLOCK_LOCATIONS") && t instanceof LockUpgradeException) {
       suppressFailureMsg = true;
-    } else if (opType.toString().equals("COMPLETE_FILE") && t instanceof OutOfDBExtentsException ) {
+    } else if (opType.toString().equals("COMPLETE_FILE") && t instanceof OutOfDBExtentsException) {
       suppressFailureMsg = true;
-    } else if ( t instanceof TransientDeadLockException ){
+    } else if (opType.toString().equals("GET_ADDITIONAL_BLOCK") &&
+            t.getMessage() != null && t.getMessage().contains("Not replicated yet")) {
+      suppressFailureMsg = true;
+    } else if (t instanceof TransientDeadLockException) {
       suppressFailureMsg = true;
     }
 

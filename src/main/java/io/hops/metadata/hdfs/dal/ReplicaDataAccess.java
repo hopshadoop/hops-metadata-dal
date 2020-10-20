@@ -46,4 +46,7 @@ public interface ReplicaDataAccess<T> extends EntityDataAccess {
       List<Integer> mismatchedBuckets) throws StorageException;
   
   long findBlockIdAtIndex(int storageId, long index, int maxFetchingSize) throws StorageException;
+  
+  //only for testing
+  List<T> findAll() throws StorageException;
 }
