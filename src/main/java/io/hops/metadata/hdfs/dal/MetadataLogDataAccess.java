@@ -29,4 +29,7 @@ public interface MetadataLogDataAccess<T> extends EntityDataAccess {
   
   @VisibleForTesting
   Collection<T> find(long fileId) throws StorageException;
+
+  @VisibleForTesting
+  public int countAll() throws StorageException;
 }
