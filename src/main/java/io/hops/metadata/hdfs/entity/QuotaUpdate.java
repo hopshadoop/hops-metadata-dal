@@ -99,11 +99,15 @@ public class QuotaUpdate {
 
   @Override
   public String toString() {
+    StringBuffer sb = new StringBuffer();
+    for (StorageType type: typeSpaces.keySet()){
+      sb.append(", ").append(type).append(" = ").append(typeSpaces.get(type));
+    }
     return "QuotaUpdate{" +
-        "id=" + id +
-        ", inodeId=" + inodeId +
-        ", namespaceDelta=" + namespaceDelta +
-        ", diskspaceDelta=" + storageSpaceDelta +
-        '}';
+      "id = " + id +
+      ", inodeId = " + inodeId +
+      ", namespaceDelta = " + namespaceDelta +
+      ", diskspaceDelta = " + storageSpaceDelta + " " + sb +
+      '}';
   }
 }
