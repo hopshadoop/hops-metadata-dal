@@ -82,9 +82,9 @@ public class TransactionContext {
     resetContext();
   }
 
-  public void rollback() throws StorageException, TransactionContextException {
+  public void rollback(Exception e) throws StorageException, TransactionContextException {
     resetContext();
-    connector.rollback();
+    connector.rollback(e);
   }
 
   public <T> void update(T obj)
