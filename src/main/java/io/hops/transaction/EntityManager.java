@@ -72,9 +72,9 @@ public class EntityManager {
     removeContext();
   }
 
-  public static void rollback(TransactionLocks tlm)
-      throws StorageException, TransactionContextException {
-    context().rollback();
+  public static void rollback(Exception e)
+    throws StorageException, TransactionContextException {
+    context().rollback(e);
     removeContext();
   }
 

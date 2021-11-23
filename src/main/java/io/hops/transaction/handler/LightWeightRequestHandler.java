@@ -30,8 +30,10 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
   protected Object execute(Object info) throws IOException {
     int tryCount = 0;
     long totalTime = 0;
+    Exception latestException = null;
 
     while (tryCount <= RETRY_COUNT) {
+      latestException = null;
       boolean commited = false;
       boolean newTransaction = true;
       boolean returnSession = false;
@@ -64,6 +66,10 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
         }
         return ret;
       } catch (Throwable t) {
+        if (t instanceof Exception) {
+          latestException = (Exception) t;
+        }
+
         if(!commited){
           totalTime = System.currentTimeMillis() - totalTime;
         }
@@ -76,20 +82,20 @@ public abstract class LightWeightRequestHandler extends RequestHandler {
           throw t;
         }
       } finally {
+        NDCWrapper.pop();
+        if (NDCWrapper.peek().equals("")) {
+          NDCWrapper.remove();
+        }
+
         if (!commited && connector.isTransactionActive() && newTransaction) {
           if (requestHandlerLOG.isTraceEnabled()) {
             requestHandlerLOG.trace("Transaction rollback. retries:" + RETRY_COUNT);
           }
-          connector.rollback();
+          connector.rollback(latestException);
         }
 
         if(newTransaction && returnSession){
-          connector.returnSession(false);
-        }
-
-        NDCWrapper.pop();
-        if (NDCWrapper.peek().equals("")) {
-          NDCWrapper.remove();
+          connector.returnSession(latestException);
         }
       }
     }

@@ -30,7 +30,7 @@ public interface StorageConnector<T> {
 
   public void commit() throws StorageException;
 
-  public void rollback() throws StorageException;
+  public void rollback(Exception e) throws StorageException;
 
   public boolean formatAllStorageNonTransactional() throws StorageException;
   
@@ -66,5 +66,5 @@ public interface StorageConnector<T> {
 
   public String getDatabaseName();
   
-  public void returnSession(boolean error) throws StorageException;
+  public void returnSession(Exception... errors) throws StorageException;
 }
