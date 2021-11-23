@@ -40,7 +40,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
     int tryCount = 0;
     IOException ignoredException;
     Object txRetValue = null;
-    List<Throwable> exceptions = new ArrayList<>();
+    List<Throwable> transientExceptions = new ArrayList<>();
+    Exception latestException;
 
     while (tryCount <= RETRY_COUNT) {
       long expWaitTime = exponentialBackoff();
@@ -53,6 +54,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
       long inMemoryProcessingTime = -1;
       long commitTime = -1;
       long totalTime = -1;
+      latestException = null;
       TransactionLockAcquirer locksAcquirer = null;
 
       tryCount++;
@@ -145,6 +147,10 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           ((TransactionInfo) info).performPostTransactionAction();
         }
       } catch (Throwable t) {
+        if ( t instanceof Exception){
+          latestException = (Exception)t;
+        }
+
         boolean suppressException = suppressFailureMsg(t, tryCount);
         if (!suppressException ) {
           String opName = !NDCWrapper.NDCEnabled() ? opType + " " : "";
@@ -161,20 +167,19 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
                   "CommitTime: " + commitTime + "ms. Locks: "+inodeLocks+". " + t, t);
         }
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
-          for(Throwable oldExceptions : exceptions) {
+          for(Throwable oldExceptions : transientExceptions) {
             requestHandlerLOG.warn("Exception caught during previous retry: "+oldExceptions, oldExceptions);
           }
           throw t;
         } else{
           if(suppressException)
-            exceptions.add(t);
+            transientExceptions.add(t);
         }
       } finally {
         removeNDC();
-        if (!committed && locksAcquirer!=null) {
+        if (!committed) {
           try {
-            requestHandlerLOG.trace("TX Failed. Rollback TX");
-            EntityManager.rollback(locksAcquirer.getLocks());
+            EntityManager.rollback(latestException);
           } catch (Exception e) {
             requestHandlerLOG.warn("Could not rollback transaction", e);
           }
