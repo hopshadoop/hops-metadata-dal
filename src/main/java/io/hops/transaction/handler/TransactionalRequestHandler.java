@@ -37,6 +37,8 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
   @Override
   protected Object execute(Object info) throws IOException {
     boolean committed = false;
+    boolean totalFailure = false; // is set when tx fails after RETRY_COUNT retries or
+                                  // when non-transient exception is thrown
     int tryCount = 0;
     IOException ignoredException;
     Object txRetValue = null;
@@ -166,10 +168,12 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
                   "InMemoryProcessing: " + inMemoryProcessingTime + "ms, " +
                   "CommitTime: " + commitTime + "ms. Locks: "+inodeLocks+". " + t, t);
         }
+
         if (!(t instanceof TransientStorageException) ||  tryCount > RETRY_COUNT) {
           for(Throwable oldExceptions : transientExceptions) {
             requestHandlerLOG.warn("Exception caught during previous retry: "+oldExceptions, oldExceptions);
           }
+          totalFailure = true; // the op has failed
           throw t;
         } else{
           if(suppressException)
@@ -182,10 +186,24 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
             EntityManager.rollback(latestException);
           } catch (Exception e) {
             requestHandlerLOG.warn("Could not rollback transaction", e);
+          } finally {
+            //make sure that the context has been removed
+            EntityManager.removeContext();
+
+            //  the tx has failed due to non-transient exception or all retries have been exhausted
+            if(totalFailure) {
+              if (latestException != null) {
+                if (latestException instanceof  IOException){
+                  throw (IOException) latestException;
+                } else {
+                  throw new IOException(latestException);
+                }
+              } else {
+                throw new TransientStorageException("Transaction commit/rollback failed");
+              }
+            }
           }
         }
-        //make sure that the context has been removed
-        EntityManager.removeContext(); 
       }
       if(success){
         // If the code is about to return but the exception was caught
