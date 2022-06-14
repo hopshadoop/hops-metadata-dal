@@ -36,7 +36,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
   @Override
   protected Object execute(Object info) throws IOException {
-    boolean committed = false;
     boolean totalFailure = false; // is set when tx fails after RETRY_COUNT retries or
                                   // when non-transient exception is thrown
     int tryCount = 0;
@@ -61,10 +60,9 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
 
       tryCount++;
       ignoredException = null;
-      committed = false;
+      boolean committed = false;
       
       EntityManager.preventStorageCall(false);
-      boolean success = false;
       try {
         setNDC(info);
         if(requestHandlerLOG.isTraceEnabled()) {
@@ -103,7 +101,6 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
         EntityManager.preventStorageCall(true);
         try {
           txRetValue = performTask();
-          success = true;
         } catch (IOException e) {
           if (shouldAbort(e)) {
             throw e;
@@ -205,7 +202,7 @@ public abstract class TransactionalRequestHandler extends RequestHandler {
           }
         }
       }
-      if(success){
+      if(committed){
         // If the code is about to return but the exception was caught
         if (ignoredException != null) {
           throw ignoredException;
