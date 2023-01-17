@@ -16,10 +16,11 @@
 package io.hops.metadata.common.entity;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 public class LongVariable extends Variable {
 
-  private Long value;
+  private Long value = new Long(0);
 
   public LongVariable(Finder type, long value) {
     this(type);
@@ -41,6 +42,10 @@ public class LongVariable extends Variable {
 
   @Override
   public void setValue(byte[] val) {
+    if (val == null){
+      return;
+    }
+
     if (val.length != getLength()) {
       //it sometime (updates) happen that we want to convert a int to a long
       if(val.length == 4){
@@ -68,5 +73,18 @@ public class LongVariable extends Variable {
   @Override
   public String toString() {
     return Long.toString(value);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    LongVariable that = (LongVariable) o;
+    return value.equals(that.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }

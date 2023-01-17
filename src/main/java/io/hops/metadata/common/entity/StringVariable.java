@@ -16,10 +16,11 @@
 package io.hops.metadata.common.entity;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 
 public class StringVariable extends ByteArrayVariable {
 
-  private String value = null;
+  private String value = "";
 
   public StringVariable(Finder type, String value) {
     this(type);
@@ -84,5 +85,17 @@ public class StringVariable extends ByteArrayVariable {
   public String toString() {
     return value;
   }
-  
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    StringVariable that = (StringVariable) o;
+    return value.equals(that.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
+  }
 }

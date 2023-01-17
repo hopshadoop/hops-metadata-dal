@@ -18,6 +18,7 @@ package io.hops.metadata.common.entity;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ArrayVariable extends Variable {
 
@@ -59,7 +60,7 @@ public class ArrayVariable extends Variable {
 
   @Override
   public void setValue(byte[] val) {
-    if (val.length == 0) {
+    if (val == null || val.length == 0) {
       return;
     }
     ByteBuffer varsData = ByteBuffer.wrap(val);
@@ -68,7 +69,7 @@ public class ArrayVariable extends Variable {
       byte[] vdata;
       int off = 0;
       int len = var.getLength();
-      if (len == -1) {
+      if (var instanceof StringVariable || var instanceof ByteArrayVariable ) {
         len = varsData.get();
         off = 1;
         vdata = new byte[len + off];
@@ -117,5 +118,35 @@ public class ArrayVariable extends Variable {
         }
       }
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ArrayVariable that = (ArrayVariable) o;
+
+    if (vars.size() != that.vars.size()) {
+      return false;
+    }
+
+    if (length != that.length) {
+      return false;
+    }
+
+    for (int i = 0; i < vars.size(); i++) {
+      Variable v1 = vars.get(i);
+      Variable v2 = that.vars.get(i);
+      if (!v1.equals(v2)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(vars, length);
   }
 }

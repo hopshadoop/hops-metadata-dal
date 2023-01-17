@@ -16,10 +16,11 @@
 package io.hops.metadata.common.entity;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class ByteArrayVariable extends Variable {
 
-  private byte[] value;
+  private byte[] value = new byte[0];
 
   public ByteArrayVariable(Finder type, byte[] value) {
     this(type);
@@ -45,7 +46,7 @@ public class ByteArrayVariable extends Variable {
 
   @Override
   public void setValue(byte[] val) {
-    if (val.length == 0) {
+    if (val == null || val.length == 0) {
       return;
     }
     ByteBuffer buf = ByteBuffer.wrap(val);
@@ -86,5 +87,18 @@ public class ByteArrayVariable extends Variable {
 
   protected byte[] getByteArrayValue() {
     return this.value;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ByteArrayVariable that = (ByteArrayVariable) o;
+    return Arrays.equals(value, that.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(value);
   }
 }

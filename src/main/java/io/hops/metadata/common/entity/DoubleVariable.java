@@ -16,10 +16,11 @@
 package io.hops.metadata.common.entity;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 public class DoubleVariable extends Variable {
 
-  private Double value;
+  private Double value = new Double(0);
 
   public DoubleVariable(Finder type, double value) {
     this(type);
@@ -41,7 +42,7 @@ public class DoubleVariable extends Variable {
 
   @Override
   public void setValue(byte[] val) {
-    if (val.length != getLength()) {
+    if (val == null || val.length != getLength()) {
       return;
     }
     ByteBuffer buf = ByteBuffer.wrap(val);
@@ -63,5 +64,18 @@ public class DoubleVariable extends Variable {
   @Override
   public String toString() {
     return Double.toString(value);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    DoubleVariable that = (DoubleVariable) o;
+    return value.equals(that.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }

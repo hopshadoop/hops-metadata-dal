@@ -26,8 +26,14 @@ public abstract class Variable {
   protected final static EnumMap<Finder, byte[]> defaultValues =
       new EnumMap(Finder.class);
 
-  public static void registerVariableDefaultValue(Finder variable,
-      byte[] defaultValue) {
+  static {
+    for (Variable.Finder varType : Variable.Finder.values()) {
+      defaultValues.put(varType, Variable.getVariable(varType).getBytes());
+    }
+  }
+
+  public static void registerUserDefinedDefaultValue(Finder variable,
+                                                     byte[] defaultValue) {
     defaultValues.put(variable, defaultValue);
   }
 
@@ -213,6 +219,8 @@ public abstract class Variable {
         return new LongVariable(varType);
       case RetryCacheCleanerEpoch:
         return new LongVariable(varType);
+      case StorageMap:
+        return new IntVariable(varType);
     }
     return null;
   }
