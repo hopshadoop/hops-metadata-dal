@@ -450,43 +450,4 @@ public class TablesDef {
     String INODE_ID = "inode_id";
     String ZONE_INFO = "zone_info";
   }
-
-  public interface FileProvenanceTableDef {
-
-    String TABLE_NAME = "hdfs_file_provenance_log";
-    String INODE_ID = "inode_id";
-    String OPERATION = "inode_operation";
-    String LOGICAL_TIME = "io_logical_time";
-    String TIMESTAMP = "io_timestamp";
-    String APP_ID = "io_app_id";
-    String USER_ID = "io_user_id";
-    String TIE_BREAKER = "tb";
-    String PARTITION_ID = "i_partition_id";
-    String PROJECT_ID = "project_i_id";
-    String DATASET_ID = "dataset_i_id";
-    String PARENT_ID = "parent_i_id";
-    String INODE_NAME = "i_name";
-    String PROJECT_NAME = "project_name";
-    String DATASET_NAME = "dataset_name";
-    String P1_NAME = "i_p1_name";
-    String P2_NAME = "i_p2_name";
-    String PARENT_NAME = "i_parent_name";
-    String USER_NAME = "io_user_name";
-    String XATTR_NAME = "i_xattr_name";
-    String LOGICAL_TIME_BATCH = "io_logical_time_batch";
-    String TIMESTAMP_BATCH = "io_timestamp_batch";
-    String DS_LOGICAL_TIME = "ds_logical_time";
-    String XATTR_NUM_PARTS = "i_xattr_num_parts";
-  }
-  
-  public interface FileProvXAttrBufferTableDef {
-    String TABLE_NAME = "hdfs_file_provenance_xattrs_buffer";
-    String INODE_ID = "inode_id";
-    String NAMESPACE = "namespace";
-    String NAME = "name";
-    String INODE_LOGICAL_TIME = "inode_logical_time";
-    String VALUE = "value";
-    String INDEX = "index";
-    String NUM_PARTS = "num_parts";
-  }
 }
