@@ -17,9 +17,7 @@ package io.hops.metadata.hdfs.entity;
 
 public enum MetaStatus {
   DISABLED((byte)0),
-  META_ENABLED((byte)1),
-  MIN_PROV_ENABLED((byte)2),
-  FULL_PROV_ENABLED((byte)3);
+  META_ENABLED((byte)1);
   byte val;
   MetaStatus(byte val) {
     this.val = val;
@@ -28,8 +26,6 @@ public enum MetaStatus {
   public static MetaStatus fromVal(byte val) {
     switch(val) {
       case 1: return META_ENABLED;
-      case 2: return MIN_PROV_ENABLED;
-      case 3: return FULL_PROV_ENABLED;
       case 0:
       default : return DISABLED;
     }
@@ -40,8 +36,6 @@ public enum MetaStatus {
   public boolean isMetaEnabled() {
     switch(this) {
       case META_ENABLED:
-      case MIN_PROV_ENABLED:
-      case FULL_PROV_ENABLED:
         return true;
       case DISABLED:
       default :
