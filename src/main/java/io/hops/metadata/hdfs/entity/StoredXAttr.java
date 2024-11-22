@@ -28,7 +28,7 @@ public final class StoredXAttr {
   public static final int MAX_NUM_USER_XATTRS_PER_INODE = 127;
   public static final int MAX_NUM_SYS_XATTRS_PER_INODE = 127;
   public static final int MAX_XATTR_NAME_SIZE = 255;
-  public static final int MAX_XATTR_VALUE_ROW_SIZE = 13500;
+  public static int MAX_XATTR_VALUE_ROW_SIZE = 29500;
   public static final int MAX_XATTR_MAX_NUM_PARTS = 255;
   public static final int MAX_XATTR_VALUE_SIZE =
       MAX_XATTR_MAX_NUM_PARTS * MAX_XATTR_VALUE_ROW_SIZE;
@@ -116,11 +116,17 @@ public final class StoredXAttr {
   
   private final PrimaryKey primaryKey;
   private final byte[] value;
+  private final short numParts;
   private short oldNumParts = -1;
-  
-  public StoredXAttr(long inodeId, byte namespace, String name, byte[] value) {
+
+  public StoredXAttr(long inodeId, byte namespace, String name, byte[] value, short num_parts) {
     this.primaryKey = new PrimaryKey(inodeId, namespace, name);
     this.value = value;
+    this.numParts = num_parts;
+  }
+
+  public StoredXAttr(long inodeId, byte namespace, String name, byte[] value) {
+    this(inodeId, namespace, name, value, getNumParts(value));
   }
   
   public long getInodeId() {
@@ -162,8 +168,9 @@ public final class StoredXAttr {
   }
   
   public short getNumParts(){
-    return getNumParts(value);
+    return numParts;
   }
+
   public byte[] getValue(short index) {
     return getValue(value, index);
   }
